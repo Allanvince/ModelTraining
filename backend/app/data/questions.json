@@ -1,0 +1,602 @@
+[
+ {
+  "category": "tech",
+  "text": "What does HTTP status 404 mean?",
+  "options": [
+   "Redirected",
+   "Server crashed",
+   "Unauthorized",
+   "Resource not found"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 3
+ },
+ {
+  "category": "tech",
+  "text": "Which language runs natively in web browsers?",
+  "options": [
+   "Python",
+   "Java",
+   "JavaScript",
+   "Go"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 3
+ },
+ {
+  "category": "tech",
+  "text": "What does 'CSS' stand for?",
+  "options": [
+   "Cascading Style Sheets",
+   "Computer Style Systems",
+   "Creative Style Syntax",
+   "Coded Style Sheets"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 3
+ },
+ {
+  "category": "tech",
+  "text": "Which of the following statements about Kotlin Coroutines is correct?",
+  "options": [
+   "They are OS-level threads managed by the kernel.",
+   "They are light-weight computations that can be suspended.",
+   "They require explicit C++ bindings to execute.",
+   "They can only run on the main UI thread."
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 5
+ },
+ {
+  "category": "tech",
+  "text": "Which data structure follows last-in, first-out order?",
+  "options": [
+   "Queue",
+   "Heap",
+   "Stack",
+   "Tree"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 4
+ },
+ {
+  "category": "tech",
+  "text": "What does the 'M' in M-Pesa stand for?",
+  "options": [
+   "Money",
+   "Market",
+   "Mobile",
+   "Merchant"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 3
+ },
+ {
+  "category": "tech",
+  "text": "Which Git command creates a new branch and switches to it?",
+  "options": [
+   "git branch -m",
+   "git switch -d",
+   "git merge -b",
+   "git checkout -b"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 5
+ },
+ {
+  "category": "tech",
+  "text": "What is the time complexity of binary search?",
+  "options": [
+   "O(n)",
+   "O(n log n)",
+   "O(log n)",
+   "O(1)"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 4
+ },
+ {
+  "category": "tech",
+  "text": "Which HTTP method is meant only to read data?",
+  "options": [
+   "GET",
+   "POST",
+   "PUT",
+   "DELETE"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 3
+ },
+ {
+  "category": "tech",
+  "text": "In React, which hook stores local component state?",
+  "options": [
+   "useRef",
+   "useMemo",
+   "useEffect",
+   "useState"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 3
+ },
+ {
+  "category": "science",
+  "text": "What is the chemical symbol for gold?",
+  "options": [
+   "Ag",
+   "Au",
+   "Go",
+   "Gd"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 3
+ },
+ {
+  "category": "science",
+  "text": "Which planet is known as the Red Planet?",
+  "options": [
+   "Venus",
+   "Jupiter",
+   "Mars",
+   "Mercury"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 3
+ },
+ {
+  "category": "science",
+  "text": "Which gas do plants absorb for photosynthesis?",
+  "options": [
+   "Oxygen",
+   "Nitrogen",
+   "Hydrogen",
+   "Carbon dioxide"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 3
+ },
+ {
+  "category": "science",
+  "text": "Roughly how fast does light travel?",
+  "options": [
+   "300,000 km/s",
+   "30,000 km/s",
+   "3,000,000 km/s",
+   "300 km/s"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 4
+ },
+ {
+  "category": "science",
+  "text": "How many bones does an adult human have?",
+  "options": [
+   "186",
+   "206",
+   "226",
+   "256"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 4
+ },
+ {
+  "category": "science",
+  "text": "Which particle carries a negative charge?",
+  "options": [
+   "Proton",
+   "Neutron",
+   "Electron",
+   "Photon"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 3
+ },
+ {
+  "category": "science",
+  "text": "Which organelle produces most of a cell's ATP?",
+  "options": [
+   "Ribosome",
+   "Mitochondrion",
+   "Nucleus",
+   "Golgi body"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 5
+ },
+ {
+  "category": "science",
+  "text": "At sea level, water boils at what temperature?",
+  "options": [
+   "90 °C",
+   "100 °C",
+   "110 °C",
+   "120 °C"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 3
+ },
+ {
+  "category": "science",
+  "text": "Which force keeps planets in orbit around the Sun?",
+  "options": [
+   "Magnetism",
+   "Friction",
+   "Gravity",
+   "Tension"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 3
+ },
+ {
+  "category": "science",
+  "text": "Heisenberg's uncertainty principle limits what?",
+  "options": [
+   "How precisely position and momentum are known together",
+   "The top speed of electrons in a vacuum",
+   "The number of electron shells",
+   "The mass of a photon"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 5
+ },
+ {
+  "category": "pop",
+  "text": "Which artist released the album 'Renaissance' in 2022?",
+  "options": [
+   "Rihanna",
+   "Beyoncé",
+   "Adele",
+   "Dua Lipa"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 3
+ },
+ {
+  "category": "pop",
+  "text": "In 'Stranger Things', what is the alternate dimension called?",
+  "options": [
+   "The Void",
+   "The Shadow Realm",
+   "The Other Side",
+   "The Upside Down"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 3
+ },
+ {
+  "category": "pop",
+  "text": "Which Kenyan runner broke the two-hour marathon barrier in 2019?",
+  "options": [
+   "David Rudisha",
+   "Geoffrey Kamworor",
+   "Eliud Kipchoge",
+   "Wilson Kipsang"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 4
+ },
+ {
+  "category": "pop",
+  "text": "Which superhero's alter ego is Peter Parker?",
+  "options": [
+   "Daredevil",
+   "Spider-Man",
+   "Ant-Man",
+   "Nightwing"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 3
+ },
+ {
+  "category": "pop",
+  "text": "Which band recorded 'Bohemian Rhapsody'?",
+  "options": [
+   "The Beatles",
+   "Led Zeppelin",
+   "The Rolling Stones",
+   "Queen"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 3
+ },
+ {
+  "category": "pop",
+  "text": "Who directed 'Inception' and 'Oppenheimer'?",
+  "options": [
+   "Christopher Nolan",
+   "Denis Villeneuve",
+   "Ridley Scott",
+   "James Cameron"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 4
+ },
+ {
+  "category": "pop",
+  "text": "Which Ghibli film won the Best Animated Feature Oscar in 2003?",
+  "options": [
+   "Princess Mononoke",
+   "My Neighbor Totoro",
+   "Spirited Away",
+   "Howl's Moving Castle"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 5
+ },
+ {
+  "category": "pop",
+  "text": "Which group released 'Dynamite' in 2020?",
+  "options": [
+   "BLACKPINK",
+   "TWICE",
+   "BTS",
+   "EXO"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 3
+ },
+ {
+  "category": "pop",
+  "text": "What is the name of Thor's hammer?",
+  "options": [
+   "Mjolnir",
+   "Gungnir",
+   "Stormbreaker",
+   "Excalibur"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 3
+ },
+ {
+  "category": "pop",
+  "text": "Link is the hero of which game series?",
+  "options": [
+   "Fire Emblem",
+   "Kirby",
+   "Metroid",
+   "The Legend of Zelda"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 4
+ },
+ {
+  "category": "history",
+  "text": "In which year did Kenya gain independence?",
+  "options": [
+   "1957",
+   "1960",
+   "1963",
+   "1965"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 3
+ },
+ {
+  "category": "history",
+  "text": "Who was the first President of Kenya?",
+  "options": [
+   "Daniel arap Moi",
+   "Jomo Kenyatta",
+   "Mwai Kibaki",
+   "Tom Mboya"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 3
+ },
+ {
+  "category": "history",
+  "text": "Which civilization built Machu Picchu?",
+  "options": [
+   "Inca",
+   "Aztec",
+   "Maya",
+   "Olmec"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 3
+ },
+ {
+  "category": "history",
+  "text": "In which year did World War II end?",
+  "options": [
+   "1943",
+   "1945",
+   "1947",
+   "1950"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 3
+ },
+ {
+  "category": "history",
+  "text": "Which empire did Mansa Musa rule?",
+  "options": [
+   "Songhai",
+   "Ghana",
+   "Ethiopia",
+   "Mali"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 4
+ },
+ {
+  "category": "history",
+  "text": "In which year did the Berlin Wall fall?",
+  "options": [
+   "1979",
+   "1985",
+   "1991",
+   "1989"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 3
+ },
+ {
+  "category": "history",
+  "text": "Who was the main author of the US Declaration of Independence?",
+  "options": [
+   "Thomas Jefferson",
+   "George Washington",
+   "Benjamin Franklin",
+   "John Adams"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 4
+ },
+ {
+  "category": "history",
+  "text": "Whose tomb did Howard Carter discover in 1922?",
+  "options": [
+   "Ramesses II",
+   "Tutankhamun",
+   "Khufu",
+   "Cleopatra"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 4
+ },
+ {
+  "category": "history",
+  "text": "In which year was the Great Fire of London?",
+  "options": [
+   "1666",
+   "1066",
+   "1766",
+   "1866"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 5
+ },
+ {
+  "category": "history",
+  "text": "Which explorer reached the Americas in 1492?",
+  "options": [
+   "Vasco da Gama",
+   "Ferdinand Magellan",
+   "Christopher Columbus",
+   "Marco Polo"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 3
+ },
+ {
+  "category": "custom",
+  "text": "Who is the main hero of Dragon Ball Z?",
+  "options": [
+   "Vegeta",
+   "Goku",
+   "Piccolo",
+   "Gohan"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 3
+ },
+ {
+  "category": "custom",
+  "text": "Which 1995 anime features the mecha Evangelion Unit-01?",
+  "options": [
+   "Gundam Wing",
+   "Neon Genesis Evangelion",
+   "Escaflowne",
+   "Macross Plus"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 4
+ },
+ {
+  "category": "custom",
+  "text": "Who created Sailor Moon?",
+  "options": [
+   "Rumiko Takahashi",
+   "Hayao Miyazaki",
+   "Naoko Takeuchi",
+   "Masashi Kishimoto"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 4
+ },
+ {
+  "category": "custom",
+  "text": "Spike Spiegel leads which 1998 anime?",
+  "options": [
+   "Trigun",
+   "Outlaw Star",
+   "Cowboy Bebop",
+   "Berserk"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 4
+ },
+ {
+  "category": "custom",
+  "text": "Which Pokémon does Ash receive as his first partner?",
+  "options": [
+   "Charmander",
+   "Squirtle",
+   "Bulbasaur",
+   "Pikachu"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 3
+ },
+ {
+  "category": "custom",
+  "text": "Which studio made 'Princess Mononoke' (1997)?",
+  "options": [
+   "Toei Animation",
+   "Madhouse",
+   "Studio Ghibli",
+   "Gainax"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 4
+ },
+ {
+  "category": "custom",
+  "text": "In 'Slam Dunk', which sport is played?",
+  "options": [
+   "Volleyball",
+   "Basketball",
+   "Football",
+   "Baseball"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 3
+ },
+ {
+  "category": "custom",
+  "text": "Who is Goku's proud Saiyan rival?",
+  "options": [
+   "Piccolo",
+   "Frieza",
+   "Cell",
+   "Vegeta"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 3
+ },
+ {
+  "category": "custom",
+  "text": "Which 1999 anime follows a straw-hat pirate crew?",
+  "options": [
+   "Naruto",
+   "Bleach",
+   "One Piece",
+   "Fairy Tail"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 4
+ },
+ {
+  "category": "custom",
+  "text": "In 'Cardcaptor Sakura', what are the magical cards called?",
+  "options": [
+   "Clow Cards",
+   "Tarot Cards",
+   "Star Cards",
+   "Dream Cards"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 5
+ }
+]
