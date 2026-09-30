@@ -7,6 +7,7 @@ export interface LeaderboardEntry {
   username: string;
   score: number;
   streak: number;
+  avgMs?: number;
 }
 
 export function useLeaderboard() {

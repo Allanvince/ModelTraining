@@ -610,12 +610,14 @@ export default function Dashboard() {
                       <div className="flex items-center gap-3">
                         <span className="text-orange-500 font-mono font-bold">#{entry.rank || idx + 1}</span>
                         <span className="text-zinc-200 font-medium capitalize">
-                          {formatDisplayName(entry.handle || entry.username)}
+                          {formatDisplayName(entry.username || entry.username)}
                         </span>
                       </div>
                       <div className="flex items-center gap-4 text-xs font-mono">
+                        {entry.avgMs != null && (
                         <span className="text-zinc-400">{entry.avgMs}ms latency</span>
-                        <span className="text-emerald-400 font-bold">{entry.bestStreak}🔥 streak</span>
+                        )}
+                        <span className="text-emerald-400 font-bold">{entry.streak}🔥 streak</span>
                       </div>
                     </div>
                   ))}
