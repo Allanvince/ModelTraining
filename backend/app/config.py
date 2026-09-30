@@ -10,7 +10,7 @@ class Settings(BaseSettings):
     jwt_ttl_hours: int = 168
     cors_origins: str = "http://localhost:3000,http://localhost:5173"
 
-    # Public URL Safaricom can reach (ngrok URL while developing).
+    # Public URL Safaricom can reach (ngrok URL while developing)
     public_base_url: str = "http://localhost:8000"
     callback_secret: str = "dev-callback-secret"      # secret path segment on webhooks
     callback_ip_allowlist: str = ""                   # comma separated; empty = off
