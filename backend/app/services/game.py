@@ -1,7 +1,7 @@
 # app/services/game_2.py (or app/services/game.py)
 import random
 
-from sqlalchemy import select, not_
+from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
 from app import clock
@@ -10,6 +10,10 @@ from app.errors import AppError
 from app.models import GameSession, Question, SessionAnswer, User
 from app.services import ledger
 from app.services import pool as pool_svc
+
+# The 'Surprise Mix' card (id 'custom') draws from these hidden categories.
+MIX_ID = "custom"
+MIX_CATEGORIES = ["geography", "sports", "music", "nature", "kenya"]
 
 _lb_version = 0          # bumped whenever a round finishes; the websocket watches it
 
@@ -56,31 +60,25 @@ def start_session(db: Session, user_id: str, category: str, generated: list[dict
         db.add_all(chosen)
         db.flush()
     else:
-        # 1. Query question IDs previously answered by this user in this category[cite: 15]
-        answered_q_ids = db.scalars(
-            select(SessionAnswer.question_id)
-            .join(GameSession, SessionAnswer.session_id == GameSession.id)
-            .where(
-                GameSession.user_id == user_id,
-                GameSession.category == category
-            )
-        ).all()
-
-        # 2. Query available bank questions excluding answered IDs
-        query = select(Question).where(Question.category == category)
-        if answered_q_ids:
-            query = query.where(not_(Question.id.in_(answered_q_ids)))
-
-        available_bank = list(db.scalars(query))
-
-        # 3. Anti-Repetition Cycle Reset: If unseen pool < required per round, reset history pool
-        if len(available_bank) < settings.questions_per_round:
-            available_bank = list(db.scalars(select(Question).where(Question.category == category)))
-
-        if not available_bank:
+        # Surprise Mix pulls from several categories; every other card uses just its own.
+        pool_cats = MIX_CATEGORIES if category == MIX_ID else [category]
+        bank = list(db.scalars(select(Question).where(Question.category.in_(pool_cats))))
+        if not bank:
             raise AppError(404, "UNKNOWN_CATEGORY", f"No questions for category '{category}'.")
 
-        chosen = random.sample(available_bank, min(settings.questions_per_round, len(available_bank)))
+        # How many times has this player already answered each of these questions (in any round)?
+        seen_counts = dict(db.execute(
+            select(SessionAnswer.question_id, func.count())
+            .join(GameSession, SessionAnswer.session_id == GameSession.id)
+            .where(GameSession.user_id == user_id, SessionAnswer.question_id.in_([q.id for q in bank]))
+            .group_by(SessionAnswer.question_id)
+        ).all())
+
+        # Least-seen first; random shuffle beforehand means ties (and the category mix) are random every time.
+        random.shuffle(bank)
+        bank.sort(key=lambda q: seen_counts.get(q.id, 0))
+        chosen = bank[:settings.questions_per_round]
+        random.shuffle(chosen)
 
     plan = [{"q": q.id, "perm": random.sample(range(4), 4)} for q in chosen]   # shuffle options per player[cite: 15]
     s = GameSession(user_id=user_id, category=category, plan=plan, start_balance_cents=user.total_cents, is_test=is_test)
@@ -216,6 +214,25 @@ def answer(db: Session, user_id: str, session_id: str, question_id: str, choice:
     return {"correct": correct, "reason": reason, "correctIdx": correct_display, "responseMs": response_ms,
             "pointsEarned": points, "deltaCents": change, "delta": change / 100, "balances": balances(user),
             "streak": user.current_streak, "finished": finished, "summary": summary(s, user) if finished else None}
+
+
+def review(db: Session, user_id: str, session_id: str) -> dict:
+    """Questions the player got wrong (or timed out on) in a finished round."""
+    s = _lock_session(db, session_id, user_id)
+    if s.status != "FINISHED":
+        raise AppError(409, "NOT_FINISHED", "Finish the round to see your review.")
+    answers = {a.question_id: a for a in db.scalars(select(SessionAnswer).where(SessionAnswer.session_id == s.id))}
+    wrong = []
+    for i, step in enumerate(s.plan):
+        a = answers.get(step["q"])
+        if a is None or a.correct:
+            continue
+        q = db.get(Question, step["q"])
+        perm = step["perm"]
+        wrong.append({"number": i + 1, "text": q.text, "options": [q.options[p] for p in perm],
+                      "yourIdx": a.chosen_idx if a.chosen_idx >= 0 else None,
+                      "correctIdx": perm.index(q.correct_idx), "timedOut": a.reason == "TIMEOUT"})
+    return {"total": len(s.plan), "wrong": wrong}
 
 
 def get_summary(db: Session, user_id: str, session_id: str) -> dict:

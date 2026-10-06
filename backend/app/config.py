@@ -36,6 +36,7 @@ class Settings(BaseSettings):
     reward_cents: int = 50
     penalty_cents: int = 50
     min_withdraw_cents: int = 50
+    withdraw_fee_percent: float = 3.0 
     questions_per_round: int = 10
     grace_ms: int = 1200
 

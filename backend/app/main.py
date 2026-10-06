@@ -5,7 +5,7 @@ from pathlib import Path
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from sqlalchemy import func, select
+from sqlalchemy import select
 
 from app.config import settings
 from app.db import Base, SessionLocal, engine
@@ -15,11 +15,18 @@ from app.routers import auth, game, misc, payments
 
 
 def seed_questions() -> None:
+    """Runs on every startup. questions.json is the source of truth:
+    new questions are added, and existing ones (matched by text) get their timer/options updated."""
+    data = json.loads((Path(__file__).parent / "data" / "questions.json").read_text(encoding="utf-8"))
     with SessionLocal() as db:
-        if db.scalar(select(func.count()).select_from(Question)):
-            return
-        for q in json.loads((Path(__file__).parent / "data" / "questions.json").read_text()):
-            db.add(Question(**q))
+        existing = {q.text: q for q in db.scalars(select(Question))}
+        for q in data:
+            row = existing.get(q["text"])
+            if row is None:
+                db.add(Question(**q))
+            else:
+                row.timer_seconds = q["timer_seconds"]
+                row.category = q["category"]
         db.commit()
 
 

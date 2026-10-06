@@ -102,7 +102,11 @@ def handle_stk_callback(db: Session, payload: dict) -> str:
 def request_withdrawal(db: Session, user_id: str, cents: int, idem_key: str | None, daraja) -> Transaction:
     if cents < settings.min_withdraw_cents:
         raise AppError(400, "BELOW_MINIMUM", f"Minimum withdrawal is ${settings.min_withdraw_cents / 100:.2f}.")
-    kes = cents_to_kes(cents)
+    fee_cents = int(round(cents * settings.withdraw_fee_percent / 100))
+    net_cents = cents - fee_cents                  # what the player actually receives
+    kes = cents_to_kes(net_cents)
+    if kes < 10:                                   # Safaricom B2C minimum
+        raise AppError(400, "BELOW_MPESA_MIN", "After the service fee this is below M-Pesa's KES 10 minimum.")
     user = lock_user(db, user_id)
 
     if idem_key:
@@ -110,14 +114,18 @@ def request_withdrawal(db: Session, user_id: str, cents: int, idem_key: str | No
                                                     Transaction.idempotency_key == idem_key))
         if prior:
             return prior
+    if user.tests_completed < settings.required_test_rounds:
+        raise AppError(403, "NOT_ELIGIBLE",
+                       f"Finish {settings.required_test_rounds} practice rounds before withdrawing.")
     if user.withdrawable_cents < cents:
         raise AppError(400, "INSUFFICIENT_FUNDS",
                        f"You can withdraw up to ${user.withdrawable_cents / 100:.2f}. Only earnings are withdrawable.")
 
     user.withdrawable_cents -= cents             # atomic reserve
     user.reserved_cents += cents
+    # amount_cents = full amount taken from winnings; amount_kes = net sent to M-Pesa; house_cut_cents = our fee
     tx = Transaction(user_id=user.id, type="WITHDRAWAL", amount_cents=cents, amount_kes=kes, status="PROCESSING",
-                     originator_conversation_id=uuid.uuid4().hex, idempotency_key=idem_key)
+                     house_cut_cents=fee_cents, originator_conversation_id=uuid.uuid4().hex, idempotency_key=idem_key)
     db.add(tx)
     db.flush()
     add_entry(db, user, "WITHDRAW_RESERVE", "withdrawable", -cents, tx.id)
@@ -155,6 +163,7 @@ def resolve_withdrawal(db: Session, tx_id: str, *, ok: bool, desc: str = "", rec
         add_entry(db, user, "WITHDRAW_DONE", "reserved", -tx.amount_cents, tx.id)
     else:
         user.withdrawable_cents += tx.amount_cents
+        tx.house_cut_cents = 0                     # failed payout: no fee kept
         tx.status = "FAILED"
         add_entry(db, user, "WITHDRAW_REVERSAL", "withdrawable", tx.amount_cents, tx.id)
     tx.result_desc = desc[:300] or tx.result_desc

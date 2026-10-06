@@ -14,6 +14,9 @@ interface UserProfile {
   balances: Balances;
   testsCompleted: number;
   testsRequired: number;
+  minWithdrawCents?: number;
+  kesPerUsd?: number;
+  withdrawFeePercent?: number;
   stats: {
     gamesPlayed: number;
     passRatePercent: number;
@@ -84,9 +87,41 @@ interface AnswerResult {
   summary: GameSummary | null;
 }
 
+interface ReviewItem {
+  number: number;
+  text: string;
+  options: string[];
+  yourIdx: number | null;
+  correctIdx: number;
+  timedOut: boolean;
+}
+interface ReviewData { total: number; wrong: ReviewItem[]; }
+
+const PASSWORD_RULES = [
+  { id: "len", label: "At least 8 characters", test: (p: string) => p.length >= 8 },
+  { id: "upper", label: "One capital letter (A-Z)", test: (p: string) => /[A-Z]/.test(p) },
+  { id: "lower", label: "One small letter (a-z)", test: (p: string) => /[a-z]/.test(p) },
+  { id: "num", label: "One number (0-9)", test: (p: string) => /[0-9]/.test(p) },
+  { id: "sym", label: "One symbol (e.g. ! @ # $)", test: (p: string) => /[^A-Za-z0-9]/.test(p) },
+];
+
+const TERMS_TEXT: { title: string; body: string }[] = [
+  { title: "1. What this is", body: "Quick Train is a platform used to train local model to mimic human question answering techniques while subject to a slight kind of pressure, in this case TIME. You answer multiple-choice questions against a countdown. It is a task of knowledge and speed, and you can lose points." },
+  { title: "2. Practice rounds", body: "You must finish 3 eligibility tests before you start receiving rewards. The eligibility tests have no reward, but wrong or timed-out answers will deduct points which as a result will deduct some amount from your activation fee(see Activation fee for details)." },
+  { title: "3. Activation fee", body: "You pay an activation fee of $3.00 (about KES 390, via M-Pesa). 30% ($0.90) is kept by us as a non-refundable service fee. The remaining $2.10 will be converted to points and these will be your starting points. Remember when we said during the tests wrong or timed-out answers will deduct points, these were the points we were talking about. " },
+  { title: "4. Rules", body: "An account has two wallets, one for withdrawables and the other for non-refundables(the non-refundables act as collateral hence the starting points meaning they can help you continue the training tasks even if you get several questions wrong). However, when the activation fee is depleted meaning your accuracy is below 5 in most categories, you will have to activate the account again to continue. "},
+  { title: "5. Wrong answers cost points", body: "Each wrong or timed-out answer deducts points from your balance (from your winnings first, then your starting balance). You can lose your entire balance. If your balance reaches $0.00 your account is locked until you reactivate the account" },
+  { title: "6. How winnings work", body: "Each correct answer earns 10 points, worth up to $0.50 at full rate. Points are paid at the end of a round from a shared prize pool. The pool is funded by deductions from players' wrong answers. If the pool is low, your payout is reduced and your round summary will show this." },
+  { title: "7. Withdrawals", body: "You can withdraw any amount of your winnings (not your starting balance), from a minimum of $0.50, to your registered M-Pesa number. The amount is converted at KES 129 per $1. Withdrawals normally arrive within minutes; if one fails the money returns to your winnings. A small service fee is charged for teh withdrawals" },
+  { title: "8. Fair play", body: "One account per person. Bots, scripts, answer-sharing and multiple accounts will lead to account closure and loss of winnings." },
+  { title: "9. Age and legal", body: "You must be 18 or older. It is your responsibility to make sure playing is allowed where you live." },
+  { title: "10. Your data", body: "We store your name, email, phone number and game history to run your account and pay you. We do not sell your data." },
+  { title: "11. Changes and contact", body: "We will tell you before these terms change. Contact: [SUPPORT_EMAIL]." },
+];
+
 // Clean up '@' handler prefix from user display names
 function formatDisplayName(name?: string) {
-  if (!name) return "Annotator";
+  if (!name) return "Player";
   return name.startsWith("@") ? name.slice(1) : name;
 }
 
@@ -109,6 +144,12 @@ export default function Dashboard() {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("254708374149");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
+  const [showTerms, setShowTerms] = useState(false);
+  const [withdrawAmount, setWithdrawAmount] = useState("");
+  const [withdrawing, setWithdrawing] = useState(false);
+  const [review, setReview] = useState<ReviewData | null>(null);
 
   // App Data State
   const [user, setUser] = useState<UserProfile | null>(null);
@@ -119,7 +160,6 @@ export default function Dashboard() {
 
   // Active Game State
   const [selectedCategory, setSelectedCategory] = useState("tech");
-  const [customTopic, setCustomTopic] = useState("");
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [currentQuestion, setCurrentQuestion] = useState<QuestionPayload | null>(null);
   const [selectedChoice, setSelectedChoice] = useState<number | null>(null);
@@ -192,6 +232,16 @@ export default function Dashboard() {
   async function handleAuth(e: React.FormEvent) {
     e.preventDefault();
     setMessage("");
+    if (authMode === "register") {
+      if (!PASSWORD_RULES.every((r) => r.test(password))) {
+        setMessage("Please choose a stronger password - see the checklist below the password box.");
+        return;
+      }
+      if (!acceptedTerms) {
+        setMessage("Please read and accept the Terms & Conditions to create an account.");
+        return;
+      }
+    }
     try {
       const endpoint = authMode === "register" ? "/auth/register" : "/auth/login";
       const body = authMode === "register" 
@@ -223,26 +273,46 @@ export default function Dashboard() {
     }
   }
 
+  async function handleWithdraw(e: React.FormEvent) {
+    e.preventDefault();
+    const cents = Math.round(parseFloat(withdrawAmount) * 100);
+    if (!cents || cents <= 0) { setMessage("Enter an amount to withdraw."); return; }
+    setWithdrawing(true);
+    try {
+      await fetchApi("/payments/withdraw", {
+        method: "POST",
+        headers: { "Idempotency-Key": crypto.randomUUID() },
+        body: JSON.stringify({ amount_usd: cents / 100 }),
+      });
+      setWithdrawAmount("");
+      await loadUserData();
+      setMessage("Withdrawal sent! The money will arrive on your M-Pesa shortly.");
+    } catch (err: any) {
+      setMessage(`Withdrawal failed: ${err.message}`);
+    } finally {
+      setWithdrawing(false);
+    }
+  }
+
   async function startGame(categoryId?: string) {
     const catToStart = categoryId || selectedCategory;
     setCurrentQuestion(null); 
     setResult(null); 
     setMessage("");
     setStopwatchMs(0);
-    setMessage("Initializing Human Alignment Batch...");
+    setMessage("Getting your questions ready...");
     try {
       const res = await fetchApi<{ sessionId: string }>("/game/start", {
         method: "POST",
         body: JSON.stringify({ 
           category: catToStart, 
-          topic: catToStart === "custom" ? customTopic : undefined 
         }),
       });
       setSessionId(res.sessionId);
       fetchNextQuestion(res.sessionId);
       setView("GAME");
     } catch (err: any) {
-      setMessage(`Failed to start training: ${err.message}`);
+      setMessage(`Could not start the round: ${err.message}`);
     }
   }
 
@@ -256,7 +326,7 @@ export default function Dashboard() {
         setSelectedChoice(null);
       }
     } catch (err: any) {
-      setMessage(`Error pulling next prompt: ${err.message}`);
+      setMessage(`Could not load the next question: ${err.message}`);
     }
   }
 
@@ -271,9 +341,17 @@ export default function Dashboard() {
       setResult(res);
       setUser((u) => (u ? { ...u, balances: res.balances } : u));
     } catch (err: any) {
-      setMessage(`Submission error: ${err.message}`);
+      setMessage(`Could not submit your answer: ${err.message}`);
     } finally {
       setSubmitting(false);
+    }
+  }
+
+  async function loadReview(sId: string) {
+    try {
+      setReview(await fetchApi<ReviewData>(`/game/${sId}/review`));
+    } catch {
+      setReview(null);
     }
   }
 
@@ -283,6 +361,7 @@ export default function Dashboard() {
     setSelectedChoice(null);
     if (r?.finished && r.summary) {
       setGameSummary(r.summary);
+      if (sessionId) loadReview(sessionId);
       setView("SUMMARY");
       loadUserData();
     } else if (sessionId) {
@@ -299,10 +378,11 @@ export default function Dashboard() {
     try {
       const summary = await fetchApi<GameSummary>(`/game/${sId}/summary`);
       setGameSummary(summary);
+      loadReview(sId);
       setView("SUMMARY");
       loadUserData();
     } catch (err: any) {
-      setMessage(`Failed to retrieve batch summary: ${err.message}`);
+      setMessage(`Could not load your results: ${err.message}`);
     }
   }
 
@@ -323,15 +403,15 @@ export default function Dashboard() {
             </svg>
           </div>
           <div>
-            <h1 className="text-xl font-black text-zinc-100 tracking-wider">QUICK<span className="text-orange-500">TRAIN</span></h1>
-            <p className="text-[10px] text-zinc-400 tracking-wide font-mono uppercase">Human Cognition RLHF Engine</p>
+            <h1 className="text-xl font-black text-zinc-100 tracking-wider">QUICK<span className="text-orange-500"> TRAIN</span></h1>
+            <p className="text-[10px] text-zinc-400 tracking-wide font-mono uppercase">Fast Trivia. Speed, Knowledge, Earn.</p>
           </div>
         </div>
 
         <div className="flex items-center gap-4">
           <span className={`text-xs px-3 py-1 rounded-full font-mono text-[11px] font-medium flex items-center gap-2 ${connected ? 'bg-orange-500/10 text-orange-400 border border-orange-500/30' : 'bg-rose-500/10 text-rose-400 border border-rose-500/30'}`}>
             <span className={`w-2 h-2 rounded-full ${connected ? 'bg-orange-500 animate-pulse' : 'bg-rose-500'}`} />
-            {connected ? "MODEL NODE LIVE" : "DISCONNECTED"}
+            {connected ? "ONLINE" : "DISCONNECTED"}
           </span>
           {user && (
             <div className="flex items-center gap-3">
@@ -353,20 +433,41 @@ export default function Dashboard() {
         </div>
       )}
 
+      {/* TERMS & CONDITIONS MODAL */}
+      {showTerms && (
+        <div className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-4">
+          <div className="w-full max-w-lg max-h-[85vh] bg-zinc-900 border border-zinc-800 rounded-2xl flex flex-col">
+            <div className="p-5 border-b border-zinc-800 font-bold text-zinc-100">Terms &amp; Conditions</div>
+            <div className="p-5 overflow-y-auto space-y-4 text-sm text-zinc-300">
+              {TERMS_TEXT.map((t) => (
+                <div key={t.title}>
+                  <h4 className="font-semibold text-zinc-100">{t.title}</h4>
+                  <p className="text-zinc-400 text-xs leading-relaxed mt-1">{t.body}</p>
+                </div>
+              ))}
+            </div>
+            <div className="p-4 border-t border-zinc-800 flex gap-3">
+              <button onClick={() => setShowTerms(false)} className="flex-1 py-2.5 rounded-lg bg-zinc-800 text-zinc-300 text-sm">Close</button>
+              <button onClick={() => { setAcceptedTerms(true); setShowTerms(false); }} className="flex-1 py-2.5 rounded-lg bg-orange-600 text-white font-bold text-sm">I accept</button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* VIEW 1: AUTHENTICATION */}
       {view === "AUTH" && (
         <div className="w-full max-w-md bg-zinc-900/80 backdrop-blur border border-zinc-800/80 p-8 rounded-2xl shadow-2xl space-y-6">
           <div className="text-center space-y-2">
             <h2 className="text-2xl font-black text-zinc-100">
-              {authMode === "login" ? "Annotator Login" : "Join Training Collective"}
+              {authMode === "login" ? "Log in" : "Create your account"}
             </h2>
-            <p className="text-xs text-zinc-400">Contribute human pressure-response benchmarks to fine-tune local models.</p>
+            <p className="text-xs text-zinc-400">Speed. Knowledge. Points. Money</p>
           </div>
 
           <form onSubmit={handleAuth} className="space-y-4">
             {authMode === "register" && (
               <div>
-                <label className="text-xs text-zinc-400 font-medium">Annotator Username</label>
+                <label className="text-xs text-zinc-400 font-medium">Username</label>
                 <input 
                   type="text" 
                   required 
@@ -377,7 +478,7 @@ export default function Dashboard() {
               </div>
             )}
             <div>
-              <label className="text-xs text-zinc-400 font-medium">Work Email</label>
+              <label className="text-xs text-zinc-400 font-medium">Email</label>
               <input 
                 type="email" 
                 required 
@@ -387,17 +488,56 @@ export default function Dashboard() {
               />
             </div>
             <div>
-              <label className="text-xs text-zinc-400 font-medium">Security Password</label>
-              <input 
-                type="password" 
-                required 
-                value={password} 
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-zinc-950 border border-zinc-800 rounded-lg p-3 text-zinc-100 mt-1 focus:border-orange-500 outline-none transition text-sm"
-              />
+              <label className="text-xs text-zinc-400 font-medium">Password</label>
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full bg-zinc-950 border border-zinc-800 rounded-lg p-3 pr-16 text-zinc-100 mt-1 focus:border-orange-500 outline-none transition text-sm"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((v) => !v)}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 mt-0.5 text-xs text-zinc-400 hover:text-orange-400"
+                >
+                  {showPassword ? "Hide" : "Show"}
+                </button>
+              </div>
+              {authMode === "register" && (
+                <ul className="mt-2 space-y-1 text-[11px]">
+                  {PASSWORD_RULES.map((r) => {
+                    const ok = r.test(password);
+                    return (
+                      <li key={r.id} className={ok ? "text-emerald-400" : "text-zinc-500"}>
+                        {ok ? "✓" : "○"} {r.label}
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
             </div>
-            <button type="submit" className="w-full bg-orange-600 hover:bg-orange-500 text-white font-bold py-3 rounded-lg mt-2 transition shadow-lg shadow-orange-600/20">
-              {authMode === "login" ? "Access Annotator Dashboard" : "Create Annotator Profile"}
+            {authMode === "register" && (
+              <label className="flex items-start gap-2 text-xs text-zinc-400">
+                <input
+                  type="checkbox"
+                  checked={acceptedTerms}
+                  onChange={(e) => setAcceptedTerms(e.target.checked)}
+                  className="mt-0.5"
+                />
+                <span>
+                  I am 18 or older and I have read and accept the{" "}
+                  <button type="button" onClick={() => setShowTerms(true)} className="text-orange-400 underline">
+                    Terms &amp; Conditions
+                  </button>
+                  .
+                </span>
+              </label>
+            )}
+            <button type="submit" disabled={authMode === "register" && (!acceptedTerms || !PASSWORD_RULES.every((r) => r.test(password)))} className="w-full bg-orange-600 hover:bg-orange-500 disabled:bg-zinc-800 disabled:text-zinc-600 text-white font-bold py-3 rounded-lg mt-2 transition shadow-lg shadow-orange-600/20">
+              {authMode === "login" ? "Log in" : "Create account"}
             </button>
           </form>
 
@@ -406,7 +546,7 @@ export default function Dashboard() {
               onClick={() => setAuthMode(authMode === "login" ? "register" : "login")}
               className="text-xs text-zinc-400 hover:text-orange-400 transition"
             >
-              {authMode === "login" ? "New human annotator? Register profile" : "Existing annotator? Authenticate"}
+              {authMode === "login" ? "New here? Create an account" : "Already have an account? Log in"}
             </button>
           </div>
         </div>
@@ -445,7 +585,7 @@ export default function Dashboard() {
                     </span>
                   </div>
                   <p className="text-xs text-zinc-400 font-mono">
-                    Prompt Alignment Specialist
+                    Player
                   </p>
                 </div>
               </div>
@@ -468,13 +608,13 @@ export default function Dashboard() {
           <div className="bg-gradient-to-r from-orange-950/40 via-zinc-900 to-zinc-900 border border-orange-500/30 rounded-3xl p-6 relative overflow-hidden flex items-center justify-between gap-4 shadow-xl">
             <div className="space-y-2 max-w-sm">
               <div className="inline-flex items-center gap-2 bg-orange-500/10 border border-orange-500/20 px-3 py-1 rounded-full text-[11px] font-mono text-orange-400">
-                <span>🎮 High-Velocity RLHF Engine</span>
+                <span>🎮 Fast Trivia</span>
               </div>
               <h1 className="text-2xl font-black text-zinc-100 tracking-tight">
-                Ready to align human-level prompts?
+                Ready to test your speed, knowledge and earn?
               </h1>
               <p className="text-xs text-zinc-400 leading-relaxed">
-                Inspect active training batches, submit high-precision responses, and earn streak bounties.
+                Pick a category, answer quickly and earn points. Keep a streak going for bonus points.
               </p>
             </div>
 
@@ -493,23 +633,65 @@ export default function Dashboard() {
             {/* Wallet & Compute Stake */}
             <div className="bg-zinc-900/90 border border-zinc-800/80 rounded-2xl p-5 space-y-5 h-fit shadow-xl">
               <div>
-                <h3 className="text-base font-bold text-zinc-200">Compute Stake & Bounties</h3>
-                <p className="text-[11px] text-zinc-400">High-speed dataset annotation rewards.</p>
+                <h3 className="text-base font-bold text-zinc-200">My Wallet</h3>
+                <p className="text-[11px] text-zinc-400">Your balance and winnings.</p>
               </div>
 
               <div className="bg-zinc-950 p-4 rounded-xl border border-zinc-800/60 space-y-2.5 font-mono">
                 <div className="flex justify-between text-xs">
-                  <span className="text-zinc-400">Claimable Rewards:</span>
+                  <span className="text-zinc-400">Winnings you can withdraw:</span>
                   <span className="text-emerald-400 font-bold">${(user.balances.withdrawableCents / 100).toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-xs">
-                  <span className="text-zinc-400">Total Compute Balance:</span>
+                  <span className="text-zinc-400">Total balance:</span>
                   <span className="text-orange-400 font-bold">${(user.balances.totalCents / 100).toFixed(2)}</span>
                 </div>
               </div>
 
+              <form onSubmit={handleWithdraw} className="space-y-2 pt-1 border-t border-zinc-800/80">
+                <h4 className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider font-mono">Withdraw winnings to M-Pesa</h4>
+                {user.testsCompleted < user.testsRequired ? (
+                  <p className="text-[11px] text-zinc-500">
+                    Finish {user.testsRequired} eligible tests to unlock withdrawals ({user.testsCompleted}/{user.testsRequired} done).
+                  </p>
+                ) : (
+                  <>
+                    <div className="flex gap-2">
+                      <input
+                        type="number" step="0.01" min="0" inputMode="decimal"
+                        value={withdrawAmount}
+                        onChange={(e) => setWithdrawAmount(e.target.value)}
+                        placeholder="Amount (USD)"
+                        className="flex-1 min-w-0 bg-zinc-950 border border-zinc-800 rounded-lg p-2 text-xs text-zinc-100 outline-none focus:border-orange-500"
+                      />
+                      <button type="button" onClick={() => setWithdrawAmount((user.balances.withdrawableCents / 100).toFixed(2))}
+                        className="text-[11px] px-2 rounded-lg bg-zinc-800 text-zinc-300">Max</button>
+                    </div>
+                    {parseFloat(withdrawAmount) > 0 && (() => {
+                      const amt = parseFloat(withdrawAmount);
+                      const pct = user.withdrawFeePercent ?? 3;
+                      const fee = Math.round(amt * 100 * pct / 100) / 100;
+                      const net = amt - fee;
+                      return (
+                        <div className="text-[11px] text-zinc-500 space-y-0.5">
+                          <div className="flex justify-between"><span>Service fee ({pct}%)</span><span>-${fee.toFixed(2)}</span></div>
+                          <div className="flex justify-between text-zinc-300"><span>You receive</span>
+                            <span>${net.toFixed(2)} ≈ KES {Math.floor(net * (user.kesPerUsd ?? 130))}</span></div>
+                        </div>
+                      );
+                    })()}
+                    <button type="submit"
+                      disabled={withdrawing || user.balances.withdrawableCents < (user.minWithdrawCents ?? 50)}
+                      className="w-full bg-emerald-600 hover:bg-emerald-500 disabled:bg-zinc-800 disabled:text-zinc-600 text-white font-bold py-2.5 rounded-lg text-xs transition">
+                      {withdrawing ? "Sending..." : "Withdraw"}
+                    </button>
+                    <p className="text-[10px] text-zinc-600">Minimum ${((user.minWithdrawCents ?? 50) / 100).toFixed(2)}. A {user.withdrawFeePercent ?? 3}% service fee applies. Only winnings can be withdrawn.</p>
+                  </>
+                )}
+              </form>
+
               <form onSubmit={handleDeposit} className="space-y-3 pt-1 border-t border-zinc-800/80">
-                <h4 className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider font-mono">M-Pesa Compute Refill</h4>
+                <h4 className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider font-mono">Add money via M-Pesa</h4>
                 <div>
                   <label className="text-[11px] text-zinc-500">Mobile Number</label>
                   <input 
@@ -537,8 +719,8 @@ export default function Dashboard() {
             {/* Training Benchmarks & Pipelines */}
             <div className="bg-zinc-900/90 border border-zinc-800/80 rounded-2xl p-5 space-y-6 md:col-span-2 shadow-xl">
               <div>
-                <h3 className="text-base font-bold text-zinc-200 mb-0.5">Dataset Training Pipelines</h3>
-                <p className="text-xs text-zinc-400 mb-4">Choose a domain pipeline to submit high-pressure response telemetry.</p>
+                <h3 className="text-base font-bold text-zinc-200 mb-0.5">Categories</h3>
+                <p className="text-xs text-zinc-400 mb-4">Pick a category to start a task.</p>
                 
                 {/* Category Grid */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -563,11 +745,11 @@ export default function Dashboard() {
                           </span>
                         </div>
                         <p className="text-xs text-zinc-400 line-clamp-2 mb-3 leading-relaxed">
-                          {c.description || "High-velocity prompt response benchmark."}
+                          {c.description || "Quick questions to test your knowledge."}
                         </p>
                       </div>
                       <div className="flex justify-between items-center text-[11px] text-zinc-500 font-mono pt-2 border-t border-zinc-900">
-                        <span>{c.questions} Prompts</span>
+                        <span>{c.questions} questions</span>
                         <button
                           type="button"
                           onClick={(e) => {
@@ -577,32 +759,20 @@ export default function Dashboard() {
                           }}
                           className="text-orange-400 font-medium hover:underline hover:text-orange-300 transition"
                         >
-                          Inspect Batch →
+                          View round →
                         </button>
                       </div>
                     </div>
                   ))}
                 </div>
 
-                {selectedCategory === "custom" && (
-                  <div className="mt-4 p-3.5 bg-zinc-950 border border-zinc-800 rounded-xl">
-                    <label className="text-xs text-zinc-400 font-mono">Custom Synthetic Prompt Context</label>
-                    <input 
-                      type="text" 
-                      placeholder="e.g. Microservices, Organic Chemistry, African History"
-                      value={customTopic}
-                      onChange={(e) => setCustomTopic(e.target.value)}
-                      className="w-full bg-zinc-900 border border-zinc-800 rounded-lg p-2.5 text-zinc-200 mt-1 text-sm outline-none focus:border-orange-500"
-                    />
-                  </div>
-                )}
               </div>
 
               {/* Leaderboard */}
               <div className="pt-4 border-t border-zinc-800/80">
                 <div className="flex justify-between items-center mb-3">
-                  <h4 className="text-xs font-bold text-zinc-300 font-mono uppercase tracking-wider">Top Human Velocity Annotators</h4>
-                  <span className="text-[10px] text-zinc-500 font-mono">Response Latency (ms)</span>
+                  <h4 className="text-xs font-bold text-zinc-300 font-mono uppercase tracking-wider">Fastest players</h4>
+                  <span className="text-[10px] text-zinc-500 font-mono">Average answer time (ms)</span>
                 </div>
                 <div className="space-y-2 max-h-48 overflow-y-auto pr-1">
                   {leaderboard.map((entry, idx) => (
@@ -615,7 +785,7 @@ export default function Dashboard() {
                       </div>
                       <div className="flex items-center gap-4 text-xs font-mono">
                         {entry.avgMs != null && (
-                        <span className="text-zinc-400">{entry.avgMs}ms latency</span>
+                        <span className="text-zinc-400">{entry.avgMs}ms avg</span>
                         )}
                         <span className="text-emerald-400 font-bold">{entry.streak}🔥 streak</span>
                       </div>
@@ -634,7 +804,7 @@ export default function Dashboard() {
           {/* Header info with Stopwatch Counter */}
           <div className="flex justify-between items-center border-b border-zinc-800/80 pb-3 font-mono">
             <span className="text-xs text-orange-400 uppercase font-bold tracking-wider">
-              Prompt {currentQuestion.index} / {currentQuestion.total}
+              Question {currentQuestion.index} / {currentQuestion.total}
             </span>
 
             {/* Stopwatch Counter Badge */}
@@ -646,14 +816,14 @@ export default function Dashboard() {
             </div>
 
             <span className="text-xs text-zinc-400 uppercase">
-              Pipeline: {selectedCategory}
+              Category: {selectedCategory}
             </span>
           </div>
 
           {/* Question prompt */}
           <div className="space-y-2">
             <p className="text-[11px] text-zinc-500 font-mono uppercase tracking-wider">
-              Cognitive Pressure Target:
+              Question:
             </p>
             <h3 className="text-lg font-medium text-zinc-100 leading-relaxed">
               {currentQuestion.text}
@@ -682,8 +852,8 @@ export default function Dashboard() {
               return (
                 <button
                   key={idx}
-                  disabled={result !== null}
-                  onClick={() => setSelectedChoice(idx)}
+                  disabled={result !== null || submitting}
+                  onClick={() => { setSelectedChoice(idx); submitAnswer(idx); }}
                   className={`w-full text-left p-4 rounded-xl border transition flex items-center justify-between text-sm ${borderStyle}`}
                 >
                   <div className="flex items-center gap-3">
@@ -710,11 +880,10 @@ export default function Dashboard() {
           {/* Gamified Submission / Feedback Banner */}
           {!result ? (
             <button
-              onClick={() => selectedChoice !== null && submitAnswer(selectedChoice)}
-              disabled={selectedChoice === null || submitting}
-              className="w-full bg-orange-600 hover:bg-orange-500 disabled:bg-zinc-800 disabled:text-zinc-600 text-white font-bold py-3.5 rounded-xl transition shadow-lg shadow-orange-600/20 flex items-center justify-center gap-2"
+              disabled
+              className="w-full bg-zinc-800 text-zinc-500 font-bold py-3.5 rounded-xl flex items-center justify-center gap-2"
             >
-              {submitting ? "Submitting Telemetry..." : "Submit Annotator Choice"}
+              {submitting ? "Checking your answer..." : "Tap an answer to continue"}
             </button>
           ) : (
             <div className="space-y-3">
@@ -752,7 +921,7 @@ export default function Dashboard() {
                 onClick={continueAfterResult}
                 className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3.5 rounded-xl transition shadow-lg shadow-emerald-600/20"
               >
-                {result.finished ? "See Summary →" : "Next Prompt →"}
+                {result.finished ? "See my results →" : "Next question →"}
               </button>
             </div>
           )}
@@ -766,36 +935,54 @@ export default function Dashboard() {
             <img src={MASCOT_ASSETS.trophy} alt="Trophy" className="w-full h-full object-contain" />
           </div>
           <div className="space-y-1">
-            <h2 className="text-xl font-black text-orange-500">Batch Alignment Complete</h2>
-            <p className="text-xs text-zinc-400">Response telemetry successfully recorded.</p>
+            <h2 className="text-xl font-black text-orange-500">Round complete!</h2>
+            <p className="text-xs text-zinc-400">Here is how you did.</p>
           </div>
           
           <div className="bg-zinc-950 p-4 rounded-xl border border-zinc-800/80 space-y-3 text-xs font-mono">
             <div className="flex justify-between">
-              <span className="text-zinc-400">Human Accuracy:</span>
+              <span className="text-zinc-400">Correct answers:</span>
               <span className="text-emerald-400 font-bold">{gameSummary.correct} / {gameSummary.total}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-zinc-400">Alignment Score:</span>
+              <span className="text-zinc-400">Score:</span>
               <span className="text-orange-400 font-bold">{gameSummary.accuracyPercent}%</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-zinc-400">Annotator Reward Points:</span>
+              <span className="text-zinc-400">Points earned:</span>
               <span className="text-orange-400 font-bold">{gameSummary.pointsEarned} pts</span>
             </div>
             <div className="flex justify-between pt-2 border-t border-zinc-900">
-              <span className="text-zinc-400">Net Bounty Earned:</span>
+              <span className="text-zinc-400">Won / lost this round:</span>
               <span className={`font-bold ${gameSummary.net >= 0 ? "text-emerald-400" : "text-rose-400"}`}>
                 ${gameSummary.net.toFixed(2)}
               </span>
             </div>
           </div>
 
+          {review && review.wrong.length > 0 && (
+            <div className="text-left space-y-3">
+              <h3 className="text-sm font-bold text-zinc-200">Questions to review ({review.wrong.length})</h3>
+              {review.wrong.map((w) => (
+                <div key={w.number} className="bg-zinc-950 border border-zinc-800 rounded-xl p-3 space-y-2">
+                  <p className="text-xs text-zinc-200">Q{w.number}. {w.text}</p>
+                  <p className="text-[11px] text-rose-400">
+                    {w.yourIdx === null ? "You ran out of time." : `Your answer: ${w.options[w.yourIdx]}`}
+                  </p>
+                  <p className="text-[11px] text-emerald-400">Correct answer: {w.options[w.correctIdx]}</p>
+                </div>
+              ))}
+            </div>
+          )}
+          {review && review.wrong.length === 0 && (
+            <p className="text-xs text-emerald-400">Perfect round - nothing to review!</p>
+          )}
+
           <button
             onClick={() => setView("HUB")}
             className="w-full bg-orange-600 hover:bg-orange-500 text-white font-bold py-3 rounded-xl transition shadow-lg shadow-orange-600/20 text-xs"
           >
-            Return to Pipeline Hub
+            Back to home
           </button>
         </div>
       )}
@@ -827,7 +1014,7 @@ export default function Dashboard() {
                     </span>
                   </div>
                   <p className="text-xs text-zinc-400 font-mono">
-                    ⚡ {previewCategory.questions} Prompts in Batch
+                    ⚡ {previewCategory.questions} questions in this round
                   </p>
                 </div>
               </div>
@@ -843,11 +1030,11 @@ export default function Dashboard() {
             <div className="space-y-3.5">
               <div>
                 <h4 className="text-[11px] font-mono uppercase text-orange-400 font-bold mb-1 tracking-wider">
-                  🎯 Pipeline Mission
+                  🎯 About this category
                 </h4>
                 <p className="text-xs text-zinc-300 leading-relaxed">
                   {previewCategory.description ||
-                    "High-velocity prompt response benchmark. Submit speed-optimized response choices to align real-time model preferences."}
+                    "Quick questions to test your knowledge. Answer quickly to earn points."}
                 </p>
               </div>
 
@@ -855,9 +1042,9 @@ export default function Dashboard() {
                 <div className="bg-zinc-950 border border-zinc-800 rounded-2xl p-3.5 space-y-1.5 shadow-inner">
                   <div className="flex justify-between items-center">
                     <h5 className="text-[10px] font-mono uppercase text-zinc-500 font-semibold">
-                      Sample Prompt Target
+                      Sample question
                     </h5>
-                    <span className="text-[10px] text-orange-400/80 font-mono">Telemetry Target</span>
+                    <span className="text-[10px] text-orange-400/80 font-mono">Questions</span>
                   </div>
                   <p className="text-xs font-mono text-zinc-300 italic bg-zinc-900/50 p-2.5 rounded-xl border border-zinc-800/50">
                     "{previewCategory.sample}"
@@ -869,7 +1056,7 @@ export default function Dashboard() {
                 <span className="text-zinc-400">Streak Bonus Rate:</span>
                 <span className="text-orange-400 font-bold flex items-center gap-1">
                   <img src={MASCOT_ASSETS.fire} alt="Fire" className="w-4 h-4 object-contain inline" />
-                  Up to 1.5x Bounty
+                  Streak bonus
                 </span>
               </div>
             </div>
@@ -889,7 +1076,7 @@ export default function Dashboard() {
                 }}
                 className="flex-1 bg-orange-600 hover:bg-orange-500 text-white font-bold py-3 rounded-xl text-xs transition shadow-lg shadow-orange-600/20 flex items-center justify-center gap-1.5"
               >
-                <span>Start Batch</span>
+                <span>Start round</span>
                 <span>→</span>
               </button>
             </div>

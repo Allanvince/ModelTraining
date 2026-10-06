@@ -1,62 +1,133 @@
 @import "tailwindcss";
 
+/* Switch theme: change data-theme on <html> in layout.tsx to coral | violet | ocean.
+   These override Tailwind's zinc (neutrals) and orange (accent) scales, so page.tsx needs no edits. */
+
+:root[data-theme="coral"] { /* Coral on midnight navy (matches your reference screenshot) */
+  --color-zinc-50: #f8f9fb;
+  --color-zinc-100: #eff1f6;
+  --color-zinc-200: #dbe0eb;
+  --color-zinc-300: #bec6da;
+  --color-zinc-400: #8393b9;
+  --color-zinc-500: #536693;
+  --color-zinc-600: #3d4b6c;
+  --color-zinc-700: #2e3952;
+  --color-zinc-800: #1f2637;
+  --color-zinc-900: #121721;
+  --color-zinc-950: #0b0e14;
+  --color-orange-50: #fef2f1;
+  --color-orange-100: #fddcd9;
+  --color-orange-200: #fabeb7;
+  --color-orange-300: #f89f96;
+  --color-orange-400: #f67d6f;
+  --color-orange-500: #f45e4e;
+  --color-orange-600: #f2402c;
+  --color-orange-700: #e6240f;
+  --color-orange-800: #b61d0c;
+  --color-orange-900: #861509;
+  --color-orange-950: #4d0c05;
+  --accent-glow: #f45e4e;
+}
+
+:root[data-theme="violet"] { /* Violet on deep indigo (playful, game-like) */
+  --color-zinc-50: #f9f8fb;
+  --color-zinc-100: #f1eef6;
+  --color-zinc-200: #e0dbeb;
+  --color-zinc-300: #c6bddb;
+  --color-zinc-400: #9281bb;
+  --color-zinc-500: #655095;
+  --color-zinc-600: #4a3b6d;
+  --color-zinc-700: #382d53;
+  --color-zinc-800: #261e38;
+  --color-zinc-900: #161221;
+  --color-zinc-950: #0d0b14;
+  --color-orange-50: #f6f1fe;
+  --color-orange-100: #e6d9fc;
+  --color-orange-200: #d0b9f9;
+  --color-orange-300: #b48ef5;
+  --color-orange-400: #955ff1;
+  --color-orange-500: #7c3aee;
+  --color-orange-600: #6314eb;
+  --color-orange-700: #5311c5;
+  --color-orange-800: #430ea0;
+  --color-orange-900: #350b7f;
+  --color-orange-950: #20074b;
+  --accent-glow: #7c3aee;
+}
+
+:root[data-theme="ocean"] { /* Electric blue on slate navy (calm, trustworthy) */
+  --color-zinc-50: #f8fafc;
+  --color-zinc-100: #eef2f6;
+  --color-zinc-200: #dae1ec;
+  --color-zinc-300: #bcc9dc;
+  --color-zinc-400: #7f99bd;
+  --color-zinc-500: #4e6d97;
+  --color-zinc-600: #39506f;
+  --color-zinc-700: #2b3c54;
+  --color-zinc-800: #1d2939;
+  --color-zinc-900: #111822;
+  --color-zinc-950: #0a0e14;
+  --color-orange-50: #f1f6fe;
+  --color-orange-100: #d9e8fd;
+  --color-orange-200: #b7d4fa;
+  --color-orange-300: #8cbbf8;
+  --color-orange-400: #5c9ef5;
+  --color-orange-500: #3687f2;
+  --color-orange-600: #0f71f0;
+  --color-orange-700: #0d5fc9;
+  --color-orange-800: #0a4da3;
+  --color-orange-900: #083d81;
+  --color-orange-950: #05244d;
+  --accent-glow: #3687f2;
+}
+
 body {
-  background-color: #020617;
-  color: #f8fafc;
-  font-family: 'Inter', system-ui, sans-serif;
+  background-color: var(--color-zinc-950);
+  background-image:
+    radial-gradient(900px 500px at 85% -10%, color-mix(in srgb, var(--accent-glow) 14%, transparent), transparent 60%),
+    radial-gradient(700px 400px at -10% 110%, color-mix(in srgb, var(--accent-glow) 8%, transparent), transparent 60%);
+  background-attachment: fixed;
+  color: var(--color-zinc-100);
+  font-family: var(--font-body), 'Inter', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
-::selection {
-  background-color: #06b6d4;
-  color: #000000;
-}
+h1, h2, h3, .font-display { font-family: var(--font-display), system-ui, sans-serif; letter-spacing: -0.02em; }
 
-.glow-cyan {
-  box-shadow: 0 0 20px -3px rgba(6, 182, 212, 0.4);
-}
+::selection { background-color: var(--color-orange-500); color: var(--color-zinc-950); }
 
-.glow-fuchsia {
-  box-shadow: 0 0 20px -3px rgba(217, 70, 239, 0.4);
-}
+/* Visible keyboard focus everywhere */
+:focus-visible { outline: 2px solid var(--color-orange-400); outline-offset: 2px; }
+
+/* Glows now follow the accent colour */
+.glow-cyan, .glow-fuchsia { box-shadow: 0 0 24px -4px color-mix(in srgb, var(--accent-glow) 45%, transparent); }
 
 .cyber-grid {
-  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-                    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
+                    linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
   background-size: 32px 32px;
 }
-/* Category Card Animations */
-.category-card {
-  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-}
-.category-card:hover {
-  transform: translateY(-6px) scale(1.02);
-}
 
-/* Category Glow Colors */
-.glow-tech { box-shadow: 0 0 25px -5px rgba(6, 182, 212, 0.5); }
-.glow-science { box-shadow: 0 0 25px -5px rgba(16, 185, 129, 0.5); }
-.glow-pop { box-shadow: 0 0 25px -5px rgba(217, 70, 239, 0.5); }
-.glow-history { box-shadow: 0 0 25px -5px rgba(245, 158, 11, 0.5); }
-.glow-custom { box-shadow: 0 0 25px -5px rgba(168, 85, 247, 0.5); }
+/* Category cards */
+.category-card { transition: transform 0.25s cubic-bezier(0.4,0,0.2,1), box-shadow 0.25s cubic-bezier(0.4,0,0.2,1); }
+.category-card:hover { transform: translateY(-4px); }
 
-/* Animated Question Timer Bar */
-@keyframes timer-shrink {
-  from { width: 100%; }
-  to { width: 0%; }
-}
+/* Each category keeps its own colour so the grid is easy to scan */
+.glow-tech    { box-shadow: 0 0 25px -5px rgba(56, 189, 248, 0.5); }
+.glow-science { box-shadow: 0 0 25px -5px rgba(52, 211, 153, 0.5); }
+.glow-pop     { box-shadow: 0 0 25px -5px rgba(244, 114, 182, 0.5); }
+.glow-history { box-shadow: 0 0 25px -5px rgba(251, 191, 36, 0.5); }
+.glow-custom  { box-shadow: 0 0 25px -5px rgba(167, 139, 250, 0.5); }
 
-.timer-bar-active {
-  animation: timer-shrink linear forwards;
-}
+/* Question timer bar */
+@keyframes timer-shrink { from { width: 100%; } to { width: 0%; } }
+.timer-bar-active { animation: timer-shrink linear forwards; }
 
-/* Pulse keyframes for streak badge */
-@keyframes streak-pop {
-  0% { transform: scale(0.8); opacity: 0; }
-  50% { transform: scale(1.1); }
-  100% { transform: scale(1); opacity: 1; }
-}
+/* Streak badge */
+@keyframes streak-pop { 0% { transform: scale(0.8); opacity: 0; } 50% { transform: scale(1.1); } 100% { transform: scale(1); opacity: 1; } }
+.animate-streak { animation: streak-pop 0.3s ease-out forwards; }
 
-.animate-streak {
-  animation: streak-pop 0.3s ease-out forwards;
+@media (prefers-reduced-motion: reduce) {
+  .category-card, .animate-streak { transition: none; animation: none; }
+  .category-card:hover { transform: none; }
 }

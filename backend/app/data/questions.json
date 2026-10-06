@@ -9,7 +9,7 @@
    "Resource not found"
   ],
   "correct_idx": 3,
-  "timer_seconds": 3
+  "timer_seconds": 8
  },
  {
   "category": "tech",
@@ -21,7 +21,7 @@
    "Go"
   ],
   "correct_idx": 2,
-  "timer_seconds": 3
+  "timer_seconds": 8
  },
  {
   "category": "tech",
@@ -33,7 +33,7 @@
    "Coded Style Sheets"
   ],
   "correct_idx": 0,
-  "timer_seconds": 3
+  "timer_seconds": 8
  },
  {
   "category": "tech",
@@ -45,7 +45,7 @@
    "They can only run on the main UI thread."
   ],
   "correct_idx": 1,
-  "timer_seconds": 5
+  "timer_seconds": 8
  },
  {
   "category": "tech",
@@ -57,7 +57,7 @@
    "Tree"
   ],
   "correct_idx": 2,
-  "timer_seconds": 4
+  "timer_seconds": 8
  },
  {
   "category": "tech",
@@ -69,7 +69,7 @@
    "Merchant"
   ],
   "correct_idx": 2,
-  "timer_seconds": 3
+  "timer_seconds": 8
  },
  {
   "category": "tech",
@@ -81,7 +81,7 @@
    "git checkout -b"
   ],
   "correct_idx": 3,
-  "timer_seconds": 5
+  "timer_seconds": 8
  },
  {
   "category": "tech",
@@ -93,7 +93,7 @@
    "O(1)"
   ],
   "correct_idx": 2,
-  "timer_seconds": 4
+  "timer_seconds": 8
  },
  {
   "category": "tech",
@@ -105,7 +105,7 @@
    "DELETE"
   ],
   "correct_idx": 0,
-  "timer_seconds": 3
+  "timer_seconds": 8
  },
  {
   "category": "tech",
@@ -117,7 +117,7 @@
    "useState"
   ],
   "correct_idx": 3,
-  "timer_seconds": 3
+  "timer_seconds": 8
  },
  {
   "category": "science",
@@ -129,7 +129,7 @@
    "Gd"
   ],
   "correct_idx": 1,
-  "timer_seconds": 3
+  "timer_seconds": 8
  },
  {
   "category": "science",
@@ -141,7 +141,7 @@
    "Mercury"
   ],
   "correct_idx": 2,
-  "timer_seconds": 3
+  "timer_seconds": 8
  },
  {
   "category": "science",
@@ -153,7 +153,7 @@
    "Carbon dioxide"
   ],
   "correct_idx": 3,
-  "timer_seconds": 3
+  "timer_seconds": 8
  },
  {
   "category": "science",
@@ -165,7 +165,7 @@
    "300 km/s"
   ],
   "correct_idx": 0,
-  "timer_seconds": 4
+  "timer_seconds": 8
  },
  {
   "category": "science",
@@ -177,7 +177,7 @@
    "256"
   ],
   "correct_idx": 1,
-  "timer_seconds": 4
+  "timer_seconds": 8
  },
  {
   "category": "science",
@@ -189,7 +189,7 @@
    "Photon"
   ],
   "correct_idx": 2,
-  "timer_seconds": 3
+  "timer_seconds": 8
  },
  {
   "category": "science",
@@ -201,7 +201,7 @@
    "Golgi body"
   ],
   "correct_idx": 1,
-  "timer_seconds": 5
+  "timer_seconds": 8
  },
  {
   "category": "science",
@@ -213,7 +213,7 @@
    "120 °C"
   ],
   "correct_idx": 1,
-  "timer_seconds": 3
+  "timer_seconds": 8
  },
  {
   "category": "science",
@@ -225,7 +225,7 @@
    "Tension"
   ],
   "correct_idx": 2,
-  "timer_seconds": 3
+  "timer_seconds": 8
  },
  {
   "category": "science",
@@ -237,7 +237,7 @@
    "The mass of a photon"
   ],
   "correct_idx": 0,
-  "timer_seconds": 5
+  "timer_seconds": 8
  },
  {
   "category": "pop",
@@ -249,7 +249,7 @@
    "Dua Lipa"
   ],
   "correct_idx": 1,
-  "timer_seconds": 3
+  "timer_seconds": 8
  },
  {
   "category": "pop",
@@ -261,7 +261,7 @@
    "The Upside Down"
   ],
   "correct_idx": 3,
-  "timer_seconds": 3
+  "timer_seconds": 8
  },
  {
   "category": "pop",
@@ -273,7 +273,7 @@
    "Wilson Kipsang"
   ],
   "correct_idx": 2,
-  "timer_seconds": 4
+  "timer_seconds": 8
  },
  {
   "category": "pop",
@@ -285,7 +285,7 @@
    "Nightwing"
   ],
   "correct_idx": 1,
-  "timer_seconds": 3
+  "timer_seconds": 8
  },
  {
   "category": "pop",
@@ -297,7 +297,7 @@
    "Queen"
   ],
   "correct_idx": 3,
-  "timer_seconds": 3
+  "timer_seconds": 8
  },
  {
   "category": "pop",
@@ -309,7 +309,7 @@
    "James Cameron"
   ],
   "correct_idx": 0,
-  "timer_seconds": 4
+  "timer_seconds": 8
  },
  {
   "category": "pop",
@@ -321,7 +321,7 @@
    "Howl's Moving Castle"
   ],
   "correct_idx": 2,
-  "timer_seconds": 5
+  "timer_seconds": 8
  },
  {
   "category": "pop",
@@ -333,7 +333,7 @@
    "EXO"
   ],
   "correct_idx": 2,
-  "timer_seconds": 3
+  "timer_seconds": 8
  },
  {
   "category": "pop",
@@ -345,7 +345,7 @@
    "Excalibur"
   ],
   "correct_idx": 0,
-  "timer_seconds": 3
+  "timer_seconds": 8
  },
  {
   "category": "pop",
@@ -357,7 +357,7 @@
    "The Legend of Zelda"
   ],
   "correct_idx": 3,
-  "timer_seconds": 4
+  "timer_seconds": 8
  },
  {
   "category": "history",
@@ -369,7 +369,7 @@
    "1965"
   ],
   "correct_idx": 2,
-  "timer_seconds": 3
+  "timer_seconds": 8
  },
  {
   "category": "history",
@@ -381,7 +381,7 @@
    "Tom Mboya"
   ],
   "correct_idx": 1,
-  "timer_seconds": 3
+  "timer_seconds": 8
  },
  {
   "category": "history",
@@ -393,7 +393,7 @@
    "Olmec"
   ],
   "correct_idx": 0,
-  "timer_seconds": 3
+  "timer_seconds": 8
  },
  {
   "category": "history",
@@ -405,7 +405,7 @@
    "1950"
   ],
   "correct_idx": 1,
-  "timer_seconds": 3
+  "timer_seconds": 8
  },
  {
   "category": "history",
@@ -417,7 +417,7 @@
    "Mali"
   ],
   "correct_idx": 3,
-  "timer_seconds": 4
+  "timer_seconds": 8
  },
  {
   "category": "history",
@@ -429,7 +429,7 @@
    "1989"
   ],
   "correct_idx": 3,
-  "timer_seconds": 3
+  "timer_seconds": 8
  },
  {
   "category": "history",
@@ -441,7 +441,7 @@
    "John Adams"
   ],
   "correct_idx": 0,
-  "timer_seconds": 4
+  "timer_seconds": 8
  },
  {
   "category": "history",
@@ -453,7 +453,7 @@
    "Cleopatra"
   ],
   "correct_idx": 1,
-  "timer_seconds": 4
+  "timer_seconds": 8
  },
  {
   "category": "history",
@@ -465,7 +465,7 @@
    "1866"
   ],
   "correct_idx": 0,
-  "timer_seconds": 5
+  "timer_seconds": 8
  },
  {
   "category": "history",
@@ -477,10 +477,10 @@
    "Marco Polo"
   ],
   "correct_idx": 2,
-  "timer_seconds": 3
+  "timer_seconds": 8
  },
  {
-  "category": "custom",
+  "category": "anime",
   "text": "Who is the main hero of Dragon Ball Z?",
   "options": [
    "Vegeta",
@@ -489,10 +489,10 @@
    "Gohan"
   ],
   "correct_idx": 1,
-  "timer_seconds": 3
+  "timer_seconds": 8
  },
  {
-  "category": "custom",
+  "category": "anime",
   "text": "Which 1995 anime features the mecha Evangelion Unit-01?",
   "options": [
    "Gundam Wing",
@@ -501,10 +501,10 @@
    "Macross Plus"
   ],
   "correct_idx": 1,
-  "timer_seconds": 4
+  "timer_seconds": 8
  },
  {
-  "category": "custom",
+  "category": "anime",
   "text": "Who created Sailor Moon?",
   "options": [
    "Rumiko Takahashi",
@@ -513,10 +513,10 @@
    "Masashi Kishimoto"
   ],
   "correct_idx": 2,
-  "timer_seconds": 4
+  "timer_seconds": 8
  },
  {
-  "category": "custom",
+  "category": "anime",
   "text": "Spike Spiegel leads which 1998 anime?",
   "options": [
    "Trigun",
@@ -525,10 +525,10 @@
    "Berserk"
   ],
   "correct_idx": 2,
-  "timer_seconds": 4
+  "timer_seconds": 8
  },
  {
-  "category": "custom",
+  "category": "anime",
   "text": "Which Pokémon does Ash receive as his first partner?",
   "options": [
    "Charmander",
@@ -537,10 +537,10 @@
    "Pikachu"
   ],
   "correct_idx": 3,
-  "timer_seconds": 3
+  "timer_seconds": 8
  },
  {
-  "category": "custom",
+  "category": "anime",
   "text": "Which studio made 'Princess Mononoke' (1997)?",
   "options": [
    "Toei Animation",
@@ -549,10 +549,10 @@
    "Gainax"
   ],
   "correct_idx": 2,
-  "timer_seconds": 4
+  "timer_seconds": 8
  },
  {
-  "category": "custom",
+  "category": "anime",
   "text": "In 'Slam Dunk', which sport is played?",
   "options": [
    "Volleyball",
@@ -561,10 +561,10 @@
    "Baseball"
   ],
   "correct_idx": 1,
-  "timer_seconds": 3
+  "timer_seconds": 8
  },
  {
-  "category": "custom",
+  "category": "anime",
   "text": "Who is Goku's proud Saiyan rival?",
   "options": [
    "Piccolo",
@@ -573,10 +573,10 @@
    "Vegeta"
   ],
   "correct_idx": 3,
-  "timer_seconds": 3
+  "timer_seconds": 8
  },
  {
-  "category": "custom",
+  "category": "anime",
   "text": "Which 1999 anime follows a straw-hat pirate crew?",
   "options": [
    "Naruto",
@@ -585,10 +585,10 @@
    "Fairy Tail"
   ],
   "correct_idx": 2,
-  "timer_seconds": 4
+  "timer_seconds": 8
  },
  {
-  "category": "custom",
+  "category": "anime",
   "text": "In 'Cardcaptor Sakura', what are the magical cards called?",
   "options": [
    "Clow Cards",
@@ -597,6 +597,3006 @@
    "Dream Cards"
   ],
   "correct_idx": 0,
-  "timer_seconds": 5
+  "timer_seconds": 8
+ },
+ {
+  "category": "tech",
+  "text": "What does HTML stand for?",
+  "options": [
+   "HyperText Markup Language",
+   "Hyperlinks Text Mode Language",
+   "High Transfer Markup Logic",
+   "Home Tool Markup Language"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "tech",
+  "text": "What does 'RAM' stand for?",
+  "options": [
+   "Read Access Module",
+   "Random Access Memory",
+   "Rapid Application Memory",
+   "Run Active Memory"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "tech",
+  "text": "Which company develops the Windows operating system?",
+  "options": [
+   "Apple",
+   "Google",
+   "Microsoft",
+   "IBM"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 8
+ },
+ {
+  "category": "tech",
+  "text": "What does 'URL' stand for?",
+  "options": [
+   "Universal Reference Link",
+   "Unified Routing Layer",
+   "User Resource Label",
+   "Uniform Resource Locator"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 8
+ },
+ {
+  "category": "tech",
+  "text": "What does 'GPS' stand for?",
+  "options": [
+   "Global Positioning System",
+   "General Pathway Signal",
+   "Global Plot Satellite",
+   "Ground Position Service"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "tech",
+  "text": "What is the main purpose of a firewall?",
+  "options": [
+   "Speed up downloads",
+   "Block unauthorized network traffic",
+   "Store passwords",
+   "Compress files"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "tech",
+  "text": "Which of these is a relational database?",
+  "options": [
+   "Photoshop",
+   "Nginx",
+   "PostgreSQL",
+   "Docker"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 8
+ },
+ {
+  "category": "tech",
+  "text": "What does 'SQL' stand for?",
+  "options": [
+   "Simple Question Logic",
+   "Standard Queue Language",
+   "Sequential Query Layer",
+   "Structured Query Language"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 8
+ },
+ {
+  "category": "tech",
+  "text": "Which symbol starts a single-line comment in Python?",
+  "options": [
+   "#",
+   "//",
+   "--",
+   "/*"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "tech",
+  "text": "What does 'USB' stand for?",
+  "options": [
+   "United System Board",
+   "Universal Serial Bus",
+   "Unified Serial Block",
+   "Universal Storage Base"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "tech",
+  "text": "What is the number 2 written in binary?",
+  "options": [
+   "11",
+   "01",
+   "10",
+   "100"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 8
+ },
+ {
+  "category": "tech",
+  "text": "How many bits are in a byte?",
+  "options": [
+   "4",
+   "16",
+   "10",
+   "8"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 8
+ },
+ {
+  "category": "tech",
+  "text": "What does 'IP' stand for in 'IP address'?",
+  "options": [
+   "Internet Protocol",
+   "Internal Port",
+   "Information Packet",
+   "Integrated Process"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "tech",
+  "text": "Which protocol is mainly used to send email?",
+  "options": [
+   "FTP",
+   "SMTP",
+   "SSH",
+   "DNS"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "tech",
+  "text": "What does DNS do?",
+  "options": [
+   "Encrypts web traffic",
+   "Stores website files",
+   "Translates domain names to IP addresses",
+   "Blocks viruses"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 8
+ },
+ {
+  "category": "tech",
+  "text": "Which port does HTTPS use by default?",
+  "options": [
+   "80",
+   "21",
+   "25",
+   "443"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 8
+ },
+ {
+  "category": "tech",
+  "text": "What does 'AI' stand for?",
+  "options": [
+   "Artificial Intelligence",
+   "Automated Input",
+   "Advanced Interface",
+   "Applied Integration"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "tech",
+  "text": "Which language is mainly used to style web pages?",
+  "options": [
+   "SQL",
+   "CSS",
+   "Rust",
+   "Bash"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "tech",
+  "text": "What is Linux?",
+  "options": [
+   "A web browser",
+   "A programming language",
+   "An open-source operating system kernel",
+   "A database"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 8
+ },
+ {
+  "category": "tech",
+  "text": "Which company created the iPhone?",
+  "options": [
+   "Samsung",
+   "Nokia",
+   "Huawei",
+   "Apple"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 8
+ },
+ {
+  "category": "tech",
+  "text": "What does 'PDF' stand for?",
+  "options": [
+   "Portable Document Format",
+   "Printed Data File",
+   "Personal Document Form",
+   "Protected Digital Folder"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "tech",
+  "text": "Which Git command downloads a copy of a remote repository?",
+  "options": [
+   "git push",
+   "git clone",
+   "git commit",
+   "git init"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "tech",
+  "text": "Software whose code anyone can view and modify is called?",
+  "options": [
+   "Closed source",
+   "Malware",
+   "Open source",
+   "Shareware"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 8
+ },
+ {
+  "category": "tech",
+  "text": "What does Wi-Fi let devices do?",
+  "options": [
+   "Charge their batteries",
+   "Print documents only",
+   "Store data in space",
+   "Connect to a network wirelessly"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 8
+ },
+ {
+  "category": "tech",
+  "text": "Which data structure stores key-value pairs?",
+  "options": [
+   "Hash map",
+   "Stack",
+   "Queue",
+   "Linked list"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "tech",
+  "text": "What does 'CPU' stand for?",
+  "options": [
+   "Computer Personal Unit",
+   "Central Processing Unit",
+   "Core Program Utility",
+   "Central Power Unit"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "tech",
+  "text": "What is phishing?",
+  "options": [
+   "Speeding up a network",
+   "Backing up files",
+   "Tricking people into revealing sensitive information",
+   "Deleting cached data"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 8
+ },
+ {
+  "category": "tech",
+  "text": "Which JSON data type represents true or false?",
+  "options": [
+   "String",
+   "Array",
+   "Null",
+   "Boolean"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 8
+ },
+ {
+  "category": "tech",
+  "text": "Who co-founded Microsoft with Paul Allen?",
+  "options": [
+   "Bill Gates",
+   "Steve Jobs",
+   "Mark Zuckerberg",
+   "Elon Musk"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "tech",
+  "text": "What does HTTPS add compared with HTTP?",
+  "options": [
+   "Faster speed",
+   "Encryption",
+   "Bigger pages",
+   "Video support"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "science",
+  "text": "What is the chemical formula for water?",
+  "options": [
+   "H2O",
+   "HO2",
+   "H2O2",
+   "OH"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "science",
+  "text": "Which is the largest planet in our solar system?",
+  "options": [
+   "Saturn",
+   "Jupiter",
+   "Neptune",
+   "Earth"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "science",
+  "text": "What is the hardest natural substance?",
+  "options": [
+   "Gold",
+   "Iron",
+   "Diamond",
+   "Quartz"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 8
+ },
+ {
+  "category": "science",
+  "text": "What is the largest organ of the human body?",
+  "options": [
+   "Liver",
+   "Heart",
+   "Lungs",
+   "Skin"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 8
+ },
+ {
+  "category": "science",
+  "text": "What is the chemical symbol for sodium?",
+  "options": [
+   "Na",
+   "So",
+   "Sd",
+   "S"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "science",
+  "text": "Which planet is closest to the Sun?",
+  "options": [
+   "Venus",
+   "Mercury",
+   "Earth",
+   "Mars"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "science",
+  "text": "Which gas do humans need to breathe to live?",
+  "options": [
+   "Helium",
+   "Argon",
+   "Oxygen",
+   "Methane"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 8
+ },
+ {
+  "category": "science",
+  "text": "What is the basic unit of life?",
+  "options": [
+   "Atom",
+   "Organ",
+   "Molecule",
+   "Cell"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 8
+ },
+ {
+  "category": "science",
+  "text": "Roughly how fast does sound travel in air?",
+  "options": [
+   "343 m/s",
+   "3 m/s",
+   "3,000 m/s",
+   "300,000 m/s"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "science",
+  "text": "What is the pH of pure water?",
+  "options": [
+   "0",
+   "7",
+   "14",
+   "1"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "science",
+  "text": "Which blood cells carry oxygen?",
+  "options": [
+   "White blood cells",
+   "Platelets",
+   "Red blood cells",
+   "Plasma"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 8
+ },
+ {
+  "category": "science",
+  "text": "Which gas makes up most of Earth's atmosphere?",
+  "options": [
+   "Oxygen",
+   "Carbon dioxide",
+   "Hydrogen",
+   "Nitrogen"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 8
+ },
+ {
+  "category": "science",
+  "text": "Who developed the theory of general relativity?",
+  "options": [
+   "Albert Einstein",
+   "Isaac Newton",
+   "Niels Bohr",
+   "Galileo Galilei"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "science",
+  "text": "Which star is closest to Earth?",
+  "options": [
+   "Proxima Centauri",
+   "The Sun",
+   "Sirius",
+   "Polaris"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "science",
+  "text": "At what temperature (°C) does water freeze?",
+  "options": [
+   "10",
+   "-10",
+   "0",
+   "32"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 8
+ },
+ {
+  "category": "science",
+  "text": "What do bees collect to make honey?",
+  "options": [
+   "Tree sap",
+   "Soil",
+   "Dew",
+   "Nectar"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 8
+ },
+ {
+  "category": "science",
+  "text": "Which vitamin does sunlight help the body make?",
+  "options": [
+   "Vitamin D",
+   "Vitamin C",
+   "Vitamin A",
+   "Vitamin B12"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "science",
+  "text": "What is the chemical symbol for iron?",
+  "options": [
+   "Ir",
+   "Fe",
+   "In",
+   "I"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "science",
+  "text": "What does DNA stand for?",
+  "options": [
+   "Dinitrogen acid",
+   "Dual nucleic atom",
+   "Deoxyribonucleic acid",
+   "Deoxyribose nitrate"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 8
+ },
+ {
+  "category": "science",
+  "text": "Which organ pumps blood around the body?",
+  "options": [
+   "Kidney",
+   "Stomach",
+   "Spleen",
+   "Heart"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 8
+ },
+ {
+  "category": "science",
+  "text": "What is the unit of electrical resistance?",
+  "options": [
+   "Ohm",
+   "Volt",
+   "Watt",
+   "Ampere"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "science",
+  "text": "Which planet is famous for its bright rings?",
+  "options": [
+   "Mars",
+   "Saturn",
+   "Mercury",
+   "Venus"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "science",
+  "text": "What is it called when liquid water turns to vapor at its surface?",
+  "options": [
+   "Condensation",
+   "Precipitation",
+   "Evaporation",
+   "Freezing"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 8
+ },
+ {
+  "category": "science",
+  "text": "What is the name of Earth's natural satellite?",
+  "options": [
+   "Phobos",
+   "Titan",
+   "Europa",
+   "The Moon"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 8
+ },
+ {
+  "category": "science",
+  "text": "What is the atomic number of hydrogen?",
+  "options": [
+   "1",
+   "2",
+   "8",
+   "0"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "science",
+  "text": "Which type of rock forms from cooled magma or lava?",
+  "options": [
+   "Sedimentary",
+   "Igneous",
+   "Metamorphic",
+   "Fossil"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "science",
+  "text": "What is the SI unit of force?",
+  "options": [
+   "Joule",
+   "Pascal",
+   "Newton",
+   "Watt"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 8
+ },
+ {
+  "category": "science",
+  "text": "Which part of a plant absorbs water from the soil?",
+  "options": [
+   "Leaves",
+   "Flowers",
+   "Petals",
+   "Roots"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 8
+ },
+ {
+  "category": "science",
+  "text": "What is the most abundant element in the universe?",
+  "options": [
+   "Hydrogen",
+   "Oxygen",
+   "Carbon",
+   "Helium"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "science",
+  "text": "What is the scientific study of earthquakes called?",
+  "options": [
+   "Volcanology",
+   "Seismology",
+   "Hydrology",
+   "Ecology"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "pop",
+  "text": "Who is known as the 'Queen of Pop'?",
+  "options": [
+   "Madonna",
+   "Adele",
+   "Rihanna",
+   "Shakira"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "pop",
+  "text": "Who played Jack Dawson in 'Titanic'?",
+  "options": [
+   "Brad Pitt",
+   "Leonardo DiCaprio",
+   "Tom Cruise",
+   "Johnny Depp"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "pop",
+  "text": "Which Pixar film follows a clownfish searching for his son?",
+  "options": [
+   "Shark Tale",
+   "Moana",
+   "Finding Nemo",
+   "Luca"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 8
+ },
+ {
+  "category": "pop",
+  "text": "Which country is the TV series 'Squid Game' from?",
+  "options": [
+   "Japan",
+   "China",
+   "Thailand",
+   "South Korea"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 8
+ },
+ {
+  "category": "pop",
+  "text": "Who sang 'Shape of You'?",
+  "options": [
+   "Ed Sheeran",
+   "Justin Bieber",
+   "Bruno Mars",
+   "Sam Smith"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "pop",
+  "text": "Which franchise features the school Hogwarts?",
+  "options": [
+   "Narnia",
+   "Harry Potter",
+   "Percy Jackson",
+   "Twilight"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "pop",
+  "text": "Who is the hero of the film 'Black Panther'?",
+  "options": [
+   "Thanos",
+   "Loki",
+   "T'Challa",
+   "Bucky Barnes"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 8
+ },
+ {
+  "category": "pop",
+  "text": "Which footballer is nicknamed 'CR7'?",
+  "options": [
+   "Lionel Messi",
+   "Neymar",
+   "Kylian Mbappé",
+   "Cristiano Ronaldo"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 8
+ },
+ {
+  "category": "pop",
+  "text": "Which Nigerian singer is nicknamed the 'African Giant'?",
+  "options": [
+   "Burna Boy",
+   "Wizkid",
+   "Davido",
+   "Rema"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "pop",
+  "text": "Which video game series stars Mario and Luigi?",
+  "options": [
+   "Sonic the Hedgehog",
+   "Super Mario Bros.",
+   "Pac-Man",
+   "Tetris"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "pop",
+  "text": "Which company makes the PlayStation?",
+  "options": [
+   "Nintendo",
+   "Microsoft",
+   "Sony",
+   "Sega"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 8
+ },
+ {
+  "category": "pop",
+  "text": "Who sang 'Thriller'?",
+  "options": [
+   "Prince",
+   "Elvis Presley",
+   "Usher",
+   "Michael Jackson"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 8
+ },
+ {
+  "category": "pop",
+  "text": "Which actor plays Iron Man in the Marvel films?",
+  "options": [
+   "Robert Downey Jr.",
+   "Chris Evans",
+   "Chris Hemsworth",
+   "Mark Ruffalo"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "pop",
+  "text": "Which Disney film features the song 'Let It Go'?",
+  "options": [
+   "Tangled",
+   "Frozen",
+   "Moana",
+   "Encanto"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "pop",
+  "text": "Which Kenyan-born actress won an Oscar for '12 Years a Slave'?",
+  "options": [
+   "Viola Davis",
+   "Octavia Spencer",
+   "Lupita Nyong'o",
+   "Gabrielle Union"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 8
+ },
+ {
+  "category": "pop",
+  "text": "Which app is known for short videos and the 'For You' page?",
+  "options": [
+   "LinkedIn",
+   "Pinterest",
+   "Skype",
+   "TikTok"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 8
+ },
+ {
+  "category": "pop",
+  "text": "Who wrote the Harry Potter books?",
+  "options": [
+   "J.K. Rowling",
+   "Stephen King",
+   "Suzanne Collins",
+   "Roald Dahl"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "pop",
+  "text": "Harry Styles first became famous in which band?",
+  "options": [
+   "Coldplay",
+   "One Direction",
+   "Maroon 5",
+   "Jonas Brothers"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "pop",
+  "text": "In 'The Lion King', what is Simba's father called?",
+  "options": [
+   "Scar",
+   "Rafiki",
+   "Mufasa",
+   "Zazu"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 8
+ },
+ {
+  "category": "pop",
+  "text": "Which TV series features dragons and the Iron Throne?",
+  "options": [
+   "The Witcher",
+   "Vikings",
+   "Lost",
+   "Game of Thrones"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 8
+ },
+ {
+  "category": "pop",
+  "text": "Which Kenyan band is known for the hit 'Suzanna'?",
+  "options": [
+   "Sauti Sol",
+   "Just a Band",
+   "Elani",
+   "Mshale"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "pop",
+  "text": "Who is the lead singer of Coldplay?",
+  "options": [
+   "Bono",
+   "Chris Martin",
+   "Adam Levine",
+   "Brandon Flowers"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "pop",
+  "text": "Which film features the line 'I'll be back'?",
+  "options": [
+   "Rocky",
+   "Die Hard",
+   "The Terminator",
+   "Predator"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 8
+ },
+ {
+  "category": "pop",
+  "text": "Which sport is Serena Williams famous for?",
+  "options": [
+   "Golf",
+   "Swimming",
+   "Athletics",
+   "Tennis"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 8
+ },
+ {
+  "category": "pop",
+  "text": "Which streaming company produced 'Stranger Things'?",
+  "options": [
+   "Netflix",
+   "Disney+",
+   "HBO",
+   "Hulu"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "pop",
+  "text": "Which Hogwarts house is represented by a lion?",
+  "options": [
+   "Slytherin",
+   "Gryffindor",
+   "Ravenclaw",
+   "Hufflepuff"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "pop",
+  "text": "Which singer released 'Blinding Lights'?",
+  "options": [
+   "Drake",
+   "Post Malone",
+   "The Weeknd",
+   "Bruno Mars"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 8
+ },
+ {
+  "category": "pop",
+  "text": "Which Marvel hero is known for his vibranium shield?",
+  "options": [
+   "Hulk",
+   "Hawkeye",
+   "Thor",
+   "Captain America"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 8
+ },
+ {
+  "category": "pop",
+  "text": "Which film won Best Picture at the 2020 Oscars?",
+  "options": [
+   "Parasite",
+   "1917",
+   "Joker",
+   "Ford v Ferrari"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "pop",
+  "text": "What is Nigeria's film industry commonly called?",
+  "options": [
+   "Bollywood",
+   "Nollywood",
+   "Hollywood",
+   "Gollywood"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "history",
+  "text": "Who was the first person to walk on the Moon?",
+  "options": [
+   "Neil Armstrong",
+   "Buzz Aldrin",
+   "Yuri Gagarin",
+   "John Glenn"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "history",
+  "text": "Which ancient wonder still stands in Egypt?",
+  "options": [
+   "The Colosseum",
+   "The Great Pyramid of Giza",
+   "The Parthenon",
+   "The Hanging Gardens"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "history",
+  "text": "In which year did humans first land on the Moon?",
+  "options": [
+   "1959",
+   "1972",
+   "1969",
+   "1965"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 8
+ },
+ {
+  "category": "history",
+  "text": "Who was the first President of the United States?",
+  "options": [
+   "Abraham Lincoln",
+   "Thomas Jefferson",
+   "John Adams",
+   "George Washington"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 8
+ },
+ {
+  "category": "history",
+  "text": "Who led India's nonviolent independence movement?",
+  "options": [
+   "Mahatma Gandhi",
+   "Jawaharlal Nehru",
+   "Subhas Chandra Bose",
+   "Sardar Patel"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "history",
+  "text": "Which ship sank in 1912 after hitting an iceberg?",
+  "options": [
+   "Lusitania",
+   "Titanic",
+   "Bismarck",
+   "Mayflower"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "history",
+  "text": "Who was South Africa's first democratically elected president?",
+  "options": [
+   "Thabo Mbeki",
+   "F. W. de Klerk",
+   "Nelson Mandela",
+   "Jacob Zuma"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 8
+ },
+ {
+  "category": "history",
+  "text": "In which year did the French Revolution begin?",
+  "options": [
+   "1689",
+   "1799",
+   "1815",
+   "1789"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 8
+ },
+ {
+  "category": "history",
+  "text": "Which empire built the Colosseum?",
+  "options": [
+   "Roman",
+   "Greek",
+   "Ottoman",
+   "Persian"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "history",
+  "text": "Which Egyptian queen allied with Mark Antony?",
+  "options": [
+   "Nefertiti",
+   "Cleopatra",
+   "Hatshepsut",
+   "Isis"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "history",
+  "text": "Which war was fought from 1914 to 1918?",
+  "options": [
+   "World War II",
+   "Crimean War",
+   "World War I",
+   "Korean War"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 8
+ },
+ {
+  "category": "history",
+  "text": "Who discovered penicillin?",
+  "options": [
+   "Louis Pasteur",
+   "Marie Curie",
+   "Joseph Lister",
+   "Alexander Fleming"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 8
+ },
+ {
+  "category": "history",
+  "text": "Which African country largely avoided European colonisation?",
+  "options": [
+   "Ethiopia",
+   "Kenya",
+   "Nigeria",
+   "Ghana"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "history",
+  "text": "Which Kenyan freedom fighter led the Mau Mau forest fighters?",
+  "options": [
+   "Tom Mboya",
+   "Dedan Kimathi",
+   "Oginga Odinga",
+   "Pio Gama Pinto"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "history",
+  "text": "In which year did Kenya become a republic?",
+  "options": [
+   "1963",
+   "1969",
+   "1964",
+   "1978"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 8
+ },
+ {
+  "category": "history",
+  "text": "Who was the first female Prime Minister of the UK?",
+  "options": [
+   "Theresa May",
+   "Liz Truss",
+   "Angela Merkel",
+   "Margaret Thatcher"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 8
+ },
+ {
+  "category": "history",
+  "text": "The Great Wall of China was mainly built to defend against invaders from which direction?",
+  "options": [
+   "North",
+   "South",
+   "West",
+   "East"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "history",
+  "text": "Who painted the Mona Lisa?",
+  "options": [
+   "Michelangelo",
+   "Leonardo da Vinci",
+   "Raphael",
+   "Vincent van Gogh"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "history",
+  "text": "Genghis Khan founded which empire?",
+  "options": [
+   "Ottoman Empire",
+   "Persian Empire",
+   "Mongol Empire",
+   "Byzantine Empire"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 8
+ },
+ {
+  "category": "history",
+  "text": "Which treaty formally ended World War I with Germany?",
+  "options": [
+   "Treaty of Paris",
+   "Treaty of Tordesillas",
+   "Treaty of Vienna",
+   "Treaty of Versailles"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 8
+ },
+ {
+  "category": "history",
+  "text": "Who was US President during the American Civil War?",
+  "options": [
+   "Abraham Lincoln",
+   "Ulysses S. Grant",
+   "Andrew Jackson",
+   "Theodore Roosevelt"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "history",
+  "text": "Which Kenyan woman won the Nobel Peace Prize in 2004?",
+  "options": [
+   "Grace Ogot",
+   "Wangari Maathai",
+   "Charity Ngilu",
+   "Lupita Nyong'o"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "history",
+  "text": "The Industrial Revolution began in which country?",
+  "options": [
+   "France",
+   "Germany",
+   "Britain",
+   "United States"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 8
+ },
+ {
+  "category": "history",
+  "text": "Which country gave the Statue of Liberty to the US?",
+  "options": [
+   "Britain",
+   "Spain",
+   "Italy",
+   "France"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 8
+ },
+ {
+  "category": "history",
+  "text": "Which Roman city was buried by Mount Vesuvius in 79 AD?",
+  "options": [
+   "Pompeii",
+   "Athens",
+   "Carthage",
+   "Troy"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "history",
+  "text": "Who was the first Emperor of Rome?",
+  "options": [
+   "Julius Caesar",
+   "Augustus",
+   "Nero",
+   "Caligula"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "history",
+  "text": "Which Ethiopian emperor ruled until 1974?",
+  "options": [
+   "Menelik II",
+   "Tewodros II",
+   "Haile Selassie",
+   "Yohannes IV"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 8
+ },
+ {
+  "category": "history",
+  "text": "What was the first artificial satellite, launched in 1957?",
+  "options": [
+   "Explorer 1",
+   "Vostok 1",
+   "Apollo 1",
+   "Sputnik 1"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 8
+ },
+ {
+  "category": "history",
+  "text": "In which year did the Soviet Union dissolve?",
+  "options": [
+   "1991",
+   "1989",
+   "1985",
+   "1993"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "history",
+  "text": "Which ancient Greek city-state was famous for its warriors?",
+  "options": [
+   "Athens",
+   "Sparta",
+   "Corinth",
+   "Thebes"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "anime",
+  "text": "Who is the main character of 'Naruto'?",
+  "options": [
+   "Naruto Uzumaki",
+   "Sasuke Uchiha",
+   "Kakashi Hatake",
+   "Itachi Uchiha"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "anime",
+  "text": "Who is the captain of the Straw Hat Pirates?",
+  "options": [
+   "Roronoa Zoro",
+   "Monkey D. Luffy",
+   "Sanji",
+   "Portgas D. Ace"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "anime",
+  "text": "Which anime features a notebook that kills anyone whose name is written in it?",
+  "options": [
+   "Code Geass",
+   "Bleach",
+   "Death Note",
+   "Monster"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 8
+ },
+ {
+  "category": "anime",
+  "text": "In 'Attack on Titan', what are the giant humanoid creatures called?",
+  "options": [
+   "Giants",
+   "Colossi",
+   "Jotuns",
+   "Titans"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 8
+ },
+ {
+  "category": "anime",
+  "text": "Which anime stars Tanjiro Kamado?",
+  "options": [
+   "Demon Slayer",
+   "Jujutsu Kaisen",
+   "Bleach",
+   "Black Clover"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "anime",
+  "text": "Who is the main character of 'My Hero Academia'?",
+  "options": [
+   "Katsuki Bakugo",
+   "Izuku Midoriya",
+   "Shoto Todoroki",
+   "All Might"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "anime",
+  "text": "Which studio animated 'Spirited Away'?",
+  "options": [
+   "Pixar",
+   "Madhouse",
+   "Studio Ghibli",
+   "Bones"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 8
+ },
+ {
+  "category": "anime",
+  "text": "What type is Pikachu?",
+  "options": [
+   "Fire",
+   "Water",
+   "Grass",
+   "Electric"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 8
+ },
+ {
+  "category": "anime",
+  "text": "What are the Elric brothers seeking in 'Fullmetal Alchemist'?",
+  "options": [
+   "The Philosopher's Stone",
+   "The Dragon Balls",
+   "The Soul Gem",
+   "The Triforce"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "anime",
+  "text": "What is Ichigo Kurosaki in 'Bleach'?",
+  "options": [
+   "A Saiyan",
+   "A Soul Reaper",
+   "A ninja",
+   "An alchemist"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "anime",
+  "text": "What is the Hidden Leaf Village called in 'Naruto'?",
+  "options": [
+   "Suna",
+   "Kiri",
+   "Konoha",
+   "Iwa"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 8
+ },
+ {
+  "category": "anime",
+  "text": "What do you collect to summon Shenron in 'Dragon Ball'?",
+  "options": [
+   "Infinity Stones",
+   "Chaos Emeralds",
+   "Poké Balls",
+   "Dragon Balls"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 8
+ },
+ {
+  "category": "anime",
+  "text": "Which anime features the Survey Corps?",
+  "options": [
+   "Attack on Titan",
+   "Fairy Tail",
+   "Haikyuu!!",
+   "Tokyo Ghoul"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "anime",
+  "text": "Which sport is played in 'Haikyuu!!'?",
+  "options": [
+   "Basketball",
+   "Volleyball",
+   "Tennis",
+   "Soccer"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "anime",
+  "text": "Who is the main character of 'Jujutsu Kaisen'?",
+  "options": [
+   "Satoru Gojo",
+   "Megumi Fushiguro",
+   "Yuji Itadori",
+   "Nobara Kugisaki"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 8
+ },
+ {
+  "category": "anime",
+  "text": "What is the telepathic girl in 'Spy x Family' called?",
+  "options": [
+   "Yor Forger",
+   "Becky Blackbell",
+   "Sylvia Sherwood",
+   "Anya Forger"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 8
+ },
+ {
+  "category": "anime",
+  "text": "What kind of creature is Totoro?",
+  "options": [
+   "A forest spirit",
+   "A robot",
+   "A ghost child",
+   "A fox"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "anime",
+  "text": "Who is the main character of 'Sword Art Online'?",
+  "options": [
+   "Asuna",
+   "Kirito",
+   "Klein",
+   "Eugeo"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "anime",
+  "text": "Who is the protagonist of 'Tokyo Ghoul'?",
+  "options": [
+   "Touka Kirishima",
+   "Hide Nagachika",
+   "Ken Kaneki",
+   "Juuzou Suzuya"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 8
+ },
+ {
+  "category": "anime",
+  "text": "What kind of Dragon Slayer is Natsu in 'Fairy Tail'?",
+  "options": [
+   "Water",
+   "Iron",
+   "Sky",
+   "Fire"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 8
+ },
+ {
+  "category": "anime",
+  "text": "Who is the hero of 'One Punch Man'?",
+  "options": [
+   "Saitama",
+   "Genos",
+   "Garou",
+   "Mumen Rider"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "anime",
+  "text": "Which anime features the 'Gotei 13'?",
+  "options": [
+   "Naruto",
+   "Bleach",
+   "Fairy Tail",
+   "Black Clover"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "anime",
+  "text": "What is Gon's main goal in 'Hunter x Hunter'?",
+  "options": [
+   "Become Hokage",
+   "Collect the Dragon Balls",
+   "Find his father, Ging",
+   "Become Pirate King"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 8
+ },
+ {
+  "category": "anime",
+  "text": "What is Tanjiro's sister Nezuko turned into?",
+  "options": [
+   "A vampire",
+   "A ghost",
+   "A dragon",
+   "A demon"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 8
+ },
+ {
+  "category": "anime",
+  "text": "Who directed the 2016 film 'Your Name'?",
+  "options": [
+   "Makoto Shinkai",
+   "Hayao Miyazaki",
+   "Mamoru Hosoda",
+   "Satoshi Kon"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "anime",
+  "text": "Which shinigami in 'Death Note' loves apples?",
+  "options": [
+   "Rem",
+   "Ryuk",
+   "Light",
+   "L"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "anime",
+  "text": "Who is the Pokémon Professor from Pallet Town?",
+  "options": [
+   "Professor Elm",
+   "Professor Birch",
+   "Professor Oak",
+   "Professor Rowan"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 8
+ },
+ {
+  "category": "anime",
+  "text": "Who leads the Black Knights in 'Code Geass'?",
+  "options": [
+   "Suzaku Kururugi",
+   "C.C.",
+   "Kallen Stadtfeld",
+   "Lelouch Lamperouge"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 8
+ },
+ {
+  "category": "anime",
+  "text": "Who is the protagonist of 'Chainsaw Man'?",
+  "options": [
+   "Denji",
+   "Aki Hayakawa",
+   "Power",
+   "Makima"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "anime",
+  "text": "Who is the protagonist of 'Black Clover'?",
+  "options": [
+   "Yuno",
+   "Asta",
+   "Noelle Silva",
+   "Yami Sukehiro"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "geography",
+  "text": "What is the capital of Australia?",
+  "options": [
+   "Sydney",
+   "Canberra",
+   "Melbourne",
+   "Perth"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "geography",
+  "text": "Which is the longest river in Africa?",
+  "options": [
+   "The Congo",
+   "The Niger",
+   "The Nile",
+   "The Zambezi"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 8
+ },
+ {
+  "category": "geography",
+  "text": "Which is the largest country in the world by area?",
+  "options": [
+   "Canada",
+   "China",
+   "United States",
+   "Russia"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 8
+ },
+ {
+  "category": "geography",
+  "text": "In which country is Mount Kilimanjaro?",
+  "options": [
+   "Tanzania",
+   "Kenya",
+   "Uganda",
+   "Ethiopia"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "geography",
+  "text": "Which is the largest ocean on Earth?",
+  "options": [
+   "Atlantic Ocean",
+   "Pacific Ocean",
+   "Indian Ocean",
+   "Arctic Ocean"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "geography",
+  "text": "What is the capital of Japan?",
+  "options": [
+   "Kyoto",
+   "Osaka",
+   "Tokyo",
+   "Seoul"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 8
+ },
+ {
+  "category": "geography",
+  "text": "Which is the largest lake in Africa by area?",
+  "options": [
+   "Lake Tanganyika",
+   "Lake Turkana",
+   "Lake Malawi",
+   "Lake Victoria"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 8
+ },
+ {
+  "category": "geography",
+  "text": "On which continent is the Sahara Desert?",
+  "options": [
+   "Africa",
+   "Asia",
+   "Australia",
+   "South America"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "geography",
+  "text": "What is the capital of Ghana?",
+  "options": [
+   "Kumasi",
+   "Accra",
+   "Lagos",
+   "Abuja"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "geography",
+  "text": "Which country contains the largest share of the Amazon rainforest?",
+  "options": [
+   "Peru",
+   "Colombia",
+   "Brazil",
+   "Bolivia"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 8
+ },
+ {
+  "category": "geography",
+  "text": "What is the capital of Egypt?",
+  "options": [
+   "Alexandria",
+   "Giza",
+   "Luxor",
+   "Cairo"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 8
+ },
+ {
+  "category": "geography",
+  "text": "Which is the smallest continent by land area?",
+  "options": [
+   "Australia / Oceania",
+   "Europe",
+   "Antarctica",
+   "South America"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "geography",
+  "text": "What is the capital of Brazil?",
+  "options": [
+   "Rio de Janeiro",
+   "Brasília",
+   "São Paulo",
+   "Salvador"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "geography",
+  "text": "Which African country is the largest by area?",
+  "options": [
+   "DR Congo",
+   "Sudan",
+   "Algeria",
+   "Libya"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 8
+ },
+ {
+  "category": "geography",
+  "text": "Which sea separates southern Europe from North Africa?",
+  "options": [
+   "Red Sea",
+   "Black Sea",
+   "Baltic Sea",
+   "Mediterranean Sea"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 8
+ },
+ {
+  "category": "geography",
+  "text": "What is the capital of Canada?",
+  "options": [
+   "Ottawa",
+   "Toronto",
+   "Vancouver",
+   "Montreal"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "geography",
+  "text": "Which river flows through London?",
+  "options": [
+   "The Seine",
+   "The Thames",
+   "The Danube",
+   "The Rhine"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "geography",
+  "text": "Which country is shaped like a boot?",
+  "options": [
+   "Greece",
+   "Portugal",
+   "Italy",
+   "Spain"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 8
+ },
+ {
+  "category": "geography",
+  "text": "What is the highest mountain above sea level?",
+  "options": [
+   "K2",
+   "Kilimanjaro",
+   "Denali",
+   "Mount Everest"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 8
+ },
+ {
+  "category": "geography",
+  "text": "What is the capital of Ethiopia?",
+  "options": [
+   "Addis Ababa",
+   "Asmara",
+   "Nairobi",
+   "Khartoum"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "sports",
+  "text": "How many players does one football (soccer) team have on the pitch?",
+  "options": [
+   "9",
+   "11",
+   "10",
+   "12"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "sports",
+  "text": "Which country hosted the 2022 FIFA World Cup?",
+  "options": [
+   "Russia",
+   "Brazil",
+   "Qatar",
+   "Germany"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 8
+ },
+ {
+  "category": "sports",
+  "text": "Which country won the 2022 FIFA World Cup?",
+  "options": [
+   "France",
+   "Croatia",
+   "Brazil",
+   "Argentina"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 8
+ },
+ {
+  "category": "sports",
+  "text": "Which sport uses a shuttlecock?",
+  "options": [
+   "Badminton",
+   "Tennis",
+   "Squash",
+   "Table tennis"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "sports",
+  "text": "How many rings are on the Olympic flag?",
+  "options": [
+   "4",
+   "5",
+   "6",
+   "7"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "sports",
+  "text": "In which sport do you score a 'birdie'?",
+  "options": [
+   "Cricket",
+   "Rugby",
+   "Golf",
+   "Baseball"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 8
+ },
+ {
+  "category": "sports",
+  "text": "David Rudisha is famous for which event?",
+  "options": [
+   "100 metres",
+   "Marathon",
+   "Long jump",
+   "800 metres"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 8
+ },
+ {
+  "category": "sports",
+  "text": "How many points is a touchdown worth in American football?",
+  "options": [
+   "6",
+   "7",
+   "3",
+   "5"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "sports",
+  "text": "How many points is a shot from behind the arc worth in basketball?",
+  "options": [
+   "2",
+   "3",
+   "4",
+   "1"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "sports",
+  "text": "In which city is the Wimbledon tennis championship played?",
+  "options": [
+   "Paris",
+   "New York",
+   "London",
+   "Melbourne"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 8
+ },
+ {
+  "category": "sports",
+  "text": "Who holds the men's 100m world record of 9.58 seconds?",
+  "options": [
+   "Tyson Gay",
+   "Yohan Blake",
+   "Justin Gatlin",
+   "Usain Bolt"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 8
+ },
+ {
+  "category": "sports",
+  "text": "How long is a marathon?",
+  "options": [
+   "42.195 km",
+   "40 km",
+   "21.1 km",
+   "50 km"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "sports",
+  "text": "How many players does one basketball team have on court?",
+  "options": [
+   "6",
+   "5",
+   "7",
+   "4"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "sports",
+  "text": "Which country is the birthplace of cricket?",
+  "options": [
+   "Australia",
+   "India",
+   "England",
+   "South Africa"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 8
+ },
+ {
+  "category": "sports",
+  "text": "In which sport is the Masters tournament at Augusta played?",
+  "options": [
+   "Tennis",
+   "Polo",
+   "Cricket",
+   "Golf"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 8
+ },
+ {
+  "category": "sports",
+  "text": "Which Kenyan town is known as the 'Home of Champions'?",
+  "options": [
+   "Iten",
+   "Nakuru",
+   "Mombasa",
+   "Kisumu"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "sports",
+  "text": "How long is a standard football match, without extra time?",
+  "options": [
+   "80 minutes",
+   "90 minutes",
+   "100 minutes",
+   "60 minutes"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "sports",
+  "text": "Which boxer called himself 'The Greatest'?",
+  "options": [
+   "Mike Tyson",
+   "Floyd Mayweather",
+   "Muhammad Ali",
+   "George Foreman"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 8
+ },
+ {
+  "category": "sports",
+  "text": "In tennis, what is a score of zero called?",
+  "options": [
+   "Nil",
+   "Zero",
+   "Duck",
+   "Love"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 8
+ },
+ {
+  "category": "sports",
+  "text": "Which country won the first FIFA World Cup in 1930?",
+  "options": [
+   "Uruguay",
+   "Brazil",
+   "Argentina",
+   "Italy"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "music",
+  "text": "How many strings does a standard guitar have?",
+  "options": [
+   "4",
+   "6",
+   "5",
+   "8"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "music",
+  "text": "Who is known as the 'King of Pop'?",
+  "options": [
+   "Elvis Presley",
+   "Prince",
+   "Michael Jackson",
+   "Justin Timberlake"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 8
+ },
+ {
+  "category": "music",
+  "text": "Which instrument has black and white keys?",
+  "options": [
+   "Violin",
+   "Flute",
+   "Drum",
+   "Piano"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 8
+ },
+ {
+  "category": "music",
+  "text": "Which Tanzanian artist sang 'Jeje'?",
+  "options": [
+   "Diamond Platnumz",
+   "Harmonize",
+   "Ali Kiba",
+   "Rayvanny"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "music",
+  "text": "Which band recorded 'Hey Jude'?",
+  "options": [
+   "Queen",
+   "The Beatles",
+   "ABBA",
+   "The Who"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "music",
+  "text": "What does 'DJ' stand for?",
+  "options": [
+   "Digital Jam",
+   "Dance Judge",
+   "Disc Jockey",
+   "Drum Jockey"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 8
+ },
+ {
+  "category": "music",
+  "text": "Which music genre began in Jamaica?",
+  "options": [
+   "Jazz",
+   "Country",
+   "Blues",
+   "Reggae"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 8
+ },
+ {
+  "category": "music",
+  "text": "Who sang 'Waka Waka (This Time for Africa)'?",
+  "options": [
+   "Shakira",
+   "Beyoncé",
+   "Rihanna",
+   "Jennifer Lopez"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "music",
+  "text": "The Luo 'nyatiti' is what kind of instrument?",
+  "options": [
+   "A drum",
+   "A string instrument (lyre)",
+   "A flute",
+   "A horn"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "music",
+  "text": "Which artist sang 'Rolling in the Deep'?",
+  "options": [
+   "Beyoncé",
+   "Lady Gaga",
+   "Adele",
+   "Taylor Swift"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 8
+ },
+ {
+  "category": "music",
+  "text": "How many keys does a full-size piano have?",
+  "options": [
+   "76",
+   "61",
+   "100",
+   "88"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 8
+ },
+ {
+  "category": "music",
+  "text": "Which musical term means 'loud'?",
+  "options": [
+   "Forte",
+   "Piano",
+   "Allegro",
+   "Adagio"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "music",
+  "text": "Who featured on 'Uptown Funk' with Mark Ronson?",
+  "options": [
+   "Ed Sheeran",
+   "Bruno Mars",
+   "Justin Timberlake",
+   "John Legend"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "music",
+  "text": "Which Nigerian star sang 'Essence' with Tems?",
+  "options": [
+   "Burna Boy",
+   "Davido",
+   "Wizkid",
+   "Rema"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 8
+ },
+ {
+  "category": "music",
+  "text": "A Stradivarius is a famous type of which instrument?",
+  "options": [
+   "Guitar",
+   "Piano",
+   "Trumpet",
+   "Violin"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 8
+ },
+ {
+  "category": "music",
+  "text": "Who sang 'Love Me Like You Do'?",
+  "options": [
+   "Ellie Goulding",
+   "Selena Gomez",
+   "Ariana Grande",
+   "Dua Lipa"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "music",
+  "text": "Which country does K-pop come from?",
+  "options": [
+   "Japan",
+   "South Korea",
+   "China",
+   "Thailand"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "music",
+  "text": "What is a group of four singers or players called?",
+  "options": [
+   "Trio",
+   "Quintet",
+   "Quartet",
+   "Duet"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 8
+ },
+ {
+  "category": "music",
+  "text": "Which rapper's real name is Marshall Mathers?",
+  "options": [
+   "Jay-Z",
+   "Drake",
+   "Kendrick Lamar",
+   "Eminem"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 8
+ },
+ {
+  "category": "music",
+  "text": "Which West African drum is known as the 'talking drum'?",
+  "options": [
+   "Dundun",
+   "Djembe",
+   "Conga",
+   "Bongo"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "nature",
+  "text": "What is the largest land animal?",
+  "options": [
+   "Giraffe",
+   "African elephant",
+   "Rhino",
+   "Hippo"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "nature",
+  "text": "What is the fastest land animal?",
+  "options": [
+   "Lion",
+   "Leopard",
+   "Cheetah",
+   "Gazelle"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 8
+ },
+ {
+  "category": "nature",
+  "text": "Which animal is nicknamed the 'King of the Jungle'?",
+  "options": [
+   "Tiger",
+   "Elephant",
+   "Gorilla",
+   "Lion"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 8
+ },
+ {
+  "category": "nature",
+  "text": "How many legs does a spider have?",
+  "options": [
+   "8",
+   "6",
+   "10",
+   "4"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "nature",
+  "text": "Which is the tallest animal?",
+  "options": [
+   "Elephant",
+   "Giraffe",
+   "Ostrich",
+   "Camel"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "nature",
+  "text": "What is a baby kangaroo called?",
+  "options": [
+   "Cub",
+   "Calf",
+   "Joey",
+   "Pup"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 8
+ },
+ {
+  "category": "nature",
+  "text": "Which is the largest living bird?",
+  "options": [
+   "Emu",
+   "Penguin",
+   "Kiwi",
+   "Ostrich"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 8
+ },
+ {
+  "category": "nature",
+  "text": "Which mammal lays eggs?",
+  "options": [
+   "Platypus",
+   "Bat",
+   "Dolphin",
+   "Kangaroo"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "nature",
+  "text": "Which Kenyan reserve is famous for the Great Migration?",
+  "options": [
+   "Amboseli",
+   "Maasai Mara",
+   "Tsavo",
+   "Samburu"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "nature",
+  "text": "Which lake in Nakuru County is famous for its flamingos?",
+  "options": [
+   "Lake Naivasha",
+   "Lake Turkana",
+   "Lake Nakuru",
+   "Lake Magadi"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 8
+ },
+ {
+  "category": "nature",
+  "text": "Which gas do trees release during photosynthesis?",
+  "options": [
+   "Carbon dioxide",
+   "Methane",
+   "Nitrogen",
+   "Oxygen"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 8
+ },
+ {
+  "category": "nature",
+  "text": "Which is the largest animal in the ocean?",
+  "options": [
+   "Blue whale",
+   "Great white shark",
+   "Orca",
+   "Giant squid"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "nature",
+  "text": "How many hearts does an octopus have?",
+  "options": [
+   "1",
+   "3",
+   "2",
+   "8"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "nature",
+  "text": "What do giant pandas mainly eat?",
+  "options": [
+   "Fish",
+   "Meat",
+   "Bamboo",
+   "Fruit"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 8
+ },
+ {
+  "category": "nature",
+  "text": "Which insect produces silk?",
+  "options": [
+   "Bee",
+   "Ant",
+   "Beetle",
+   "Silkworm"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 8
+ },
+ {
+  "category": "nature",
+  "text": "Which animal is NOT one of Africa's 'Big Five'?",
+  "options": [
+   "Giraffe",
+   "Lion",
+   "Buffalo",
+   "Leopard"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "nature",
+  "text": "Which habitat has the most biodiversity?",
+  "options": [
+   "Desert",
+   "Tropical rainforest",
+   "Tundra",
+   "Grassland"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "nature",
+  "text": "What is a group of lions called?",
+  "options": [
+   "A pack",
+   "A herd",
+   "A pride",
+   "A flock"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 8
+ },
+ {
+  "category": "nature",
+  "text": "Which animal hibernates in winter?",
+  "options": [
+   "Zebra",
+   "Lion",
+   "Camel",
+   "Bear"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 8
+ },
+ {
+  "category": "nature",
+  "text": "Which is the largest species of big cat?",
+  "options": [
+   "Tiger",
+   "Lion",
+   "Jaguar",
+   "Leopard"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "kenya",
+  "text": "What is the capital of Kenya?",
+  "options": [
+   "Mombasa",
+   "Nairobi",
+   "Kisumu",
+   "Nakuru"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "kenya",
+  "text": "What is the highest mountain in Kenya?",
+  "options": [
+   "Mount Elgon",
+   "Mount Longonot",
+   "Mount Kenya",
+   "The Aberdares"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 8
+ },
+ {
+  "category": "kenya",
+  "text": "What is the currency of Kenya?",
+  "options": [
+   "Rand",
+   "Birr",
+   "Dollar",
+   "Kenyan shilling"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 8
+ },
+ {
+  "category": "kenya",
+  "text": "What are Kenya's official languages?",
+  "options": [
+   "English and Kiswahili",
+   "English and French",
+   "Kikuyu and Luo",
+   "Arabic and Swahili"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "kenya",
+  "text": "How many counties does Kenya have?",
+  "options": [
+   "42",
+   "47",
+   "50",
+   "8"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "kenya",
+  "text": "Which Kenyan lake is the world's largest permanent desert lake?",
+  "options": [
+   "Lake Naivasha",
+   "Lake Baringo",
+   "Lake Turkana",
+   "Lake Bogoria"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 8
+ },
+ {
+  "category": "kenya",
+  "text": "Which city is Kenya's main seaport?",
+  "options": [
+   "Kisumu",
+   "Eldoret",
+   "Nyeri",
+   "Mombasa"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 8
+ },
+ {
+  "category": "kenya",
+  "text": "On which date is Jamhuri Day celebrated?",
+  "options": [
+   "12 December",
+   "1 June",
+   "20 October",
+   "1 January"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "kenya",
+  "text": "Madaraka Day on 1 June marks Kenya's attainment of what?",
+  "options": [
+   "Independence",
+   "Internal self-rule",
+   "Republic status",
+   "The new constitution"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "kenya",
+  "text": "Kenya's national anthem 'Ee Mungu Nguvu Yetu' is in which language?",
+  "options": [
+   "English",
+   "Kikuyu",
+   "Kiswahili",
+   "Luo"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 8
+ },
+ {
+  "category": "kenya",
+  "text": "Which is the largest ethnic community in Kenya?",
+  "options": [
+   "Luo",
+   "Kalenjin",
+   "Luhya",
+   "Kikuyu"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 8
+ },
+ {
+  "category": "kenya",
+  "text": "Which line of latitude passes through Kenya?",
+  "options": [
+   "The Equator",
+   "Tropic of Cancer",
+   "Tropic of Capricorn",
+   "The Arctic Circle"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "kenya",
+  "text": "What does 'Harambee' mean?",
+  "options": [
+   "Welcome",
+   "Pulling together",
+   "Freedom",
+   "Peace"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "kenya",
+  "text": "Wangari Maathai founded which movement?",
+  "options": [
+   "The Harambee Movement",
+   "The Mau Mau",
+   "The Green Belt Movement",
+   "Greenpeace Kenya"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 8
+ },
+ {
+  "category": "kenya",
+  "text": "Which railway links Mombasa and Nairobi and opened in 2017?",
+  "options": [
+   "Tazara Railway",
+   "Thika Line",
+   "Kisumu Line",
+   "Standard Gauge Railway"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 8
+ },
+ {
+  "category": "kenya",
+  "text": "What is Kenya's second largest city?",
+  "options": [
+   "Mombasa",
+   "Kisumu",
+   "Nakuru",
+   "Eldoret"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
+ },
+ {
+  "category": "kenya",
+  "text": "Which mobile money service launched in Kenya in 2007?",
+  "options": [
+   "Airtel Money",
+   "M-Pesa",
+   "T-Kash",
+   "PayPal"
+  ],
+  "correct_idx": 1,
+  "timer_seconds": 8
+ },
+ {
+  "category": "kenya",
+  "text": "Which Kenyan national park lies at the foot of Kilimanjaro?",
+  "options": [
+   "Tsavo West",
+   "Nairobi National Park",
+   "Amboseli",
+   "Aberdare"
+  ],
+  "correct_idx": 2,
+  "timer_seconds": 8
+ },
+ {
+  "category": "kenya",
+  "text": "Which crop grown in Kericho is one of Kenya's biggest exports?",
+  "options": [
+   "Coffee",
+   "Cotton",
+   "Sugar",
+   "Tea"
+  ],
+  "correct_idx": 3,
+  "timer_seconds": 8
+ },
+ {
+  "category": "kenya",
+  "text": "Which ocean borders Kenya's east coast?",
+  "options": [
+   "Indian Ocean",
+   "Atlantic Ocean",
+   "Pacific Ocean",
+   "Arctic Ocean"
+  ],
+  "correct_idx": 0,
+  "timer_seconds": 8
  }
 ]
