@@ -11,7 +11,7 @@ from app.config import settings
 from app.db import Base, SessionLocal, engine
 from app.errors import AppError
 from app.models import Question
-from app.routers import auth, game, misc, payments
+from app.routers import admin, auth, game, misc, payments
 
 
 def seed_questions() -> None:
@@ -47,5 +47,5 @@ async def app_error_handler(_: Request, e: AppError):
     return JSONResponse(status_code=e.status, content={"error": {"code": e.code, "message": e.message}})
 
 
-for r in (auth.router, payments.router, game.router, misc.router):
+for r in (auth.router, payments.router, game.router, misc.router, admin.router):
     app.include_router(r, prefix="/api/v1")
