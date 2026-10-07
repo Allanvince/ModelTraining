@@ -15,7 +15,7 @@ router = APIRouter(tags=["game"])
 
 class StartBody(BaseModel):
     category: str
-    topic: str | None = None      # no longer used; kept so older clients don't break
+    topic: str | None = None      # no longer used; kept so older clients don't break.
 
 
 class AnswerBody(BaseModel):
