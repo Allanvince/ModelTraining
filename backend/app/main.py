@@ -47,5 +47,5 @@ async def app_error_handler(_: Request, e: AppError):
     return JSONResponse(status_code=e.status, content={"error": {"code": e.code, "message": e.message}})
 
 
-for r in (auth.router, payments.router, game.router, misc.router, admin.router):
+for r in (auth.router, payments.router, game.router, misc.router, admin.router, admin.cron_router):
     app.include_router(r, prefix="/api/v1")

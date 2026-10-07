@@ -156,3 +156,12 @@ class SessionAnswer(Base):
     response_ms: Mapped[int] = mapped_column(BigInteger)
     cents: Mapped[int] = mapped_column(Integer)     # instant cash change (penalties only; corrects earn points, not cash)
     points: Mapped[int] = mapped_column(Integer, default=0)
+
+class MpesaBalance(Base):
+    """Snapshot of the M-Pesa account balances Safaricom reported for our shortcode (Account Balance API)."""
+    __tablename__ = "mpesa_balance_snapshots"
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=_uuid)
+    shortcode: Mapped[str] = mapped_column(String(20))
+    accounts: Mapped[list] = mapped_column(JSON)            # [{"name","currency","current","available"}]
+    utility_kes: Mapped[int] = mapped_column(BigInteger, default=0)   # B2C payouts are paid from this account
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=_now, index=True)

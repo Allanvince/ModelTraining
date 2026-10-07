@@ -1,3 +1,4 @@
+from pydantic import model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -15,20 +16,25 @@ class Settings(BaseSettings):
     callback_secret: str = "dev-callback-secret"      # secret path segment on webhooks
     callback_ip_allowlist: str = ""                   # comma separated; empty = off
     admin_token: str = "dev-admin-token"
+    cron_secret: str = ""                             # Vercel Cron sends "Authorization: Bearer <CRON_SECRET>"
 
     # M-Pesa / Daraja
-    mpesa_mode: str = "mock"                          # "mock" | "sandbox"
+    mpesa_mode: str = "mock"                          # "mock" | "sandbox" | "production"
     mpesa_base_url: str = "https://sandbox.safaricom.co.ke"
-    mpesa_consumer_key: str = ""
-    mpesa_consumer_secret: str = ""
-    mpesa_shortcode: str = "174379"
-    mpesa_passkey: str = ""
+    mpesa_consumer_key: str = "1wVmcuSXqlss88GYASdsSt68ziQva7FQb8Kk5ak5S4w5F6he"
+    mpesa_consumer_secret: str = "RwIM019uDXPl7HS22X6ZDwLZlCTrcZUIYZ7LDrHuAppaDGt4r77eXGLqmjxGlJgQ"
+    mpesa_shortcode: str = "7113627"                   # STK push BusinessShortCode. Buy Goods: your Head Office / store number
+    mpesa_transaction_type: str = "CustomerBuyGoodsOnline"   # Buy Goods till: "CustomerBuyGoodsOnline"
+    mpesa_party_b: str = "5074393"                           # Buy Goods: your TILL number. Empty = same as mpesa_shortcode
+    mpesa_b2c_shortcode: str = ""                     # B2C payouts come from this shortcode. Empty = mpesa_shortcode
+    mpesa_passkey: str = "32c11fc99ab90c7560b12b882fbaf7be189708917c571a40fbb3ad9cc0fad0f7"
     mpesa_initiator_name: str = "testapi"
     mpesa_initiator_password: str = ""
     mpesa_cert_path: str = ""
     mpesa_security_credential: str = ""       # optional: paste Safaricom's ready-made sandbox value directly,
                                                # skipping the .cer download + local RSA encryption entirely
     mpesa_b2c_command: str = "BusinessPayment"
+    mpesa_b2c_path: str = "/mpesa/b2c/v1/paymentrequest"   # your production approval lists v1; use /v3/ only if Safaricom enabled it
 
     # Game economics (all money is stored as integer USD cents)
     kes_per_usd: int = 130
@@ -53,6 +59,43 @@ class Settings(BaseSettings):
     llm_base_url: str = "https://api.groq.com/openai/v1"
     llm_model: str = "llama-3.3-70b-versatile"
     required_test_rounds: int = 3
+
+    @model_validator(mode="after")
+    def _safety_checks(self):
+        if self.mpesa_mode not in ("mock", "sandbox", "production"):
+            raise ValueError("MPESA_MODE must be mock, sandbox or production")
+        live_url = "api.safaricom.co.ke" in self.mpesa_base_url
+        if self.mpesa_mode == "sandbox" and live_url:
+            raise ValueError("MPESA_MODE=sandbox but MPESA_BASE_URL is the LIVE API")
+        if self.mpesa_mode == "production" and not live_url:
+            raise ValueError("MPESA_MODE=production but MPESA_BASE_URL is not https://api.safaricom.co.ke")
+        if self.dev_mode:
+            return self
+        # ---- DEV_MODE=false means "production rules": refuse to boot with anything unsafe
+        problems = [n for n, v in {"JWT_SECRET": self.jwt_secret, "ADMIN_TOKEN": self.admin_token,
+                                   "CALLBACK_SECRET": self.callback_secret}.items() if v.startswith("dev")]
+        if self.database_url.startswith("sqlite"):
+            problems.append("DATABASE_URL is SQLite")
+        if self.mpesa_mode == "mock":
+            problems.append("MPESA_MODE=mock")
+        if self.mpesa_mode == "production":
+            if not (self.mpesa_consumer_key and self.mpesa_consumer_secret and self.mpesa_passkey):
+                problems.append("missing M-Pesa consumer key/secret/passkey")
+            if self.mpesa_shortcode == "174379":
+                problems.append("MPESA_SHORTCODE is still the sandbox test shortcode")
+            if self.mpesa_transaction_type == "CustomerBuyGoodsOnline" and not self.mpesa_party_b:
+                problems.append("MPESA_PARTY_B (till number) is required for Buy Goods")
+            if self.mpesa_initiator_name == "testapi":
+                problems.append("MPESA_INITIATOR_NAME is still the sandbox value")
+            if not (self.mpesa_security_credential or (self.mpesa_cert_path and self.mpesa_initiator_password)):
+                problems.append("no B2C security credential configured")
+            if not self.cron_secret:
+                problems.append("CRON_SECRET is not set (needed for payment reconciliation)")
+            if not self.public_base_url.startswith("https://"):
+                problems.append("PUBLIC_BASE_URL must be https")
+        if problems:
+            raise ValueError("Unsafe production config: " + "; ".join(problems))
+        return self
 
 
 settings = Settings()

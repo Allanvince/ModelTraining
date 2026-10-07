@@ -3,6 +3,7 @@ import hmac
 from datetime import datetime, timedelta, timezone
 
 from fastapi import APIRouter, Depends, Header, Query
+from pydantic import BaseModel
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
@@ -10,8 +11,11 @@ from app.config import settings
 from app.db import get_db
 from app.errors import AppError
 from app.models import GameSession, Pool, Transaction, User
+from app.mpesa.daraja import get_daraja
+from app.services import payments as pay_svc
 
 router = APIRouter(prefix="/admin", tags=["admin"])
+cron_router = APIRouter(prefix="/cron", tags=["cron"])
 
 
 def require_admin(x_admin_token: str = Header(default="")) -> None:
@@ -19,6 +23,14 @@ def require_admin(x_admin_token: str = Header(default="")) -> None:
         raise AppError(503, "ADMIN_DISABLED", "Set a strong ADMIN_TOKEN in .env before using the admin dashboard.")
     if not hmac.compare_digest(x_admin_token.encode(), settings.admin_token.encode()):
         raise AppError(403, "FORBIDDEN", "Wrong admin token.")
+
+
+def require_cron(authorization: str = Header(default="")) -> None:
+    """Vercel Cron sends 'Authorization: Bearer <CRON_SECRET>' when the CRON_SECRET env var is set."""
+    if not settings.cron_secret:
+        raise AppError(503, "CRON_DISABLED", "Set CRON_SECRET to enable scheduled jobs.")
+    if not hmac.compare_digest(authorization.encode(), f"Bearer {settings.cron_secret}".encode()):
+        raise AppError(403, "FORBIDDEN", "Bad cron secret.")
 
 
 def _now() -> datetime:
@@ -136,6 +148,51 @@ def overview(days: int = Query(14, ge=7, le=60), db: Session = Depends(get_db)):
             "withdrawableCents": u.withdrawable_cents, "bestStreak": u.best_streak}
            for u in db.scalars(select(User).order_by(User.games_played.desc()).limit(10))]
 
-    return {"generatedAt": now.isoformat(), "days": days, "kesPerUsd": settings.kes_per_usd, "devMode": settings.dev_mode,
+    money["owedKes"] = int(round((wdable + reserved) * settings.kes_per_usd / 100))
+    return {"generatedAt": now.isoformat(), "mpesaBalance": pay_svc.latest_balance(db), "days": days, "kesPerUsd": settings.kes_per_usd, "devMode": settings.dev_mode,
             "users": users, "money": money, "games": games, "categories": categories, "charts": charts,
             "needsReview": review, "recentTransactions": recent, "topPlayers": top}
+
+
+# ------------------------------------------------------------------ admin actions ------------
+class StatusCheckBody(BaseModel):
+    receipt: str | None = None      # optional: M-Pesa receipt from the Org Portal statement
+
+
+class ResolveBody(BaseModel):
+    action: str                     # "complete" | "refund"
+    receipt: str | None = None
+
+
+@router.post("/withdrawals/{tx_id}/check-status", dependencies=[Depends(require_admin)])
+def check_status(tx_id: str, body: StatusCheckBody, db: Session = Depends(get_db), daraja=Depends(get_daraja)):
+    tx = pay_svc.request_withdrawal_status_check(db, tx_id, daraja, body.receipt)
+    return {"ok": True, "note": tx.result_desc}
+
+
+@router.post("/withdrawals/{tx_id}/resolve", dependencies=[Depends(require_admin)])
+def resolve(tx_id: str, body: ResolveBody, db: Session = Depends(get_db)):
+    return {"ok": True, "result": pay_svc.manual_resolve_withdrawal(db, tx_id, body.action, body.receipt)}
+
+
+@router.post("/mpesa-balance/refresh", dependencies=[Depends(require_admin)])
+def refresh_balance(db: Session = Depends(get_db), daraja=Depends(get_daraja)):
+    return {"ok": True, "result": pay_svc.request_balance(db, daraja)}
+
+
+@router.post("/reconcile", dependencies=[Depends(require_admin)])
+def reconcile_now(db: Session = Depends(get_db), daraja=Depends(get_daraja)):
+    return {"deposits": pay_svc.reconcile_pending_deposits(db, daraja),
+            "withdrawalChecks": pay_svc.check_stale_withdrawals(db, daraja)}
+
+
+# ------------------------------------------------------------------ scheduled jobs (Vercel Cron) -----
+@cron_router.get("/reconcile", dependencies=[Depends(require_cron)])
+def cron_reconcile(db: Session = Depends(get_db), daraja=Depends(get_daraja)):
+    return {"deposits": pay_svc.reconcile_pending_deposits(db, daraja),
+            "withdrawalChecks": pay_svc.check_stale_withdrawals(db, daraja)}
+
+
+@cron_router.get("/balance", dependencies=[Depends(require_cron)])
+def cron_balance(db: Session = Depends(get_db), daraja=Depends(get_daraja)):
+    return {"result": pay_svc.request_balance(db, daraja)}

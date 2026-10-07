@@ -88,3 +88,36 @@ def b2c_timeout(secret: str, request: Request, payload: dict = Body(...), db: Se
     payments.record_webhook(db, "b2c-timeout", payload)
     payments.handle_b2c_timeout(db, payload)
     return ACK
+
+
+# ---- Transaction Status answers (the id of OUR withdrawal is in the URL path) -----------------
+@router.post("/txstatus-result/{secret}/{tx_id}")
+def txstatus_result(secret: str, tx_id: str, request: Request, payload: dict = Body(...), db: Session = Depends(get_db)):
+    _guard_callback(secret, request)
+    payments.record_webhook(db, "txstatus-result", payload)
+    payments.handle_txstatus_result(db, tx_id, payload)
+    return ACK
+
+
+@router.post("/txstatus-timeout/{secret}/{tx_id}")
+def txstatus_timeout(secret: str, tx_id: str, request: Request, payload: dict = Body(default={}), db: Session = Depends(get_db)):
+    _guard_callback(secret, request)
+    payments.record_webhook(db, "txstatus-timeout", payload)
+    payments.handle_txstatus_timeout(db, tx_id)
+    return ACK
+
+
+# ---- Account Balance answers ------------------------------------------------------------------
+@router.post("/balance-result/{secret}")
+def balance_result(secret: str, request: Request, payload: dict = Body(...), db: Session = Depends(get_db)):
+    _guard_callback(secret, request)
+    payments.record_webhook(db, "balance-result", payload)
+    payments.handle_balance_result(db, payload)
+    return ACK
+
+
+@router.post("/balance-timeout/{secret}")
+def balance_timeout(secret: str, request: Request, payload: dict = Body(default={}), db: Session = Depends(get_db)):
+    _guard_callback(secret, request)
+    payments.record_webhook(db, "balance-timeout", payload)
+    return ACK
