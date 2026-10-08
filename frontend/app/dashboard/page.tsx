@@ -174,6 +174,7 @@ export default function Dashboard() {
   const [previewCategory, setPreviewCategory] = useState<Category | null>(null);
 
   const { leaderboard, connected } = useLeaderboard();
+  const [depositing, setDepositing] = useState(false);
 
   // Live Stopwatch Effect
   useEffect(() => {
@@ -262,16 +263,54 @@ export default function Dashboard() {
     }
   }
 
-  async function handleDeposit(e: React.FormEvent) {
-    e.preventDefault();
+async function handleDeposit(e: React.FormEvent) {
+  e.preventDefault();
+  if (depositing) return;
+ 
+  // Dev-only shortcut. Set NEXT_PUBLIC_DEV_TOPUP=true on the DEV frontend project ONLY.
+  if (process.env.NEXT_PUBLIC_DEV_TOPUP === "true") {
     try {
       await fetchApi("/dev/topup", { method: "POST" });
       await loadUserData();
-      setMessage("DEV MODE: entry fee credited.");
+      setMessage("DEV MODE: activation fee credited.");
     } catch (err: any) {
       setMessage(`Top-up failed: ${err.message}`);
     }
+    return;
   }
+ 
+  setDepositing(true);
+  setMessage("Sending an M-Pesa prompt to your phone. Enter your M-Pesa PIN to confirm.");
+  try {
+    const tx = await fetchApi<{ status: string; checkoutRequestId: string }>("/payments/deposit", { method: "POST" });
+ 
+    // Poll for up to ~2 minutes while the customer approves the prompt.
+    for (let i = 0; i < 40; i++) {
+      await new Promise((r) => setTimeout(r, 3000));
+      const s = await fetchApi<{ status: string; resultDesc: string | null }>(
+        `/payments/status/${tx.checkoutRequestId}`
+      );
+      if (s.status === "SUCCESS") {
+        await loadUserData();
+        setMessage("Payment received. Your account is activated!");
+        return;
+      }
+      if (s.status === "FAILED") {
+        setMessage(`Payment was not completed${s.resultDesc ? ": " + s.resultDesc : ""}. You can try again.`);
+        return;
+      }
+      if (s.status === "REVIEW") {
+        setMessage("We received your payment but need to verify it. Please contact support if your balance does not update soon.");
+        return;
+      }
+    }
+    setMessage("Still waiting for confirmation. If you paid, your balance will update shortly. Otherwise, try again.");
+  } catch (err: any) {
+    setMessage(`Payment failed: ${err.message}`);
+  } finally {
+    setDepositing(false);
+  }
+}
 
   async function handleWithdraw(e: React.FormEvent) {
     e.preventDefault();
@@ -689,29 +728,21 @@ export default function Dashboard() {
                   </>
                 )}
               </form>
-
               <form onSubmit={handleDeposit} className="space-y-3 pt-1 border-t border-zinc-800/80">
-                <h4 className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider font-mono">Add money via M-Pesa</h4>
-                <div>
-                  <label className="text-[11px] text-zinc-500">Mobile Number</label>
-                  <input 
-                    type="text" 
-                    value={phone} 
-                    onChange={(e) => setPhone(e.target.value)}
-                    className="w-full bg-zinc-950 border border-zinc-800 rounded-lg p-2.5 text-xs text-zinc-200 mt-1 font-mono outline-none focus:border-orange-500"
-                  />
-                </div>
-                <div>
-                  <label className="text-[11px] text-zinc-500">Amount (KES)</label>
-                  <input 
-                    type="number" 
-                    value={depositAmount} 
-                    onChange={(e) => setDepositAmount(Number(e.target.value))}
-                    className="w-full bg-zinc-950 border border-zinc-800 rounded-lg p-2.5 text-xs text-zinc-200 mt-1 font-mono outline-none focus:border-orange-500"
-                  />
-                </div>
-                <button type="submit" className="w-full bg-zinc-100 hover:bg-white text-zinc-950 font-bold py-2.5 rounded-lg text-xs transition shadow-md">
-                  Top Up via M-Pesa
+                <h4 className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider font-mono">Pay with M-Pesa</h4>
+                <p className="text-[11px] text-zinc-400 leading-relaxed">
+                  You will get an M-Pesa prompt on{" "}
+                  <span className="font-mono text-zinc-200">
+                    {user.phone ? user.phone.slice(0, 5) + "****" + user.phone.slice(-3) : "your registered number"}
+                  </span>{" "}
+                  for the activation fee of $3.00 (about KES {Math.round(3 * (user.kesPerUsd ?? 130))}).
+                </p>
+                <button
+                  type="submit"
+                  disabled={depositing}
+                  className="w-full bg-zinc-100 hover:bg-white disabled:bg-zinc-800 disabled:text-zinc-500 text-zinc-950 font-bold py-2.5 rounded-lg text-xs transition shadow-md"
+                >
+                  {depositing ? "Waiting for M-Pesa..." : "Pay with M-Pesa"}
                 </button>
               </form>
             </div>
