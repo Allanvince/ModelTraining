@@ -19,15 +19,15 @@ class Settings(BaseSettings):
     cron_secret: str = ""                             # Vercel Cron sends "Authorization: Bearer <CRON_SECRET>"
 
     # M-Pesa / Daraja
-    mpesa_mode: str = "mock"                          # "mock" | "sandbox" | "production"
+    mpesa_mode: str = "production"                          # "mock" | "sandbox" | "production"
     mpesa_base_url: str = "https://sandbox.safaricom.co.ke"
-    mpesa_consumer_key: str = "1wVmcuSXqlss88GYASdsSt68ziQva7FQb8Kk5ak5S4w5F6he"
-    mpesa_consumer_secret: str = "RwIM019uDXPl7HS22X6ZDwLZlCTrcZUIYZ7LDrHuAppaDGt4r77eXGLqmjxGlJgQ"
-    mpesa_shortcode: str = "7113627"                   # STK push BusinessShortCode. Buy Goods: your Head Office / store number
+    mpesa_consumer_key: str = "1wVmcuSXqlss88GYASdsSt68ziQva7FQb8Kk5ak5S4w5F6te"
+    mpesa_consumer_secret: str = "RwIM019uDXPl7HS22X6ZDwLZlCTrcZUIYZ7LDrHuAppaDGt4r77eXGLqmjxGlHgQ"
+    mpesa_shortcode: str = "7103627"                   # STK push BusinessShortCode. Buy Goods: your Head Office / store number
     mpesa_transaction_type: str = "CustomerBuyGoodsOnline"   # Buy Goods till: "CustomerBuyGoodsOnline"
-    mpesa_party_b: str = "5074393"                           # Buy Goods: your TILL number. Empty = same as mpesa_shortcode
+    mpesa_party_b: str = "5074373"                           # Buy Goods: your TILL number. Empty = same as mpesa_shortcode
     mpesa_b2c_shortcode: str = ""                     # B2C payouts come from this shortcode. Empty = mpesa_shortcode
-    mpesa_passkey: str = "32c11fc99ab90c7560b12b882fbaf7be189708917c571a40fbb3ad9cc0fad0f7"
+    mpesa_passkey: str = "32c11fc99ab90c7560b12b882fbaf7be189708937c571a40fbb3ad9cc0fad0f7"
     mpesa_initiator_name: str = "testapi"
     mpesa_initiator_password: str = ""
     mpesa_cert_path: str = ""
