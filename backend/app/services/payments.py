@@ -1,9 +1,9 @@
 import json
-import uuid
 import re
+import uuid
 from datetime import datetime, timedelta, timezone
 
-from sqlalchemy import select
+from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
 from app.config import settings
@@ -32,60 +32,71 @@ def record_webhook(db: Session, source: str, payload: dict) -> None:
 
 
 # ------------------------------------------------------------------ deposits (STK Push) --
+_PHONE_RE = re.compile(r"^254[17]\d{8}$")
+
+
 def normalize_phone(raw: str) -> str:
-    p = re.sub(r"[\s\-+]", "", raw or "")
-    if p.startswith("0") and len(p) == 10:
-        p = "254" + p[1:]
-    elif p.startswith(("7", "1")) and len(p) == 9:
-        p = "254" + p
-    if not re.fullmatch(r"254[17]\d{8}", p):
-        raise AppError(422, "BAD_PHONE", "Enter a valid Safaricom number, e.g. 0712345678.")
-    return p
+    """0712345678 / 712345678 / +254712345678 / 254 712 345 678  ->  254712345678"""
+    s = re.sub(r"[\s\-()]", "", raw or "")
+    if s.startswith("+"):
+        s = s[1:]
+    if s.startswith("0") and len(s) == 10:
+        s = "254" + s[1:]
+    elif len(s) == 9 and s[0] in "17":
+        s = "254" + s
+    if not _PHONE_RE.match(s):
+        raise AppError(422, "BAD_PHONE", "Enter a valid Safaricom number, for example 0712345678.")
+    return s
 
 
-def deposit_rules(user: User) -> dict:
-    """Single source of truth for the deposit rule (mirror this in serialize_user)."""
-    return {"isFixed": user.nonwithdrawable_cents <= 0,
-            "fixedKes": cents_to_kes(settings.entry_fee_cents),
+def kes_to_cents(kes: int) -> int:
+    return kes * 100 // settings.kes_per_usd
+
+
+def deposit_rule(user: User) -> dict:
+    """If the player's non-refundable wallet is empty, they must pay the fixed activation amount;
+    otherwise they can top up any amount between minKes and maxKes."""
+    return {"isFixed": user.nonwithdrawable_cents <= 0, "fixedKes": cents_to_kes(settings.entry_fee_cents),
             "minKes": settings.min_deposit_kes, "maxKes": settings.max_deposit_kes}
 
 
-def initiate_deposit(db: Session, user_id: str, phone: str, amount_kes: int | None, daraja) -> Transaction:
-    user = lock_user(db, user_id)        # serialises double-taps and pins the wallet state for the rule below
-    rules = deposit_rules(user)
+def initiate_deposit(db: Session, user: User, daraja, phone_raw: str, amount_kes: int) -> Transaction:
+    phone = normalize_phone(phone_raw)
+    rule = deposit_rule(user)
+    if rule["isFixed"] and amount_kes != rule["fixedKes"]:
+        raise AppError(422, "FIXED_AMOUNT", f"Your balance is empty, so the deposit is fixed at KES {rule['fixedKes']}.")
+    if amount_kes < settings.min_deposit_kes:
+        raise AppError(422, "BELOW_MINIMUM", f"The minimum deposit is KES {settings.min_deposit_kes}.")
+    if amount_kes > settings.max_deposit_kes:
+        raise AppError(422, "ABOVE_MAXIMUM", f"The maximum deposit is KES {settings.max_deposit_kes}.")
+    cents = kes_to_cents(amount_kes)
+    if cents <= 0:
+        raise AppError(422, "BELOW_MINIMUM", "That amount is too small.")
 
-    if rules["isFixed"]:
-        if amount_kes not in (None, rules["fixedKes"]):
-            raise AppError(422, "FIXED_AMOUNT",
-                           f"Your non-refundable wallet is empty, so the deposit is fixed at KES {rules['fixedKes']}.")
-        kes, cents = rules["fixedKes"], settings.entry_fee_cents        # exactly $3.00
-    else:
-        if amount_kes is None or not rules["minKes"] <= amount_kes <= rules["maxKes"]:
-            raise AppError(422, "BAD_AMOUNT",
-                           f"Deposit must be between KES {rules['minKes']} and KES {rules['maxKes']}.")
-        kes = amount_kes
-        cents = kes * 100 // settings.kes_per_usd                       # floor: never over-credits
-
-    msisdn = normalize_phone(phone)
-
-    cutoff = _utcnow() - timedelta(seconds=120)
+    now = _utcnow()
     recent = db.scalar(select(Transaction).where(
-        Transaction.user_id == user.id, Transaction.type == "DEPOSIT",
-        Transaction.status == "PENDING", Transaction.created_at >= cutoff))
+        Transaction.user_id == user.id, Transaction.type == "DEPOSIT", Transaction.status == "PENDING",
+        Transaction.created_at >= now - timedelta(seconds=120)).order_by(Transaction.created_at.desc()).limit(1))
     if recent:
-        if recent.amount_kes == kes:                 # genuine double-tap: hand back the same prompt
-            return recent
-        raise AppError(409, "DEPOSIT_PENDING",
-                       "You have a payment waiting for confirmation. Approve it or wait up to 2 minutes, then try again.")
+        if recent.amount_kes == amount_kes and recent.conversation_id == f"msisdn:{phone}":
+            return recent                        # same request again (double tap): don't prompt twice
+        raise AppError(429, "PAYMENT_IN_PROGRESS",
+                       "A payment prompt is already open. Finish it, or wait about 2 minutes before starting another.")
+    attempts = db.scalar(select(func.count(Transaction.id)).where(
+        Transaction.user_id == user.id, Transaction.type == "DEPOSIT",
+        Transaction.created_at >= now - timedelta(hours=1))) or 0
+    if attempts >= 10:                           # stops someone using the form to spam prompts to strangers' phones
+        raise AppError(429, "TOO_MANY_ATTEMPTS", "Too many payment attempts. Please try again in an hour.")
 
     try:
-        resp = daraja.stk_push(phone=msisdn, amount_kes=kes, account_ref="QuickIQ",
+        resp = daraja.stk_push(phone=phone, amount_kes=amount_kes, account_ref="QuickIQ",
                                description="Deposit", callback_url=callback_url("stk-callback"))
     except DarajaError as e:
         raise AppError(502, "MPESA_UNAVAILABLE", f"M-Pesa did not accept the request: {e}")
-    tx = Transaction(user_id=user.id, type="DEPOSIT", amount_cents=cents, amount_kes=kes,
+    tx = Transaction(user_id=user.id, type="DEPOSIT", amount_cents=cents, amount_kes=amount_kes,
                      status="PENDING", checkout_request_id=resp["CheckoutRequestID"],
-                     merchant_request_id=resp.get("MerchantRequestID"))
+                     merchant_request_id=resp.get("MerchantRequestID"),
+                     conversation_id=f"msisdn:{phone}")   # payer's number (unused column for deposits; avoids a DB migration)
     db.add(tx)
     db.commit()
     return tx

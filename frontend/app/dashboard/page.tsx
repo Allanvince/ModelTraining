@@ -17,6 +17,7 @@ interface UserProfile {
   minWithdrawCents?: number;
   kesPerUsd?: number;
   withdrawFeePercent?: number;
+  depositFeePercent?: number;
   depositRule?: { isFixed: boolean; fixedKes: number; minKes: number; maxKes: number };
   stats: {
     gamesPlayed: number;
@@ -26,13 +27,13 @@ interface UserProfile {
     bestStreak: number;
   };
 }
-
+ 
 interface PoolStatus {
   balance: number;
   lifetimeFundedCents: number;
   lifetimePaidCents: number;
 }
-
+ 
 interface Category {
   id: string;
   questions: number;
@@ -41,7 +42,7 @@ interface Category {
   difficulty?: string;
   sample?: string;
 }
-
+ 
 interface QuestionPayload {
   sessionId: string;
   questionId: string;
@@ -53,7 +54,7 @@ interface QuestionPayload {
   remainingMs: number;
   finished?: boolean;
 }
-
+ 
 interface GameSummary {
   sessionId: string;
   category: string;
@@ -67,14 +68,14 @@ interface GameSummary {
   isAccountLocked: boolean;
   isTest: boolean;
 }
-
+ 
 interface Balances {
   withdrawableCents: number;
   nonWithdrawableCents: number;
   reservedCents: number;
   totalCents: number;
 }
-
+ 
 interface AnswerResult {
   correct: boolean;
   reason: "CORRECT" | "WRONG" | "TIMEOUT";
@@ -87,7 +88,7 @@ interface AnswerResult {
   finished: boolean;
   summary: GameSummary | null;
 }
-
+ 
 interface ReviewItem {
   number: number;
   text: string;
@@ -97,7 +98,7 @@ interface ReviewItem {
   timedOut: boolean;
 }
 interface ReviewData { total: number; wrong: ReviewItem[]; }
-
+ 
 const PASSWORD_RULES = [
   { id: "len", label: "At least 8 characters", test: (p: string) => p.length >= 8 },
   { id: "upper", label: "One capital letter (A-Z)", test: (p: string) => /[A-Z]/.test(p) },
@@ -125,7 +126,7 @@ function formatDisplayName(name?: string) {
   if (!name) return "Player";
   return name.startsWith("@") ? name.slice(1) : name;
 }
-
+ 
 // Hosted Gamified Animated Assets
 const MASCOT_ASSETS = {
   heroMascot: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3Z6Nm9xZ2JqY3R4a3p6bm9xZ2JqY3R4a3p6bm9xZ2JqY3R4YSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/3o7TKSjRrfIPjeiVyM/giphy.gif",
@@ -135,15 +136,15 @@ const MASCOT_ASSETS = {
   fire: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHgzZGF4NW84NXEwbHByOWxqaXpwbWlxeXlxcTRybXpsNndxeW9ndSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/Lopx9eUi34rbq/giphy.gif",
   trophy: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExYmt6MjhpeWprOHdtOGE0YXZwb2MwdmV3OHhpdHJxMGZxa2pwaWRlMiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/26u4cqiYI30juCOGY/giphy.gif"
 };
-
+ 
 export default function Dashboard() {
   const [view, setView] = useState<"AUTH" | "HUB" | "GAME" | "SUMMARY">("AUTH");
   const [authMode, setAuthMode] = useState<"login" | "register">("login");
-
+ 
   // Auth Form State
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("254708374149");
+  const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [acceptedTerms, setAcceptedTerms] = useState(false);
@@ -151,7 +152,7 @@ export default function Dashboard() {
   const [withdrawAmount, setWithdrawAmount] = useState("");
   const [withdrawing, setWithdrawing] = useState(false);
   const [review, setReview] = useState<ReviewData | null>(null);
-
+ 
   // App Data State
   const [user, setUser] = useState<UserProfile | null>(null);
   const [pool, setPool] = useState<PoolStatus | null>(null);
@@ -159,7 +160,7 @@ export default function Dashboard() {
   const [message, setMessage] = useState("");
   const [depositAmount, setDepositAmount] = useState("");
   const [depositPhone, setDepositPhone] = useState("");
-
+ 
   // Active Game State
   const [selectedCategory, setSelectedCategory] = useState("tech");
   const [sessionId, setSessionId] = useState<string | null>(null);
@@ -171,27 +172,27 @@ export default function Dashboard() {
   const [submitting, setSubmitting] = useState(false);
   const [stopwatchMs, setStopwatchMs] = useState(0);
   const deadlineRef = useRef(0);
-
+ 
   // Modal State
   const [previewCategory, setPreviewCategory] = useState<Category | null>(null);
-
+ 
   const { leaderboard, connected } = useLeaderboard();
   const [depositing, setDepositing] = useState(false);
-
+ 
   // Live Stopwatch Effect
   useEffect(() => {
     if (!currentQuestion || result) return;
-
+ 
     const startTime = Date.now();
     setStopwatchMs(0);
-
+ 
     const intervalId = setInterval(() => {
       setStopwatchMs(Date.now() - startTime);
     }, 10);
-
+ 
     return () => clearInterval(intervalId);
   }, [currentQuestion, result]);
-
+ 
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -199,7 +200,7 @@ export default function Dashboard() {
       setView("HUB");
     }
   }, []);
-
+ 
   useEffect(() => {
     if (!currentQuestion || result) return;
     deadlineRef.current = Date.now() + currentQuestion.remainingMs;
@@ -214,7 +215,7 @@ export default function Dashboard() {
     }, 100);
     return () => clearInterval(id);
   }, [currentQuestion, result]);
-
+ 
   async function loadUserData() {
     try {
       const [uData, pData, cData] = await Promise.all([
@@ -232,7 +233,7 @@ export default function Dashboard() {
       setView("AUTH");
     }
   }
-
+ 
   async function handleAuth(e: React.FormEvent) {
     e.preventDefault();
     setMessage("");
@@ -251,12 +252,12 @@ export default function Dashboard() {
       const body = authMode === "register" 
         ? { username, email, phone, password } 
         : { email, password };
-
+ 
       const res = await fetchApi<{ token: string; user: UserProfile }>(endpoint, {
         method: "POST",
         body: JSON.stringify(body),
       });
-
+ 
       localStorage.setItem("token", res.token);
       setUser(res.user);
       setView("HUB");
@@ -265,7 +266,7 @@ export default function Dashboard() {
       setMessage(`Error: ${err.message}`);
     }
   }
-
+ 
 async function handleDeposit(e: React.FormEvent) {
   e.preventDefault();
   if (depositing) return;
@@ -323,7 +324,7 @@ async function handleDeposit(e: React.FormEvent) {
     setDepositing(false);
   }
 }
-
+ 
   async function handleWithdraw(e: React.FormEvent) {
     e.preventDefault();
     const cents = Math.round(parseFloat(withdrawAmount) * 100);
@@ -344,7 +345,7 @@ async function handleDeposit(e: React.FormEvent) {
       setWithdrawing(false);
     }
   }
-
+ 
   async function startGame(categoryId?: string) {
     const catToStart = categoryId || selectedCategory;
     setCurrentQuestion(null); 
@@ -366,7 +367,7 @@ async function handleDeposit(e: React.FormEvent) {
       setMessage(`Could not start the round: ${err.message}`);
     }
   }
-
+ 
   async function fetchNextQuestion(sId: string) {
     try {
       const q = await fetchApi<any>(`/game/${sId}/next`, { method: "POST" });
@@ -380,7 +381,7 @@ async function handleDeposit(e: React.FormEvent) {
       setMessage(`Could not load the next question: ${err.message}`);
     }
   }
-
+ 
   async function submitAnswer(choice: number) {
     if (!sessionId || !currentQuestion || submitting || result) return;
     setSubmitting(true);
@@ -397,7 +398,7 @@ async function handleDeposit(e: React.FormEvent) {
       setSubmitting(false);
     }
   }
-
+ 
   async function loadReview(sId: string) {
     try {
       setReview(await fetchApi<ReviewData>(`/game/${sId}/review`));
@@ -405,7 +406,7 @@ async function handleDeposit(e: React.FormEvent) {
       setReview(null);
     }
   }
-
+ 
   function continueAfterResult() {
     const r = result;
     setResult(null);
@@ -419,12 +420,12 @@ async function handleDeposit(e: React.FormEvent) {
       fetchNextQuestion(sessionId);
     }
   }
-
+ 
   function formatStopwatch(ms: number): string {
     const seconds = (ms / 1000).toFixed(2);
     return `${seconds}s`;
   }
-
+ 
   async function finishGame(sId: string) {
     try {
       const summary = await fetchApi<GameSummary>(`/game/${sId}/summary`);
@@ -436,13 +437,13 @@ async function handleDeposit(e: React.FormEvent) {
       setMessage(`Could not load your results: ${err.message}`);
     }
   }
-
+ 
   function handleLogout() {
     localStorage.removeItem("token");
     setUser(null);
     setView("AUTH");
   }
-
+ 
   return (
     <main className="min-h-screen bg-zinc-950 text-zinc-100 p-6 flex flex-col items-center selection:bg-orange-500 selection:text-white">
       {/* QuickTrain Header */}
@@ -458,7 +459,7 @@ async function handleDeposit(e: React.FormEvent) {
             <p className="text-[10px] text-zinc-400 tracking-wide font-mono uppercase">Fast Trivia. Speed, Knowledge, Earn.</p>
           </div>
         </div>
-
+ 
         <div className="flex items-center gap-4">
           <span className={`text-xs px-3 py-1 rounded-full font-mono text-[11px] font-medium flex items-center gap-2 ${connected ? 'bg-orange-500/10 text-orange-400 border border-orange-500/30' : 'bg-rose-500/10 text-rose-400 border border-rose-500/30'}`}>
             <span className={`w-2 h-2 rounded-full ${connected ? 'bg-orange-500 animate-pulse' : 'bg-rose-500'}`} />
@@ -476,14 +477,14 @@ async function handleDeposit(e: React.FormEvent) {
           )}
         </div>
       </header>
-
+ 
       {/* Message Bar */}
       {message && (
         <div className="w-full max-w-5xl bg-orange-950/30 border border-orange-500/40 text-orange-300 p-3 rounded-lg mb-6 text-xs font-mono text-center shadow-lg shadow-orange-950/20">
           {message}
         </div>
       )}
-
+ 
       {/* TERMS & CONDITIONS MODAL */}
       {showTerms && (
         <div className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-4">
@@ -504,7 +505,7 @@ async function handleDeposit(e: React.FormEvent) {
           </div>
         </div>
       )}
-
+ 
       {/* VIEW 1: AUTHENTICATION */}
       {view === "AUTH" && (
         <div className="w-full max-w-md bg-zinc-900/80 backdrop-blur border border-zinc-800/80 p-8 rounded-2xl shadow-2xl space-y-6">
@@ -514,7 +515,7 @@ async function handleDeposit(e: React.FormEvent) {
             </h2>
             <p className="text-xs text-zinc-400">Speed. Knowledge. Points. Money</p>
           </div>
-
+ 
           <form onSubmit={handleAuth} className="space-y-4">
             {authMode === "register" && (
               <div>
@@ -591,7 +592,7 @@ async function handleDeposit(e: React.FormEvent) {
               {authMode === "login" ? "Log in" : "Create account"}
             </button>
           </form>
-
+ 
           <div className="text-center pt-2 border-t border-zinc-800/80">
             <button 
               onClick={() => setAuthMode(authMode === "login" ? "register" : "login")}
@@ -602,7 +603,7 @@ async function handleDeposit(e: React.FormEvent) {
           </div>
         </div>
       )}
-
+ 
       {/* VIEW 2: DASHBOARD HUB */}
       {view === "HUB" && user && (
         <div className="w-full max-w-5xl space-y-6 animate-in fade-in zoom-in-95 duration-200">
@@ -610,7 +611,7 @@ async function handleDeposit(e: React.FormEvent) {
           {/* GAMIFIED PROFILE HEADER CARD */}
           <div className="bg-zinc-900/90 border border-zinc-800 rounded-3xl p-5 shadow-2xl relative overflow-hidden backdrop-blur-md">
             <div className="absolute -top-10 -left-10 w-36 h-36 bg-orange-500/10 rounded-full blur-3xl pointer-events-none" />
-
+ 
             <div className="flex items-center justify-between gap-4">
               <div className="flex items-center gap-4">
                 <div className="relative">
@@ -625,7 +626,7 @@ async function handleDeposit(e: React.FormEvent) {
                     LVL 12
                   </div>
                 </div>
-
+ 
                 <div className="space-y-0.5">
                   <div className="flex items-center gap-2">
                     <h2 className="text-lg font-bold text-zinc-100 capitalize">
@@ -640,7 +641,7 @@ async function handleDeposit(e: React.FormEvent) {
                   </p>
                 </div>
               </div>
-
+ 
               <div className="flex flex-col items-end gap-1">
                 <div className="flex items-center gap-1.5 bg-zinc-950 border border-zinc-800 px-3 py-1.5 rounded-xl">
                   <img src={MASCOT_ASSETS.fire} alt="Streak" className="w-4 h-4 object-contain" />
@@ -654,7 +655,7 @@ async function handleDeposit(e: React.FormEvent) {
               </div>
             </div>
           </div>
-
+ 
           {/* PLAYFUL HERO BANNER */}
           <div className="bg-gradient-to-r from-orange-950/40 via-zinc-900 to-zinc-900 border border-orange-500/30 rounded-3xl p-6 relative overflow-hidden flex items-center justify-between gap-4 shadow-xl">
             <div className="space-y-2 max-w-sm">
@@ -668,7 +669,7 @@ async function handleDeposit(e: React.FormEvent) {
                 Pick a category, answer quickly and earn points. Keep a streak going for bonus points.
               </p>
             </div>
-
+ 
             <div className="w-24 h-24 flex-shrink-0 hidden sm:flex items-center justify-center bg-zinc-950/60 border border-zinc-800 rounded-2xl p-2 shadow-inner">
               <img
                 src={MASCOT_ASSETS.heroMascot}
@@ -677,7 +678,7 @@ async function handleDeposit(e: React.FormEvent) {
               />
             </div>
           </div>
-
+ 
           {/* MAIN DASHBOARD CONTENT GRID */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             
@@ -687,7 +688,7 @@ async function handleDeposit(e: React.FormEvent) {
                 <h3 className="text-base font-bold text-zinc-200">My Wallet</h3>
                 <p className="text-[11px] text-zinc-400">Your balance and winnings.</p>
               </div>
-
+ 
               <div className="bg-zinc-950 p-4 rounded-xl border border-zinc-800/60 space-y-2.5 font-mono">
                 <div className="flex justify-between text-xs">
                   <span className="text-zinc-400">Winnings you can withdraw:</span>
@@ -698,7 +699,7 @@ async function handleDeposit(e: React.FormEvent) {
                   <span className="text-orange-400 font-bold">${(user.balances.totalCents / 100).toFixed(2)}</span>
                 </div>
               </div>
-
+ 
               <form onSubmit={handleWithdraw} className="space-y-2 pt-1 border-t border-zinc-800/80">
                 <h4 className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider font-mono">Withdraw winnings to M-Pesa</h4>
                 {user.testsCompleted < user.testsRequired ? (
@@ -750,7 +751,7 @@ async function handleDeposit(e: React.FormEvent) {
               {user.depositRule?.isFixed ? (
                 <p className="text-[11px] text-zinc-400 leading-relaxed">
                   Your non-refundable wallet is empty, so the deposit is fixed at{" "}
-                  <span className="font-mono text-zinc-200">KES {user.depositRule.fixedKes}</span> ($3.00).
+                  <span className="font-mono text-zinc-200">KES {user.depositRule.fixedKes}</span> (about ${(Math.floor((user.depositRule.fixedKes * 100) / (user.kesPerUsd ?? 130)) / 100).toFixed(2)}).
                 </p>
               ) : (
                 <>
@@ -763,6 +764,22 @@ async function handleDeposit(e: React.FormEvent) {
                   <p className="text-[10px] text-zinc-600">Minimum KES {user.depositRule?.minKes ?? 100}.</p>
                 </>
               )}
+              {(() => {
+                // Same maths as the server: KES -> USD cents (rounded down), then the service fee comes off.
+                const rule = user.depositRule;
+                const kes = rule?.isFixed ? rule.fixedKes : Math.floor(Number(depositAmount));
+                if (!kes || kes < (rule?.minKes ?? 100)) return null;
+                const cents = Math.floor((kes * 100) / (user.kesPerUsd ?? 130));
+                const pct = user.depositFeePercent ?? 30;
+                const fee = Math.floor((cents * pct) / 100);
+                return (
+                  <div className="text-[11px] text-zinc-500 space-y-0.5">
+                    <div className="flex justify-between"><span>You pay</span><span>KES {kes}</span></div>
+                    <div className="flex justify-between"><span>Service fee ({pct}%, not refundable)</span><span>-${(fee / 100).toFixed(2)}</span></div>
+                    <div className="flex justify-between text-zinc-300"><span>Added to your balance</span><span>${((cents - fee) / 100).toFixed(2)}</span></div>
+                  </div>
+                );
+              })()}
                 <button
                   type="submit"
                   disabled={depositing}
@@ -772,7 +789,7 @@ async function handleDeposit(e: React.FormEvent) {
                 </button>
               </form>
             </div>
-
+ 
             {/* Training Benchmarks & Pipelines */}
             <div className="bg-zinc-900/90 border border-zinc-800/80 rounded-2xl p-5 space-y-6 md:col-span-2 shadow-xl">
               <div>
@@ -822,9 +839,9 @@ async function handleDeposit(e: React.FormEvent) {
                     </div>
                   ))}
                 </div>
-
+ 
               </div>
-
+ 
               {/* Leaderboard */}
               <div className="pt-4 border-t border-zinc-800/80">
                 <div className="flex justify-between items-center mb-3">
@@ -854,7 +871,7 @@ async function handleDeposit(e: React.FormEvent) {
           </div>
         </div>
       )}
-
+ 
       {/* VIEW 3: RLHF TIMED BENCHMARK RUN */}
       {view === "GAME" && currentQuestion && (
         <div className="w-full max-w-2xl bg-zinc-900/90 border border-zinc-800 rounded-2xl p-6 space-y-6 shadow-2xl">
@@ -863,7 +880,7 @@ async function handleDeposit(e: React.FormEvent) {
             <span className="text-xs text-orange-400 uppercase font-bold tracking-wider">
               Question {currentQuestion.index} / {currentQuestion.total}
             </span>
-
+ 
             {/* Stopwatch Counter Badge */}
             <div className="flex items-center gap-2 bg-zinc-950 border border-zinc-800 px-3 py-1 rounded-lg">
               <span className="w-2 h-2 rounded-full bg-orange-500 animate-ping" />
@@ -871,12 +888,12 @@ async function handleDeposit(e: React.FormEvent) {
                 ⏱️ {formatStopwatch(stopwatchMs)}
               </span>
             </div>
-
+ 
             <span className="text-xs text-zinc-400 uppercase">
               Category: {selectedCategory}
             </span>
           </div>
-
+ 
           {/* Question prompt */}
           <div className="space-y-2">
             <p className="text-[11px] text-zinc-500 font-mono uppercase tracking-wider">
@@ -886,16 +903,16 @@ async function handleDeposit(e: React.FormEvent) {
               {currentQuestion.text}
             </h3>
           </div>
-
+ 
           {/* Question options */}
           <div className="space-y-3">
             {currentQuestion.options?.map((choice: string, idx: number) => {
               const isRevealed = result !== null;
               const isCorrectOption = isRevealed && idx === result.correctIdx;
               const isWrongSelection = isRevealed && idx === selectedChoice && !result.correct;
-
+ 
               let borderStyle = "bg-zinc-950 border-zinc-800/80 hover:border-zinc-700 text-zinc-300";
-
+ 
               if (isRevealed) {
                 if (isCorrectOption) {
                   borderStyle = "bg-emerald-950/40 border-emerald-500 text-emerald-200 font-medium";
@@ -905,7 +922,7 @@ async function handleDeposit(e: React.FormEvent) {
               } else if (selectedChoice === idx) {
                 borderStyle = "bg-orange-500/20 border-orange-500 text-orange-200 font-medium shadow-md shadow-orange-950/30";
               }
-
+ 
               return (
                 <button
                   key={idx}
@@ -933,7 +950,7 @@ async function handleDeposit(e: React.FormEvent) {
               );
             })}
           </div>
-
+ 
           {/* Gamified Submission / Feedback Banner */}
           {!result ? (
             <button
@@ -953,7 +970,7 @@ async function handleDeposit(e: React.FormEvent) {
                       className="w-full h-full object-contain"
                     />
                   </div>
-
+ 
                   <div>
                     <span className={`text-sm font-bold block ${result.correct ? "text-emerald-400" : "text-rose-400"}`}>
                       {result.reason === "TIMEOUT"
@@ -967,13 +984,13 @@ async function handleDeposit(e: React.FormEvent) {
                     </span>
                   </div>
                 </div>
-
+ 
                 <div className="flex items-center gap-1.5 bg-orange-950/30 border border-orange-500/30 px-3 py-1.5 rounded-xl">
                   <img src={MASCOT_ASSETS.fire} alt="Streak Fire" className="w-5 h-5 object-contain" />
                   <span className="text-orange-400 font-mono font-bold text-xs">{result.streak} Streak</span>
                 </div>
               </div>
-
+ 
               <button
                 onClick={continueAfterResult}
                 className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3.5 rounded-xl transition shadow-lg shadow-emerald-600/20"
@@ -984,7 +1001,7 @@ async function handleDeposit(e: React.FormEvent) {
           )}
         </div>
       )}
-
+ 
       {/* VIEW 4: BATCH TRAINING SUMMARY */}
       {view === "SUMMARY" && gameSummary && (
         <div className="w-full max-w-md bg-zinc-900 border border-zinc-800 rounded-2xl p-6 space-y-6 text-center shadow-2xl">
@@ -1016,7 +1033,7 @@ async function handleDeposit(e: React.FormEvent) {
               </span>
             </div>
           </div>
-
+ 
           {review && review.wrong.length > 0 && (
             <div className="text-left space-y-3">
               <h3 className="text-sm font-bold text-zinc-200">Questions to review ({review.wrong.length})</h3>
@@ -1034,7 +1051,7 @@ async function handleDeposit(e: React.FormEvent) {
           {review && review.wrong.length === 0 && (
             <p className="text-xs text-emerald-400">Perfect round - nothing to review!</p>
           )}
-
+ 
           <button
             onClick={() => setView("HUB")}
             className="w-full bg-orange-600 hover:bg-orange-500 text-white font-bold py-3 rounded-xl transition shadow-lg shadow-orange-600/20 text-xs"
@@ -1043,14 +1060,14 @@ async function handleDeposit(e: React.FormEvent) {
           </button>
         </div>
       )}
-
+ 
       {/* PREVIEW BATCH MODAL */}
       {previewCategory && (
         <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
           <div className="bg-zinc-900 border border-zinc-800 rounded-3xl p-6 max-w-md w-full space-y-5 shadow-2xl relative overflow-hidden animate-in fade-in zoom-in-95 duration-150">
             
             <div className="absolute -top-12 -right-12 w-32 h-32 bg-orange-500/10 rounded-full blur-2xl pointer-events-none" />
-
+ 
             <div className="flex items-start justify-between border-b border-zinc-800/80 pb-4">
               <div className="flex items-center gap-3">
                 <div className="w-14 h-14 rounded-2xl bg-zinc-950 border border-zinc-800 p-1 flex items-center justify-center shadow-inner overflow-hidden flex-shrink-0">
@@ -1060,7 +1077,7 @@ async function handleDeposit(e: React.FormEvent) {
                     className="w-full h-full object-contain"
                   />
                 </div>
-
+ 
                 <div>
                   <div className="flex items-center gap-2">
                     <h3 className="text-lg font-bold text-zinc-100 capitalize">
@@ -1075,7 +1092,7 @@ async function handleDeposit(e: React.FormEvent) {
                   </p>
                 </div>
               </div>
-
+ 
               <button
                 onClick={() => setPreviewCategory(null)}
                 className="text-zinc-500 hover:text-zinc-300 text-lg font-bold px-2 py-1 rounded-lg transition hover:bg-zinc-800/60"
@@ -1083,7 +1100,7 @@ async function handleDeposit(e: React.FormEvent) {
                 ✕
               </button>
             </div>
-
+ 
             <div className="space-y-3.5">
               <div>
                 <h4 className="text-[11px] font-mono uppercase text-orange-400 font-bold mb-1 tracking-wider">
@@ -1094,7 +1111,7 @@ async function handleDeposit(e: React.FormEvent) {
                     "Quick questions to test your knowledge. Answer quickly to earn points."}
                 </p>
               </div>
-
+ 
               {previewCategory.sample && (
                 <div className="bg-zinc-950 border border-zinc-800 rounded-2xl p-3.5 space-y-1.5 shadow-inner">
                   <div className="flex justify-between items-center">
@@ -1108,7 +1125,7 @@ async function handleDeposit(e: React.FormEvent) {
                   </p>
                 </div>
               )}
-
+ 
               <div className="bg-orange-950/20 border border-orange-500/30 rounded-xl p-3 flex items-center justify-between text-xs font-mono">
                 <span className="text-zinc-400">Streak Bonus Rate:</span>
                 <span className="text-orange-400 font-bold flex items-center gap-1">
@@ -1117,7 +1134,7 @@ async function handleDeposit(e: React.FormEvent) {
                 </span>
               </div>
             </div>
-
+ 
             <div className="flex items-center gap-3 pt-2">
               <button
                 onClick={() => setPreviewCategory(null)}

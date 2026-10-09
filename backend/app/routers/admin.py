@@ -138,7 +138,8 @@ def overview(days: int = Query(14, ge=7, le=60), db: Session = Depends(get_db)):
     # ---------------- needs attention + recent
     def tx_row(t: Transaction, username: str, phone: str) -> dict:
         return {"id": t.id, "type": t.type, "status": t.status, "amountCents": t.amount_cents, "amountKes": t.amount_kes,
-                "feeCents": t.house_cut_cents if t.type == "WITHDRAWAL" else 0, "user": username, "phone": _mask_phone(phone),
+                "feeCents": t.house_cut_cents if t.type == "WITHDRAWAL" else 0, "user": username,
+                "phone": _mask_phone(t.conversation_id[7:] if t.type == "DEPOSIT" and (t.conversation_id or "").startswith("msisdn:") else phone),
                 "receipt": t.mpesa_receipt, "note": t.result_desc, "createdAt": t.created_at.isoformat()}
 
     base = select(T, User.username, User.phone).join(User, User.id == T.user_id)

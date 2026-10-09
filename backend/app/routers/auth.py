@@ -1,8 +1,6 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy import or_, select
 from sqlalchemy.orm import Session
-from app.services import payments
-from app.services.game import balances
 
 from app.db import get_db
 import re
@@ -13,6 +11,7 @@ from app.models import User
 from app.schemas import LoginIn, RegisterIn
 from app.security import create_token, current_user, hash_password, verify_password
 from app.services.game import balances
+from app.services.payments import deposit_rule
 
 router = APIRouter(tags=["auth"])
 
@@ -23,10 +22,7 @@ def serialize_user(u: User) -> dict:
             "hasPaidEntryFee": u.has_paid_entry_fee,
             "testsCompleted": u.tests_completed, "testsRequired": settings.required_test_rounds,
             "minWithdrawCents": settings.min_withdraw_cents, "kesPerUsd": settings.kes_per_usd, "withdrawFeePercent": settings.withdraw_fee_percent,
-            "depositFeePercent": settings.entry_house_cut_percent, "minDepositKes": settings.min_deposit_kes,
-            "maxDepositKes": settings.max_deposit_kes,
-            "depositRule": payments.deposit_rules(u),
-            "isAccountLocked": u.has_paid_entry_fee and u.total_cents <= 0,
+            "depositFeePercent": settings.entry_house_cut_percent, "depositRule": deposit_rule(u), "isAccountLocked": u.has_paid_entry_fee and u.total_cents <= 0,
             "balances": balances(u),
             "stats": {"gamesPlayed": u.games_played, "passRatePercent": round(100 * u.answers_correct / n, 1) if n else 0,
                       "avgResponseMs": round(u.response_ms_total / n) if n else 0,

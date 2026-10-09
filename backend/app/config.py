@@ -1,10 +1,11 @@
-from pydantic import model_validator
+from pydantic import ValidationError, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
     dev_mode: bool = False
+    payments_enabled: bool = True                     # False = site runs, but deposits/withdrawals return 503 (staged launch)
 
     database_url: str = "sqlite:///./quickiq.db"
     jwt_secret: str = "dev-only-secret-change-me-in-production-0123456789"
@@ -19,15 +20,15 @@ class Settings(BaseSettings):
     cron_secret: str = ""                             # Vercel Cron sends "Authorization: Bearer <CRON_SECRET>"
 
     # M-Pesa / Daraja
-    mpesa_mode: str = "production"                          # "mock" | "sandbox" | "production"
+    mpesa_mode: str = "mock"                          # "mock" | "sandbox" | "production"
     mpesa_base_url: str = "https://sandbox.safaricom.co.ke"
-    mpesa_consumer_key: str = "1wVmcuSXqlss88GYASdsSt68ziQva7FQb8Kk5ak5S4w5F6te"
-    mpesa_consumer_secret: str = "RwIM019uDXPl7HS22X6ZDwLZlCTrcZUIYZ7LDrHuAppaDGt4r77eXGLqmjxGlHgQ"
-    mpesa_shortcode: str = "7103627"                   # STK push BusinessShortCode. Buy Goods: your Head Office / store number
-    mpesa_transaction_type: str = "CustomerBuyGoodsOnline"   # Buy Goods till: "CustomerBuyGoodsOnline"
-    mpesa_party_b: str = "5074373"                           # Buy Goods: your TILL number. Empty = same as mpesa_shortcode
+    mpesa_consumer_key: str = ""
+    mpesa_consumer_secret: str = ""
+    mpesa_shortcode: str = "174379"                   # STK push BusinessShortCode. Buy Goods: your Head Office / store number
+    mpesa_transaction_type: str = "CustomerPayBillOnline"   # Buy Goods till: "CustomerBuyGoodsOnline"
+    mpesa_party_b: str = ""                           # Buy Goods: your TILL number. Empty = same as mpesa_shortcode
     mpesa_b2c_shortcode: str = ""                     # B2C payouts come from this shortcode. Empty = mpesa_shortcode
-    mpesa_passkey: str = "32c11fc99ab90c7560b12b882fbaf7be189708937c571a40fbb3ad9cc0fad0f7"
+    mpesa_passkey: str = ""
     mpesa_initiator_name: str = "testapi"
     mpesa_initiator_password: str = ""
     mpesa_cert_path: str = ""
@@ -42,6 +43,8 @@ class Settings(BaseSettings):
     reward_cents: int = 50
     penalty_cents: int = 50
     min_withdraw_cents: int = 50
+    min_deposit_kes: int = 100                        # smallest deposit a player can make
+    max_deposit_kes: int = 150000                     # M-Pesa STK per-transaction ceiling (kept conservative)
     withdraw_fee_percent: float = 3.0 
     questions_per_round: int = 10
     grace_ms: int = 1200
@@ -76,9 +79,9 @@ class Settings(BaseSettings):
                                    "CALLBACK_SECRET": self.callback_secret}.items() if v.startswith("dev")]
         if self.database_url.startswith("sqlite"):
             problems.append("DATABASE_URL is SQLite")
-        if self.mpesa_mode == "mock":
-            problems.append("MPESA_MODE=mock")
-        if self.mpesa_mode == "production":
+        if self.payments_enabled and self.mpesa_mode == "mock":
+            problems.append("MPESA_MODE=mock (or set PAYMENTS_ENABLED=false until M-Pesa is configured)")
+        if self.payments_enabled and self.mpesa_mode == "production":
             if not (self.mpesa_consumer_key and self.mpesa_consumer_secret and self.mpesa_passkey):
                 problems.append("missing M-Pesa consumer key/secret/passkey")
             if self.mpesa_shortcode == "174379":
@@ -98,4 +101,9 @@ class Settings(BaseSettings):
         return self
 
 
-settings = Settings()
+try:
+    settings = Settings()
+except ValidationError as e:
+    # Show WHAT is wrong, never the values (pydantic's default message prints them into the logs).
+    raise RuntimeError("Invalid configuration: " + "; ".join(
+        f"{'.'.join(str(x) for x in err['loc']) or 'settings'}: {err['msg']}" for err in e.errors())) from None

@@ -1,6 +1,7 @@
 import hmac
 
 from fastapi import APIRouter, Body, Depends, Header, Request
+from pydantic import BaseModel
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -33,9 +34,14 @@ def _tx_out(tx: Transaction) -> dict:
             "createdAt": tx.created_at.isoformat()}
 
 
+class DepositBody(BaseModel):
+    phone: str
+    amount_kes: int
+
+
 @router.post("/deposit")
-def deposit(user: User = Depends(current_user), db: Session = Depends(get_db), daraja=Depends(get_daraja)):
-    tx = payments.initiate_deposit(db, user, daraja)
+def deposit(body: DepositBody, user: User = Depends(current_user), db: Session = Depends(get_db), daraja=Depends(get_daraja)):
+    tx = payments.initiate_deposit(db, user, daraja, body.phone, body.amount_kes)
     return {**_tx_out(tx), "message": "Check your phone and enter M-Pesa PIN"}
 
 
