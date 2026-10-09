@@ -45,9 +45,9 @@ def _lock_session(db: Session, session_id: str, user_id: str) -> GameSession:
 def start_session(db: Session, user_id: str, category: str, generated: list[dict] | None = None) -> GameSession:
     user = ledger.lock_user(db, user_id)
     if not user.has_paid_entry_fee:
-        raise AppError(402, "PAYMENT_REQUIRED", "Pay the $3.00 entry fee to start playing.")
+        raise AppError(402, "PAYMENT_REQUIRED", "Make a deposit to start playing.")
     if user.total_cents <= 0:
-        raise AppError(403, "ACCOUNT_LOCKED", "Account Balance Depleted ($0.00). Top up $3.00 via M-Pesa to continue.")
+        raise AppError(403, "ACCOUNT_LOCKED", "Your balance is $0.00. Make a deposit via M-Pesa to continue.")
 
     is_test = user.tests_completed < settings.required_test_rounds
 

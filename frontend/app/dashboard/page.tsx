@@ -17,6 +17,7 @@ interface UserProfile {
   minWithdrawCents?: number;
   kesPerUsd?: number;
   withdrawFeePercent?: number;
+  depositRule?: { isFixed: boolean; fixedKes: number; minKes: number; maxKes: number };
   stats: {
     gamesPlayed: number;
     passRatePercent: number;
@@ -156,7 +157,8 @@ export default function Dashboard() {
   const [pool, setPool] = useState<PoolStatus | null>(null);
   const [categories, setCategories] = useState<Category[]>([]);
   const [message, setMessage] = useState("");
-  const [depositAmount, setDepositAmount] = useState(100);
+  const [depositAmount, setDepositAmount] = useState("");
+  const [depositPhone, setDepositPhone] = useState("");
 
   // Active Game State
   const [selectedCategory, setSelectedCategory] = useState("tech");
@@ -221,6 +223,7 @@ export default function Dashboard() {
         fetchApi<Category[]>("/categories"),
       ]);
       setUser(uData);
+      setDepositPhone((p) => p || uData.phone || "");
       setPool(pData);
       setCategories(cData);
     } catch (err: any) {
@@ -282,7 +285,16 @@ async function handleDeposit(e: React.FormEvent) {
   setDepositing(true);
   setMessage("Sending an M-Pesa prompt to your phone. Enter your M-Pesa PIN to confirm.");
   try {
-    const tx = await fetchApi<{ status: string; checkoutRequestId: string }>("/payments/deposit", { method: "POST" });
+    const rule = user?.depositRule;
+    const kes = rule?.isFixed ? rule.fixedKes : parseInt(depositAmount, 10);
+    if (!depositPhone.trim()) { setMessage("Enter your M-Pesa phone number."); return; }
+    if (!rule?.isFixed && (!kes || kes < (rule?.minKes ?? 100))) {
+      setMessage(`Minimum deposit is KES ${rule?.minKes ?? 100}.`); return;
+    }
+    const tx = await fetchApi<{ status: string; checkoutRequestId: string }>("/payments/deposit", {
+  method: "POST",
+  body: JSON.stringify({ phone: depositPhone.trim(), amount_kes: kes }),
+});
  
     // Poll for up to ~2 minutes while the customer approves the prompt.
     for (let i = 0; i < 40; i++) {
@@ -729,14 +741,28 @@ async function handleDeposit(e: React.FormEvent) {
                 )}
               </form>
               <form onSubmit={handleDeposit} className="space-y-3 pt-1 border-t border-zinc-800/80">
-                <h4 className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider font-mono">Pay with M-Pesa</h4>
+              <input
+                type="tel" inputMode="tel" value={depositPhone}
+                onChange={(e) => setDepositPhone(e.target.value)}
+                placeholder="0712345678"
+                className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs font-mono text-zinc-200"
+              />
+              {user.depositRule?.isFixed ? (
                 <p className="text-[11px] text-zinc-400 leading-relaxed">
-                  You will get an M-Pesa prompt on{" "}
-                  <span className="font-mono text-zinc-200">
-                    {user.phone ? user.phone.slice(0, 5) + "****" + user.phone.slice(-3) : "your registered number"}
-                  </span>{" "}
-                  for the activation fee of $3.00 (about KES {Math.round(3 * (user.kesPerUsd ?? 130))}).
+                  Your non-refundable wallet is empty, so the deposit is fixed at{" "}
+                  <span className="font-mono text-zinc-200">KES {user.depositRule.fixedKes}</span> ($3.00).
                 </p>
+              ) : (
+                <>
+                  <input
+                    type="number" min={user.depositRule?.minKes ?? 100} step={1} value={depositAmount}
+                    onChange={(e) => setDepositAmount(e.target.value)}
+                    placeholder={`Amount in KES (min ${user.depositRule?.minKes ?? 100})`}
+                    className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-xs font-mono text-zinc-200"
+                  />
+                  <p className="text-[10px] text-zinc-600">Minimum KES {user.depositRule?.minKes ?? 100}.</p>
+                </>
+              )}
                 <button
                   type="submit"
                   disabled={depositing}

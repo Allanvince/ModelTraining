@@ -1,5 +1,6 @@
 import json
 import uuid
+import re
 from datetime import datetime, timedelta, timezone
 
 from sqlalchemy import select
@@ -31,20 +32,58 @@ def record_webhook(db: Session, source: str, payload: dict) -> None:
 
 
 # ------------------------------------------------------------------ deposits (STK Push) --
-def initiate_deposit(db: Session, user: User, daraja) -> Transaction:
+def normalize_phone(raw: str) -> str:
+    p = re.sub(r"[\s\-+]", "", raw or "")
+    if p.startswith("0") and len(p) == 10:
+        p = "254" + p[1:]
+    elif p.startswith(("7", "1")) and len(p) == 9:
+        p = "254" + p
+    if not re.fullmatch(r"254[17]\d{8}", p):
+        raise AppError(422, "BAD_PHONE", "Enter a valid Safaricom number, e.g. 0712345678.")
+    return p
+
+
+def deposit_rules(user: User) -> dict:
+    """Single source of truth for the deposit rule (mirror this in serialize_user)."""
+    return {"isFixed": user.nonwithdrawable_cents <= 0,
+            "fixedKes": cents_to_kes(settings.entry_fee_cents),
+            "minKes": settings.min_deposit_kes, "maxKes": settings.max_deposit_kes}
+
+
+def initiate_deposit(db: Session, user_id: str, phone: str, amount_kes: int | None, daraja) -> Transaction:
+    user = lock_user(db, user_id)        # serialises double-taps and pins the wallet state for the rule below
+    rules = deposit_rules(user)
+
+    if rules["isFixed"]:
+        if amount_kes not in (None, rules["fixedKes"]):
+            raise AppError(422, "FIXED_AMOUNT",
+                           f"Your non-refundable wallet is empty, so the deposit is fixed at KES {rules['fixedKes']}.")
+        kes, cents = rules["fixedKes"], settings.entry_fee_cents        # exactly $3.00
+    else:
+        if amount_kes is None or not rules["minKes"] <= amount_kes <= rules["maxKes"]:
+            raise AppError(422, "BAD_AMOUNT",
+                           f"Deposit must be between KES {rules['minKes']} and KES {rules['maxKes']}.")
+        kes = amount_kes
+        cents = kes * 100 // settings.kes_per_usd                       # floor: never over-credits
+
+    msisdn = normalize_phone(phone)
+
     cutoff = _utcnow() - timedelta(seconds=120)
     recent = db.scalar(select(Transaction).where(
         Transaction.user_id == user.id, Transaction.type == "DEPOSIT",
         Transaction.status == "PENDING", Transaction.created_at >= cutoff))
-    if recent:                                   # don't fire a second prompt at the same phone
-        return recent
-    kes = cents_to_kes(settings.entry_fee_cents)
+    if recent:
+        if recent.amount_kes == kes:                 # genuine double-tap: hand back the same prompt
+            return recent
+        raise AppError(409, "DEPOSIT_PENDING",
+                       "You have a payment waiting for confirmation. Approve it or wait up to 2 minutes, then try again.")
+
     try:
-        resp = daraja.stk_push(phone=user.phone, amount_kes=kes, account_ref="QuickIQ",
-                               description="Entry fee", callback_url=callback_url("stk-callback"))
+        resp = daraja.stk_push(phone=msisdn, amount_kes=kes, account_ref="QuickIQ",
+                               description="Deposit", callback_url=callback_url("stk-callback"))
     except DarajaError as e:
         raise AppError(502, "MPESA_UNAVAILABLE", f"M-Pesa did not accept the request: {e}")
-    tx = Transaction(user_id=user.id, type="DEPOSIT", amount_cents=settings.entry_fee_cents, amount_kes=kes,
+    tx = Transaction(user_id=user.id, type="DEPOSIT", amount_cents=cents, amount_kes=kes,
                      status="PENDING", checkout_request_id=resp["CheckoutRequestID"],
                      merchant_request_id=resp.get("MerchantRequestID"))
     db.add(tx)
