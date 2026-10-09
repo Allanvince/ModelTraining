@@ -99,6 +99,15 @@ interface ReviewItem {
 }
 interface ReviewData { total: number; wrong: ReviewItem[]; }
  
+// 0712345678, 0112345678, +254712345678, 254 712 345 678  ->  254712345678  (null if not a valid Safaricom number)
+function normalizePhone(raw: string): string | null {
+  let s = raw.replace(/[\s\-()]/g, "");
+  if (s.startsWith("+")) s = s.slice(1);
+  if (s.startsWith("0") && s.length === 10) s = "254" + s.slice(1);
+  else if (s.length === 9 && /^[17]/.test(s)) s = "254" + s;
+  return /^254[17]\d{8}$/.test(s) ? s : null;
+}
+ 
 const PASSWORD_RULES = [
   { id: "len", label: "At least 8 characters", test: (p: string) => p.length >= 8 },
   { id: "upper", label: "One capital letter (A-Z)", test: (p: string) => /[A-Z]/.test(p) },
@@ -242,6 +251,10 @@ export default function Dashboard() {
         setMessage("Please choose a stronger password - see the checklist below the password box.");
         return;
       }
+      if (!normalizePhone(phone)) {
+        setMessage("Enter a valid Safaricom number, for example 0712345678.");
+        return;
+      }
       if (!acceptedTerms) {
         setMessage("Please read and accept the Terms & Conditions to create an account.");
         return;
@@ -250,7 +263,7 @@ export default function Dashboard() {
     try {
       const endpoint = authMode === "register" ? "/auth/register" : "/auth/login";
       const body = authMode === "register" 
-        ? { username, email, phone, password } 
+        ? { username, email, phone: normalizePhone(phone) ?? phone, password } 
         : { email, password };
  
       const res = await fetchApi<{ token: string; user: UserProfile }>(endpoint, {
@@ -539,6 +552,21 @@ async function handleDeposit(e: React.FormEvent) {
                 className="w-full bg-zinc-950 border border-zinc-800 rounded-lg p-3 text-zinc-100 mt-1 focus:border-orange-500 outline-none transition text-sm"
               />
             </div>
+            {authMode === "register" && (
+              <div>
+                <label className="text-xs text-zinc-400 font-medium">M-Pesa phone number</label>
+                <input
+                  type="tel"
+                  inputMode="tel"
+                  required
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  placeholder="0712345678"
+                  className="w-full bg-zinc-950 border border-zinc-800 rounded-lg p-3 text-zinc-100 mt-1 focus:border-orange-500 outline-none transition text-sm"
+                />
+                <p className="text-[11px] text-zinc-500 mt-1">Your withdrawals are sent to this number, so make sure it is yours.</p>
+              </div>
+            )}
             <div>
               <label className="text-xs text-zinc-400 font-medium">Password</label>
               <div className="relative">
