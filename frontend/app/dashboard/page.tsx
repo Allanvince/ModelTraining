@@ -778,7 +778,7 @@ async function handleDeposit(e: React.FormEvent) {
               />
               {user.depositRule?.isFixed ? (
                 <p className="text-[11px] text-zinc-400 leading-relaxed">
-                  Your non-refundable wallet is empty, so the deposit is fixed at{" "}
+                  Your activation wallet is empty, so the deposit is fixed at{" "}
                   <span className="font-mono text-zinc-200">KES {user.depositRule.fixedKes}</span> (about ${(Math.floor((user.depositRule.fixedKes * 100) / (user.kesPerUsd ?? 130)) / 100).toFixed(2)}).
                 </p>
               ) : (
@@ -803,7 +803,7 @@ async function handleDeposit(e: React.FormEvent) {
                 return (
                   <div className="text-[11px] text-zinc-500 space-y-0.5">
                     <div className="flex justify-between"><span>You pay</span><span>KES {kes}</span></div>
-                    <div className="flex justify-between"><span>Service fee ({pct}%, not refundable)</span><span>-${(fee / 100).toFixed(2)}</span></div>
+                    <div className="flex justify-between"><span>Service fee ({pct}%, )</span><span>-${(fee / 100).toFixed(2)}</span></div>
                     <div className="flex justify-between text-zinc-300"><span>Added to your balance</span><span>${((cents - fee) / 100).toFixed(2)}</span></div>
                   </div>
                 );

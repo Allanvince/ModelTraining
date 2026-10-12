@@ -24,6 +24,10 @@ class Settings(BaseSettings):
     mpesa_base_url: str = "https://sandbox.safaricom.co.ke"
     mpesa_consumer_key: str = ""
     mpesa_consumer_secret: str = ""
+    # Safaricom often issues a SEPARATE production app for B2C (payouts, status, balance). If so, put ITS keys here.
+    # Empty = reuse the keys above for everything.
+    mpesa_b2c_consumer_key: str = ""
+    mpesa_b2c_consumer_secret: str = ""
     mpesa_shortcode: str = "174379"                   # STK push BusinessShortCode. Buy Goods: your Head Office / store number
     mpesa_transaction_type: str = "CustomerPayBillOnline"   # Buy Goods till: "CustomerBuyGoodsOnline"
     mpesa_party_b: str = ""                           # Buy Goods: your TILL number. Empty = same as mpesa_shortcode

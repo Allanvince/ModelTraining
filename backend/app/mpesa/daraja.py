@@ -7,6 +7,7 @@ from datetime import datetime, timedelta, timezone
 import httpx
 
 from app.config import settings
+from app.errors import AppError
 
 
 _EAT = timezone(timedelta(hours=3))   # Kenya time (no DST). Servers like Vercel run in UTC.
@@ -52,27 +53,32 @@ class MockDaraja:
 
 class RealDaraja:
     def __init__(self):
-        self._token: str | None = None
-        self._token_exp = 0.0
+        self._tokens: dict[str, tuple[str, float]] = {}      # kind -> (token, expiry)
+
+    def _credentials(self, kind: str) -> tuple[str, str]:
+        if kind == "b2c" and settings.mpesa_b2c_consumer_key and settings.mpesa_b2c_consumer_secret:
+            return settings.mpesa_b2c_consumer_key, settings.mpesa_b2c_consumer_secret
+        return settings.mpesa_consumer_key, settings.mpesa_consumer_secret
 
     # ---- auth -------------------------------------------------------------------------
-    def _access_token(self) -> str:
-        if self._token and time.time() < self._token_exp - 30:
-            return self._token
+    def _access_token(self, kind: str = "stk") -> str:
+        cached = self._tokens.get(kind)
+        if cached and time.time() < cached[1] - 30:
+            return cached[0]
         try:
             r = httpx.get(f"{settings.mpesa_base_url}/oauth/v1/generate",
                           params={"grant_type": "client_credentials"},
-                          auth=(settings.mpesa_consumer_key, settings.mpesa_consumer_secret), timeout=20)
+                          auth=self._credentials(kind), timeout=20)
             r.raise_for_status()
         except httpx.HTTPError as e:
-            raise DarajaError(f"Could not get Daraja token: {e}", definitive=True)
+            raise DarajaError(f"Could not get Daraja token ({kind}): {e}", definitive=True)
         data = r.json()
-        self._token = data["access_token"]
-        self._token_exp = time.time() + int(data.get("expires_in", 3599))
-        return self._token
+        token = data["access_token"]
+        self._tokens[kind] = (token, time.time() + int(data.get("expires_in", 3599)))
+        return token
 
-    def _post(self, path: str, body: dict, *, money_out: bool) -> dict:
-        headers = {"Authorization": f"Bearer {self._access_token()}"}
+    def _post(self, path: str, body: dict, *, money_out: bool, kind: str = "stk") -> dict:
+        headers = {"Authorization": f"Bearer {self._access_token(kind)}"}
         try:
             r = httpx.post(f"{settings.mpesa_base_url}{path}", json=body, headers=headers, timeout=25)
         except httpx.ConnectError as e:                       # never reached Safaricom
@@ -100,14 +106,14 @@ class RealDaraja:
                 "PartyA": phone, "PartyB": settings.mpesa_party_b or settings.mpesa_shortcode, "PhoneNumber": phone,
                 "CallBackURL": callback_url, "AccountReference": account_ref[:12],
                 "TransactionDesc": description[:13]}
-        return self._post("/mpesa/stkpush/v1/processrequest", body, money_out=False)
+        return self._post("/mpesa/stkpush/v1/processrequest", body, money_out=False, kind="stk")
 
     def stk_query(self, checkout_request_id: str) -> dict:
         ts = _timestamp()
         password = base64.b64encode(f"{settings.mpesa_shortcode}{settings.mpesa_passkey}{ts}".encode()).decode()
         body = {"BusinessShortCode": settings.mpesa_shortcode, "Password": password, "Timestamp": ts,
                 "CheckoutRequestID": checkout_request_id}
-        return self._post("/mpesa/stkpushquery/v1/query", body, money_out=False)
+        return self._post("/mpesa/stkpushquery/v1/query", body, money_out=False, kind="stk")
 
     def _security_credential(self) -> str:
         if settings.mpesa_security_credential:      # e.g. the sandbox value Safaricom's portal hands out directly
@@ -131,7 +137,7 @@ class RealDaraja:
                 "QueueTimeOutURL": timeout_url, "ResultURL": result_url, "Occasion": "QuickIQ payout"}
         if "/v3/" in settings.mpesa_b2c_path:        # only v3 accepts a caller-supplied unique ID
             body["OriginatorConversationID"] = originator_conversation_id
-        return self._post(settings.mpesa_b2c_path, body, money_out=True)
+        return self._post(settings.mpesa_b2c_path, body, money_out=True, kind="b2c")
 
     # ---- read-only helpers: answers arrive later on the ResultURL ----------------------
     def _initiator_body(self, command_id: str, remarks: str, result_url: str, timeout_url: str) -> dict:
@@ -148,11 +154,11 @@ class RealDaraja:
             body["TransactionID"] = receipt
         else:
             body["OriginatorConversationID"] = originator_conversation_id
-        return self._post("/mpesa/transactionstatus/v1/query", body, money_out=False)
+        return self._post("/mpesa/transactionstatus/v1/query", body, money_out=False, kind="b2c")
 
     def account_balance(self, *, result_url, timeout_url) -> dict:
         body = self._initiator_body("AccountBalance", "Balance check", result_url, timeout_url)
-        return self._post("/mpesa/accountbalance/v1/query", body, money_out=False)
+        return self._post("/mpesa/accountbalance/v1/query", body, money_out=False, kind="b2c")
 
 
 _client = None
@@ -160,6 +166,8 @@ _client = None
 
 def get_daraja():
     global _client
+    if not settings.payments_enabled:
+        raise AppError(503, "PAYMENTS_DISABLED", "Payments are not open yet. Please check back soon.")
     if _client is None:
         _client = MockDaraja() if settings.mpesa_mode == "mock" else RealDaraja()
     return _client
